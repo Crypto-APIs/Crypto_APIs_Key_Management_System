@@ -6,6 +6,7 @@ class BroadcastLocallySignedTx {
      * @param {string} network
      */
     constructor(blockchain, network) {
+        this.apiInstance = new Cryptoapis.FeaturesApi();
         this.blockchain = blockchain;
         this.network = network;
     }
@@ -21,9 +22,9 @@ class BroadcastLocallySignedTx {
 
         let opts = {
             'context': "",
-            'BroadcastLocallySignedTransactionRB': new Cryptoapis.BroadcastLocallySignedTransactionRB(postData)
+            'broadcastLocallySignedTransactionRB': new Cryptoapis.BroadcastLocallySignedTransactionRB(postData)
         };
-        new Cryptoapis.BroadcastLocallySignedTransactionRB(this.blockchain, this.network, opts).then((data) => {
+        this.apiInstance.broadcastLocallySignedTransaction(this.blockchain, this.network, opts).then((data) => {
             return data;
         }, (error) => {
             console.error(error);

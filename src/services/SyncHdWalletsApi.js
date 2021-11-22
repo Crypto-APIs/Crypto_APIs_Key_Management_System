@@ -26,7 +26,7 @@ class SyncHdWalletsApi {
             'syncHDWalletXPubYPubZPubRB': new Cryptoapis.SyncHDWalletXPubYPubZPubRB(postData)
         };
 
-        this.apiInstance.syncHDWalletXPubYPubZPub(this.blockchain, this.extendedPublicKey, this.network, opts).then((data) => {
+        this.apiInstance.syncHDWalletXPubYPubZPub(this.blockchain, this.network, opts).then((data) => {
             console.log('API called successfully. Returned data: ' + data);
         }, (error) => {
             console.error(error);
