@@ -1,3 +1,5 @@
+'use strict';
+
 const Cryptoapis = require("cryptoapis");
 
 class BroadcastLocallySignedTx {
@@ -14,21 +16,19 @@ class BroadcastLocallySignedTx {
     /**
      * @param {string} callbackUrl
      * @param {string} signedTransactionHex
+     * @param {string} context
      * @returns {Promise<void>}
      */
-    async broadcastLocallySignedTransaction(callbackUrl, signedTransactionHex) {
-        let item = new Cryptoapis.BroadcastLocallySignedTransactionRBDataItem(callbackUrl, signedTransactionHex);
-        let postData = new Cryptoapis.BroadcastLocallySignedTransactionRBData(item);
+    async broadcastLocallySignedTransaction(callbackUrl, signedTransactionHex, context = '') {
+        const item = new Cryptoapis.BroadcastLocallySignedTransactionRBDataItem(callbackUrl, signedTransactionHex);
+        const postData = new Cryptoapis.BroadcastLocallySignedTransactionRBData(item);
 
-        let opts = {
-            'context': "",
+        const opts = {
+            context: context,
             'broadcastLocallySignedTransactionRB': new Cryptoapis.BroadcastLocallySignedTransactionRB(postData)
         };
-        this.apiInstance.broadcastLocallySignedTransaction(this.blockchain, this.network, opts).then((data) => {
-            return data;
-        }, (error) => {
-            console.error(error);
-        });
+
+        return this.apiInstance.broadcastLocallySignedTransaction(this.blockchain, this.network, opts);
     }
 }
 
