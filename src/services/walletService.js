@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 const bip39 = require('bip39')
     , fs = require('fs')
@@ -37,8 +37,6 @@ class WalletService {
             seed: seed.toString('hex'),
             xpubsList: xpubList
         };
-
-        console.info(data);
 
         fs.writeFile(WALLET_PATH + WALLET_FILE, data.seed, function (err) {
             if (err) throw err;
