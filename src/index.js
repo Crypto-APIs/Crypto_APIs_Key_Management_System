@@ -7,6 +7,12 @@ const walletService = require('./services/walletService')
     , processCallbacks = require('./services/processCallbacksService')
     , cryptoapis = require('cryptoapis')
     , validateConfig = require("./validators/configValidator")
+    , {
+        hdWalletDTO,
+        subscriptionForUnconfirmedCoinsTxsDTO,
+        subscriptionForUnconfirmedTokensTxsDTO,
+        subscriptionForUnconfirmedInternalTxsDTO
+    } = require('./dtos/DTOFactory')
     , {blockchains: BlockchainsEnum} = require('./enumerations/blockchain')
     , {NETWORKS: NetworksEnum} = require('./enumerations/networks');
 
@@ -47,7 +53,11 @@ class CryptoapisKms {
      */
     syncHDWallet(exPub, context) {
         const hdWalletApiService = new hdWalletService(this.blockchain, this.network, exPub);
-        return hdWalletApiService.syncHDWalletXPubYPubZPub(context);
+        return hdWalletApiService.syncHDWalletXPubYPubZPub(context).then((data) => {
+            return new hdWalletDTO(data).map();
+        }, (error) => {
+            console.error(error);
+        });
     }
 
     /**
@@ -58,7 +68,11 @@ class CryptoapisKms {
      */
     createSubscriptionForUnconfirmedCoinsTxs(callbackUrl, address, context) {
         const subscriptionsServiceApi = new subscriptionsService(this.blockchain, this.network);
-        return subscriptionsServiceApi.newUnconfirmedCoinsTxs(callbackUrl, address, context);
+        return subscriptionsServiceApi.newUnconfirmedCoinsTxs(callbackUrl, address, context).then(data => {
+            return new subscriptionForUnconfirmedCoinsTxsDTO(data).map();
+        }, (error) => {
+            console.error(error);
+        });
     }
 
     /**
@@ -69,7 +83,11 @@ class CryptoapisKms {
      */
     createSubscriptionForUnconfirmedTokensTxs(callbackUrl, address, context) {
         const subscriptionsServiceApi = new subscriptionsService(this.blockchain, this.network);
-        return subscriptionsServiceApi.newUnconfirmedTokensTxs(callbackUrl, address, context);
+        return subscriptionsServiceApi.newUnconfirmedTokensTxs(callbackUrl, address, context).then(data => {
+            return new subscriptionForUnconfirmedTokensTxsDTO(data).map();
+        }, error => {
+            console.error(error);
+        });
     }
 
     /**
@@ -80,7 +98,11 @@ class CryptoapisKms {
      */
     createSubscriptionForUnconfirmedInternalTxs(callbackUrl, address, context) {
         const subscriptionsServiceApi = new subscriptionsService(this.blockchain, this.network);
-        return subscriptionsServiceApi.newConfirmedInternalTxs(callbackUrl, address, context);
+        return subscriptionsServiceApi.newConfirmedInternalTxs(callbackUrl, address, context).then(data => {
+            return new subscriptionForUnconfirmedInternalTxsDTO(data).map();
+        }, error => {
+            console.error(error);
+        });
     }
 
     /**
