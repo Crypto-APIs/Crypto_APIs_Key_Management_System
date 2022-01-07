@@ -16,7 +16,7 @@
   "dependencies": {
     "@ethereumjs/common": "^2.6.0",
     "bip39": "^3.0.4",
-    "cryptoapis": "^1.3.0",
+    "cryptoapis": "^1.4.0",
     "hdkey": "^2.0.1"
   }
 }

@@ -2,7 +2,7 @@
 
 const bip39 = require('bip39')
     , fs = require('fs')
-    , {XPUB_DERIVATION_TYPES: XpubDerivationTypesEnum} = require('../helpers/xpubFormats')
+    , {XPUB_DERIVATION_TYPES: XpubDerivationTypesEnum} = require('../helpers/xpubFormatsHelper')
 ;
 
 const DEFAULT_WORDS_COUNT = 12;
@@ -37,6 +37,8 @@ class WalletService {
             seed: seed.toString('hex'),
             xpubsList: xpubList
         };
+
+        console.info(data);
 
         fs.writeFile(WALLET_PATH + WALLET_FILE, data.seed, function (err) {
             if (err) throw err;

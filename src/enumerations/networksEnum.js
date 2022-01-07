@@ -1,7 +1,7 @@
 'use strict'
 
 const {default: ethereumCommon} = require('@ethereumjs/common');
-const {blockchains: BlockchainsEnum} = require('./blockchain')
+const {blockchains: BlockchainsEnum} = require('./blockchainEnum')
 
 const NETWORK_BITCOIN_MAINNET = 'mainnet';
 const NETWORK_BITCOIN_TESTNET = 'testnet';

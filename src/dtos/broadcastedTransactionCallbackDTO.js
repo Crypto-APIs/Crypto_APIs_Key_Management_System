@@ -2,11 +2,11 @@
 
 const baseDTO = require('./baseDTO');
 
-class hdWalletDTO extends baseDTO {
+class BroadcastedTransactionCallbackDTO extends baseDTO {
 
     /**
      * @param {object} object
-     * @returns {hdWalletDTO}
+     * @returns {BroadcastedTransactionCallbackDTO}
      */
     constructor(object) {
         super(object);
@@ -15,4 +15,4 @@ class hdWalletDTO extends baseDTO {
     }
 }
 
-module.exports = hdWalletDTO;
+module.exports = BroadcastedTransactionCallbackDTO

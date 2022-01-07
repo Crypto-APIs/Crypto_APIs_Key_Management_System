@@ -1,5 +1,7 @@
 'use strict';
 
+const errors = require('./customErrors')
+
 module.exports = {
 
     /**
@@ -9,7 +11,7 @@ module.exports = {
     init: function (response) {
 
         if (typeof response !== "object") {
-            throw 'error: please provide valid callback object';
+            throw errors.getErrorMessage('INVALID_CALLBACK');
         }
 
         return true;

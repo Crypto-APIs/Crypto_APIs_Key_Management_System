@@ -1,24 +1,35 @@
 'use strict';
 
 const validateBlockchain = require("./blockchainValidator")
-    , {NETWORKS: NetworksEnum} = require('../enumerations/networks');
+    , {NETWORKS: NetworksEnum} = require('../enumerations/networksEnum')
+    , errors = require('./customErrors')
 
 module.exports = {
 
     /**
-     * @param {object} config
+     * @param {string} apiKey
+     * @param {string} blockchain
+     * @param {string} network
      * @returns {boolean}
      */
-    init: function (config) {
-        if (!config.apiKey) {
-            throw 'error: please provide API KEY';
+    init: function (apiKey, blockchain, network) {
+        if (!apiKey) {
+            throw errors.getErrorMessage('API_KEY_NOT_FOUND');
         }
 
-        validateBlockchain(config.blockchain);
+        if (!blockchain) {
+            throw errors.getErrorMessage('BLOCKCHAIN_NOT_FOUND');
+        }
 
-        const networks = Object.values(NetworksEnum[config.blockchain]);
-        if (!networks.includes(config.network.toLowerCase())) {
-            throw 'error: please provide one of the following values: ' + networks.join(',');
+        if (!network) {
+            throw errors.getErrorMessage('NETWORK_NOT_FOUND');
+        }
+
+        validateBlockchain(blockchain);
+
+        const networks = Object.values(NetworksEnum[blockchain]);
+        if (!networks.includes(network.toLowerCase())) {
+            throw errors.getErrorMessage('INVALID_NETWORK', {'networks': networks.join(', ')});
         }
 
         return true;

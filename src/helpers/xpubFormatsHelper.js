@@ -1,7 +1,7 @@
 'use strict'
 
-const {NETWORKS_CONFIGS: NetworksConfigsEnum, NETWORKS: NetworksEnum} = require('../enumerations/networks')
-    , {blockchains: BlockchainsEnum} = require('../enumerations/blockchain')
+const {NETWORKS_CONFIGS: NetworksConfigsEnum, NETWORKS: NetworksEnum} = require('../enumerations/networksEnum')
+    , {blockchains: BlockchainsEnum} = require('../enumerations/blockchainEnum')
     , bip32 = require('hdkey')
 ;
 

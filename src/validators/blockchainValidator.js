@@ -1,6 +1,7 @@
 'use strict';
 
-const enumerations = require("../enumerations/blockchain");
+const enumerations = require("../enumerations/blockchainEnum")
+    , errors = require('./customErrors');
 
 module.exports = function validateBlockchain(chain) {
     const blockchainsEnum = enumerations.blockchains;
@@ -9,9 +10,9 @@ module.exports = function validateBlockchain(chain) {
     if (validBlockchain === false) {
         let blockchainsList = Object.keys(blockchainsEnum).map(function (k) {
             return blockchainsEnum[k]
-        }).join(",");
+        }).join(", ");
 
-        throw 'error: provided blockchain is not valid, please provide one of the following values: ' + blockchainsList;
+        throw errors.getErrorMessage('INVALID_BLOCKCHAIN', {'blockchains': blockchainsList});
     }
 
     return true;

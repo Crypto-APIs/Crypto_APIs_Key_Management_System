@@ -1,8 +1,8 @@
 'use strict';
 
-const Cryptoapis = require("cryptoapis");
+const CryptoApis = require("cryptoapis");
 
-class HdWalletService {
+class HdWalletsService {
 
     /**
      * @param {string} blockchain
@@ -10,7 +10,7 @@ class HdWalletService {
      * @param {string} extendedPublicKey
      */
     constructor(blockchain, network, extendedPublicKey) {
-        this.apiInstance = new Cryptoapis.HDWalletsApi();
+        this.apiInstance = new CryptoApis.HDWalletsApi();
         this.blockchain = blockchain;
         this.network = network;
         this.extendedPublicKey = extendedPublicKey;
@@ -21,12 +21,12 @@ class HdWalletService {
      * @returns {Promise<void>}
      */
     async syncHDWalletXPubYPubZPub(context = '') {
-        const item = new Cryptoapis.SyncHDWalletXPubYPubZPubRBDataItem(this.extendedPublicKey);
-        const postData = new Cryptoapis.SyncHDWalletXPubYPubZPubRBData(item);
+        const item = new CryptoApis.SyncHDWalletXPubYPubZPubRBDataItem(this.extendedPublicKey);
+        const postData = new CryptoApis.SyncHDWalletXPubYPubZPubRBData(item);
 
         let opts = {
             'context': context,
-            'syncHDWalletXPubYPubZPubRB': new Cryptoapis.SyncHDWalletXPubYPubZPubRB(postData)
+            'syncHDWalletXPubYPubZPubRB': new CryptoApis.SyncHDWalletXPubYPubZPubRB(postData)
         };
 
         // try {
@@ -47,4 +47,4 @@ class HdWalletService {
     }
 }
 
-module.exports = HdWalletService;
+module.exports = HdWalletsService;
