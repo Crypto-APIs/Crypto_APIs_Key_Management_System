@@ -16,7 +16,7 @@ class CallbacksService {
 
     /**
      * @param {string} transactionId
-     * @param {string} context
+     * @param {string|null} context
      * @returns {GetTransactionDetailsByTransactionIDFromCallback}
      */
     broadcastedTransactionCallback(transactionId, context) {

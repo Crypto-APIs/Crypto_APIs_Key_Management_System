@@ -37,7 +37,7 @@ class KmsClient {
 
     /**
      * Create wallet for specified blockchain and network
-     * @returns {Promise<{seed: string, blockchain: string, xpubsList: *[], mnemonic: string, network}>}
+     * @returns {walletServiceDTO}
      */
     createWallet() {
         const service = new walletService();

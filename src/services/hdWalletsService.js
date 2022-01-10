@@ -17,10 +17,10 @@ class HdWalletsService {
     }
 
     /**
-     * @param {string} context
+     * @param {string|null} context
      * @returns {Promise<void>}
      */
-    async syncHDWalletXPubYPubZPub(context = '') {
+    async syncHDWalletXPubYPubZPub(context) {
         const item = new CryptoApis.SyncHDWalletXPubYPubZPubRBDataItem(this.extendedPublicKey);
         const postData = new CryptoApis.SyncHDWalletXPubYPubZPubRBData(item);
 

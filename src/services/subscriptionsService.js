@@ -17,10 +17,10 @@ class SubscriptionsService {
     /**
      * @param {string} callbackUrl
      * @param {string} address
-     * @param {string} context
+     * @param {string|null} context
      * @returns {Promise<void>}
      */
-    newUnconfirmedCoinsTxs(callbackUrl, address, context = '') {
+    newUnconfirmedCoinsTxs(callbackUrl, address, context) {
         const item = new CryptoApis.NewUnconfirmedCoinsTransactionsRBDataItem(address, callbackUrl);
         const postData = new CryptoApis.NewUnconfirmedCoinsTransactionsRBData(item);
 
@@ -35,10 +35,10 @@ class SubscriptionsService {
     /**
      * @param {string} callbackUrl
      * @param {string} address
-     * @param {string} context
+     * @param {string|null} context
      * @returns {Promise<void>}
      */
-    newUnconfirmedTokensTxs(callbackUrl, address, context= '') {
+    newUnconfirmedTokensTxs(callbackUrl, address, context) {
         const item = new CryptoApis.NewUnconfirmedTokensTransactionsRBDataItem(address, callbackUrl);
         const postData = new CryptoApis.NewUnconfirmedTokensTransactionsRBData(item);
 
@@ -53,7 +53,7 @@ class SubscriptionsService {
     /**
      * @param {string} callbackUrl
      * @param {string} address
-     * @param {string} context
+     * @param {string|null} context
      * @returns {Promise<void>}
      */
     newConfirmedInternalTxs(callbackUrl, address, context) {
