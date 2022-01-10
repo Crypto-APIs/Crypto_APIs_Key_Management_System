@@ -3,6 +3,7 @@
 const CryptoApis = require("cryptoapis");
 
 class SubscriptionsService {
+
     /**
      * @param {string} blockchain
      * @param {string} network

@@ -1,6 +1,5 @@
 'use strict';
 
-const validateCallback = require('../validators/callbackValidator');
 const CryptoApis = require("cryptoapis");
 
 class CallbacksService {
@@ -8,13 +7,11 @@ class CallbacksService {
     /**
      * @param {string} blockchain
      * @param {string} network
-     * @param {object} postData
      */
-    constructor(blockchain, network, postData) {
+    constructor(blockchain, network) {
         this.apiInstance = new CryptoApis.CallbackDataApi();
         this.blockchain = blockchain;
         this.network = network;
-        this.response = postData;
     }
 
     /**
@@ -23,8 +20,6 @@ class CallbacksService {
      * @returns {GetTransactionDetailsByTransactionIDFromCallback}
      */
     broadcastedTransactionCallback(transactionId, context) {
-        validateCallback.init(this.response);
-
         let opts = {
             'context': context,
         };

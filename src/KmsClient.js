@@ -9,13 +9,14 @@ const validateConfig = require("./validators/configValidator")
         subscriptionForUnconfirmedCoinsTxsDTO,
         subscriptionForUnconfirmedTokensTxsDTO,
         subscriptionForUnconfirmedInternalTxsDTO,
-        broadcastedTransactionCallbackDTO
+        broadcastedTransactionCallbackDTO,
+        walletServiceDTO
     } = require("./dtos")
     , subscriptionsService = require("./services/subscriptionsService")
     , broadcastService = require("./services/broadcastService")
     , callbacksService = require("./services/callbacksService");
 
-class CryptoApisKms {
+class KmsClient {
 
     /**
      * @param {string} apiKey
@@ -35,12 +36,16 @@ class CryptoApisKms {
     }
 
     /**
-     * create wallet for specified blockchain and network
+     * Create wallet for specified blockchain and network
      * @returns {Promise<{seed: string, blockchain: string, xpubsList: *[], mnemonic: string, network}>}
      */
     createWallet() {
-        const ws = new walletService();
-        return ws.createWallet(this.blockchain, this.network);
+        const service = new walletService();
+        return service.createWallet(this.blockchain, this.network).then((data) => {
+            return new walletServiceDTO(data);
+        }, (error) => {
+            console.error(error);
+        })
     }
 
     /**
@@ -76,7 +81,7 @@ class CryptoApisKms {
      * @param {string} callbackUrl
      * @param {string} address
      * @param {string|null} context
-     * @returns {createSubscriptionForUnconfirmedTokensTxs}
+     * @returns {subscriptionForUnconfirmedTokensTxsDTO}
      */
     createSubscriptionForUnconfirmedTokensTxs(callbackUrl, address, context= null) {
         const subscriptionsServiceApi = new subscriptionsService(this.blockchain, this.network);
@@ -91,7 +96,7 @@ class CryptoApisKms {
      * @param {string} callbackUrl
      * @param {string} address
      * @param {string|null} context
-     * @returns {createSubscriptionForUnconfirmedInternalTxs}
+     * @returns {subscriptionForUnconfirmedInternalTxsDTO}
      */
     createSubscriptionForUnconfirmedInternalTxs(callbackUrl, address, context= null) {
         const subscriptionsServiceApi = new subscriptionsService(this.blockchain, this.network);
@@ -116,10 +121,10 @@ class CryptoApisKms {
     /**
      * @param {string} transactionId
      * @param {string|null} context
-     * @returns {broadcastedTransactionCallback}
+     * @returns {broadcastedTransactionCallbackDTO}
      */
     broadcastedTransactionCallback(transactionId, context = null) {
-        const service = new callbacksService(this.blockchain, this.network, {});
+        const service = new callbacksService(this.blockchain, this.network);
         return service.broadcastedTransactionCallback(transactionId, context).then((data) => {
             return new broadcastedTransactionCallbackDTO(data).serialize();
         }, (error) => {
@@ -128,4 +133,4 @@ class CryptoApisKms {
     }
 }
 
-module.exports = CryptoApisKms;
+module.exports = KmsClient;

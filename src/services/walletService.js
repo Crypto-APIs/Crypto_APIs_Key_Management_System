@@ -38,8 +38,6 @@ class WalletService {
             xpubsList: xpubList
         };
 
-        console.info(data);
-
         fs.writeFile(WALLET_PATH + WALLET_FILE, data.seed, function (err) {
             if (err) throw err;
         });

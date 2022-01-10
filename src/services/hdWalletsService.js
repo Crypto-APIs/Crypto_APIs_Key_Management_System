@@ -29,21 +29,7 @@ class HdWalletsService {
             'syncHDWalletXPubYPubZPubRB': new CryptoApis.SyncHDWalletXPubYPubZPubRB(postData)
         };
 
-        // try {
-            return this.apiInstance.syncHDWalletXPubYPubZPub(this.blockchain, this.network, opts)
-
-                // .then((data) => {
-                //     console.info('API called successfully. Returned data: ' + data);
-                // })
-            // , (error) => {
-            //     console.debug(opts);
-            //     resolve('foo');
-            //     // console.log(error);
-            // });
-        // } catch (error) {
-        //     console.log('err:');
-        //     console.log(error);
-        // }
+        return this.apiInstance.syncHDWalletXPubYPubZPub(this.blockchain, this.network, opts)
     }
 }
 

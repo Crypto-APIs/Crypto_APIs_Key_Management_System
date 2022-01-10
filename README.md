@@ -28,11 +28,16 @@ This method create HD Wallet for specific blockchain and network.
  const network = api.networks[api.blockchains.BITCOIN].NETWORK_BITCOIN_MAINNET;
  const client = new api.client('YOUR API KEY', blockchain, network);
 
- try {
-     const data = client.createWallet();
- } catch (e) {
-     console.log(e.message);
- }
+try {
+    client.createWallet().then((data) => {
+        console.dir('API called successfully. Returned data:');
+        console.dir(data);
+    }, (error) => {
+        console.log(error)
+    });
+} catch (e) {
+    console.log(e.message);
+}
 ```
 
 ### Authorization
@@ -50,7 +55,8 @@ After initial sync we keep updating the synced HD wallets all the time.
  const client = new api.client('YOUR API KEY', blockchain, network);
 
  const data = client.syncHDWallet('xpub6BsFsonVJR5vPChKQamp55R7veBCMD2CL3LtL83B3FS5DiayYgmoHCGQodeLTukaa4anZRQD9kNtPFHuPnCzjCiT9nrXdf3voNLhXQryBRB').then((data) => {
-    console.info('API called successfully. Returned data: ');
+     console.dir('API called successfully. Returned data:');
+     console.dir(data);
  }, (error) => {
     console.log(error);
  });
@@ -84,7 +90,8 @@ By creating this subscription you will be notified by Crypto APIs 2.0 when that 
 
  try {
      const data = client.createSubscriptionForUnconfirmedCoinsTxs(callbackUrl, '0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D').then((data) => {
-         console.info('API called successfully. Returned data: ');
+         console.dir('API called successfully. Returned data:');
+         console.dir(data);
      }, (error) => {
          console.log(error);
      });
@@ -122,7 +129,8 @@ By creating this subscription you will be notified by Crypto APIs 2.0 when that 
 
  try {
      const data = client.createSubscriptionForUnconfirmedTokensTxs(callbackUrl,'0x6EBaF477F83E055589C1188bCC6DDCCD8C9B131a', '').then((data) => {
-         console.info('API called successfully. Returned data: ');
+         console.dir('API called successfully. Returned data:');
+         console.dir(data);
      }, (error) => {
          console.log(error);
      });
@@ -160,7 +168,8 @@ By creating this subscription you will be notified by Crypto APIs 2.0 when that 
 
  try {
      const data = client.createSubscriptionForUnconfirmedInternalTxs(callbackUrl,'0x1aD91ee08f21bE3dE0BA2ba6918E714dA6B45836').then((data) => {
-         console.info('API called successfully. Returned data: ');
+         console.dir('API called successfully. Returned data:');
+         console.dir(data);
      }, (error) => {
          console.log(error);
      });
@@ -228,7 +237,8 @@ broadcast locally signed transaction
 
  try {
      const data = client.broadcastSignedTx(callbackUrl,'347d96855d41b77f1e23048fff11c18e9fe699ee69b0b402338f34189734e0a2').then((data) => {
-         console.info('API called successfully. Returned data: ');
+         console.dir('API called successfully. Returned data:');
+         console.dir(data);
      }, (error) => {
          console.log(error);
      });
