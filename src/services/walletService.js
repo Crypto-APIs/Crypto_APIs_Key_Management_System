@@ -2,7 +2,7 @@
 
 const bip39 = require('bip39')
     , fs = require('fs')
-    , {XPUB_DERIVATION_TYPES: XpubDerivationTypesEnum} = require('../helpers/xpubFormatsHelper')
+    , {XPUB_DERIVATION_TYPES: xpubDerivationTypesEnum} = require('../helpers/xpubFormatsHelper')
 ;
 
 const DEFAULT_WORDS_COUNT = 12;
@@ -13,17 +13,17 @@ const WALLET_FILE = "wallet.dat";
 class WalletService {
 
     /**
-     * @param {string} chain
+     * @param {string} blockchain
      * @param {string} network
      * @returns {Promise<{seed: string, blockchain: string, xpubsList: *[], mnemonic: string, network}|boolean>}
      */
-    async createWallet(chain, network) {
-        const blockchain = chain.toUpperCase();
+    async createWallet(blockchain, network) {
+        blockchain = blockchain.toUpperCase();
 
         const strength = (DEFAULT_WORDS_COUNT / 1.5) * MNEMONIC_STRENGTH_MULTIPLIER;
         const mnemonic = bip39.generateMnemonic(strength);
         const seed = await bip39.mnemonicToSeed(mnemonic);
-        const xpubDerivationTypes = XpubDerivationTypesEnum[chain];
+        const xpubDerivationTypes = xpubDerivationTypesEnum[blockchain.toLowerCase()];
 
         let xpubList = [];
         for (let derivationType of Object.keys(xpubDerivationTypes)) {
@@ -38,9 +38,7 @@ class WalletService {
             xpubsList: xpubList
         };
 
-        fs.writeFile(WALLET_PATH + WALLET_FILE, data.seed, function (err) {
-            if (err) throw err;
-        });
+        fs.writeFile(WALLET_PATH + WALLET_FILE, data.seed, function (err) {});
 
         return data;
     }

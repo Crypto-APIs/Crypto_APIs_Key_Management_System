@@ -1,16 +1,17 @@
 'use strict';
 
-const CryptoApis = require("cryptoapis");
-
 class HdWalletsService {
+    _cryptoApis;
 
     /**
+     * @param {object} cryptoApis
      * @param {string} blockchain
      * @param {string} network
      * @param {string} extendedPublicKey
      */
-    constructor(blockchain, network, extendedPublicKey) {
-        this.apiInstance = new CryptoApis.HDWalletsApi();
+    constructor(cryptoApis, blockchain, network, extendedPublicKey) {
+        this._cryptoApis = cryptoApis;
+        this.apiInstance = new this._cryptoApis.HDWalletsApi();
         this.blockchain = blockchain;
         this.network = network;
         this.extendedPublicKey = extendedPublicKey;
@@ -21,15 +22,15 @@ class HdWalletsService {
      * @returns {Promise<void>}
      */
     async syncHDWalletXPubYPubZPub(context) {
-        const item = new CryptoApis.SyncHDWalletXPubYPubZPubRBDataItem(this.extendedPublicKey);
-        const postData = new CryptoApis.SyncHDWalletXPubYPubZPubRBData(item);
+        const item = new this._cryptoApis.SyncHDWalletXPubYPubZPubRBDataItem(this.extendedPublicKey);
+        const postData = new this._cryptoApis.SyncHDWalletXPubYPubZPubRBData(item);
 
-        let opts = {
-            'context': context,
-            'syncHDWalletXPubYPubZPubRB': new CryptoApis.SyncHDWalletXPubYPubZPubRB(postData)
+        const opts = {
+            context: context,
+            syncHDWalletXPubYPubZPubRB: new this._cryptoApis.SyncHDWalletXPubYPubZPubRB(postData)
         };
 
-        return this.apiInstance.syncHDWalletXPubYPubZPub(this.blockchain, this.network, opts)
+        return this.apiInstance.syncHDWalletXPubYPubZPub(this.blockchain, this.network, opts);
     }
 }
 

@@ -1,15 +1,16 @@
 'use strict';
 
-const CryptoApis = require("cryptoapis");
-
 class CallbacksService {
+    _cryptoApis;
 
     /**
+     * @param {object} cryptoApis
      * @param {string} blockchain
      * @param {string} network
      */
-    constructor(blockchain, network) {
-        this.apiInstance = new CryptoApis.CallbackDataApi();
+    constructor(cryptoApis, blockchain, network) {
+        this._cryptoApis = cryptoApis;
+        this.apiInstance = new this._cryptoApis.CallbackDataApi();
         this.blockchain = blockchain;
         this.network = network;
     }
@@ -17,11 +18,11 @@ class CallbacksService {
     /**
      * @param {string} transactionId
      * @param {string|null} context
-     * @returns {GetTransactionDetailsByTransactionIDFromCallback}
+     * @returns {getTransactionDetailsByTransactionIDFromCallback}
      */
     broadcastedTransactionCallback(transactionId, context) {
-        let opts = {
-            'context': context,
+        const opts = {
+            context: context,
         };
 
         return this.apiInstance.getTransactionDetailsByTransactionIDFromCallback(this.blockchain, this.network, transactionId, opts);

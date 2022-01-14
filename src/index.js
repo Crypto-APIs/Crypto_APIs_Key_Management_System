@@ -11,7 +11,7 @@ const KmsClient = require('./KmsClient')
 module.exports = {
     blockchains: BlockchainsEnum,
     networks: NetworksEnum,
-    XpubDerivationPaths: XpubDerivationPathsEnum,
-    XpubDerivationTypes: XpubDerivationTypesEnum,
+    xpubDerivationPaths: XpubDerivationPathsEnum,
+    xpubDerivationTypes: XpubDerivationTypesEnum,
     client: KmsClient
 };

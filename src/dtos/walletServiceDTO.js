@@ -1,42 +1,71 @@
 'use strict';
 
 class WalletServiceDTO {
+
+    /**
+     * @param dataObj
+     * @returns {WalletServiceDTO}
+     */
     constructor(dataObj) {
-        this.object = dataObj;
+        this.data = dataObj;
 
         return this;
     }
 
+    /**
+     * @returns {string}
+     */
     getBlockchain() {
-        return this.object.blockchain;
+        return this.data.blockchain;
     }
 
+    /**
+     * @returns {string}
+     */
     getNetwork() {
-        return this.object.network;
+        return this.data.network;
     }
 
+    /**
+     * @returns {string}
+     */
     getMnemonic() {
-        return this.object.mnemonic;
+        return this.data.mnemonic;
     }
 
+    /**
+     * @returns {string}
+     */
     getSeed() {
-        return this.object.seed;
+        return this.data.seed;
     }
 
+    /**
+     * @returns {string}
+     */
     getXpubsList() {
-        return this.object.xpubsList;
+        return this.data.xpubsList;
     }
 
+    /**
+     * @returns {string}
+     */
     getXpub() {
-        return this.object.xpubsList[0];
+        return this.data.xpubsList[0];
     }
 
+    /**
+     * @returns {string}
+     */
     getYpub() {
-        return this.object.xpubsList[1];
+        return this.data.xpubsList[1];
     }
 
+    /**
+     * @returns {string}
+     */
     getZpub() {
-        return this.object.xpubsList[1];
+        return this.data.xpubsList[1];
     }
 }
 
