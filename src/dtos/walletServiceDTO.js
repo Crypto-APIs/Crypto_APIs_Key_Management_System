@@ -15,56 +15,56 @@ class WalletServiceDTO {
     /**
      * @returns {string}
      */
-    getBlockchain() {
+    get blockchain() {
         return this.data.blockchain;
     }
 
     /**
      * @returns {string}
      */
-    getNetwork() {
+    get network() {
         return this.data.network;
     }
 
     /**
      * @returns {string}
      */
-    getMnemonic() {
+    get mnemonic() {
         return this.data.mnemonic;
     }
 
     /**
      * @returns {string}
      */
-    getSeed() {
+    get seed() {
         return this.data.seed;
     }
 
     /**
      * @returns {string}
      */
-    getXpubsList() {
+    get xpubsList() {
         return this.data.xpubsList;
     }
 
     /**
      * @returns {string}
      */
-    getXpub() {
+    get xpub() {
         return this.data.xpubsList[0];
     }
 
     /**
      * @returns {string}
      */
-    getYpub() {
+    get ypub() {
         return this.data.xpubsList[1];
     }
 
     /**
      * @returns {string}
      */
-    getZpub() {
+    get zpub() {
         return this.data.xpubsList[1];
     }
 }

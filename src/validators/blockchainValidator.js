@@ -8,7 +8,7 @@ module.exports = function validateBlockchain(chain) {
     const validBlockchain = blockchainsEnum.hasOwnProperty(chain.toUpperCase());
 
     if (validBlockchain === false) {
-        const blockchainsList = Object.keys(blockchainsEnum).map(function (k) {
+        const blockchainsList = Object.keys(blockchainsEnum).map((k) => {
             return blockchainsEnum[k]
         }).join(", ");
 

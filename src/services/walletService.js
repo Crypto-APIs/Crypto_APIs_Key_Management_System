@@ -38,7 +38,7 @@ class WalletService {
             xpubsList: xpubList
         };
 
-        fs.writeFile(WALLET_PATH + WALLET_FILE, data.seed, function (err) {});
+        await fs.promises.writeFile(WALLET_PATH + WALLET_FILE, data.seed);
 
         return data;
     }
