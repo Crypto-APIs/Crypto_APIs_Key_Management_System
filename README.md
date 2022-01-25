@@ -90,6 +90,7 @@ By creating this subscription you will be notified by Crypto APIs 2.0 when that 
  const blockchain = api.blockchains.ETHEREUM;
  const network = api.networks[blockchain].NETWORK_ETHEREUM_MAINNET;
  const client = new api.client('YOUR API KEY', blockchain, network);
+ const callbackUrl = 'https://example.com'; // your URL for callback must be verifyed from dashboard
  
  client.createSubscriptionForUnconfirmedCoinsTxs(callbackUrl, '0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D').then((data) => {
      console.dir('API called successfully. Returned data:');
@@ -126,6 +127,7 @@ By creating this subscription you will be notified by Crypto APIs 2.0 when that 
  const blockchain = api.blockchains.ETHEREUM;
  const network = api.networks[blockchain].NETWORK_ETHEREUM_MAINNET;
  const client = new api.client('YOUR API KEY', blockchain, network);
+ const callbackUrl = 'https://example.com'; // your URL for callback must be verifyed from dashboard
  
  client.createSubscriptionForUnconfirmedTokensTxs(callbackUrl,'0x6EBaF477F83E055589C1188bCC6DDCCD8C9B131a', '').then((data) => {
      console.dir('API called successfully. Returned data:');
@@ -162,6 +164,7 @@ By creating this subscription you will be notified by Crypto APIs 2.0 when that 
  const blockchain = api.blockchains.ETHEREUM;
  const network = api.networks[blockchain].NETWORK_ETHEREUM_MAINNET;
  const client = new api.client('YOUR API KEY', blockchain, network);
+ const callbackUrl = 'https://example.com'; // your URL for callback must be verifyed from dashboard
  
  client.createSubscriptionForUnconfirmedInternalTxs(callbackUrl,'0x1aD91ee08f21bE3dE0BA2ba6918E714dA6B45836').then((data) => {
      console.dir('API called successfully. Returned data:');
@@ -252,7 +255,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-broadcastLocallySignedTransaction
+broadcastSignedTxDTO
 
 ### Authorization
 
