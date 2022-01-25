@@ -55,8 +55,9 @@ After initial sync we keep updating the synced HD wallets all the time.
  const blockchain = api.blockchains.BITCOIN;
  const network = api.networks[blockchain].NETWORK_BITCOIN_MAINNET;
  const client = new api.client('YOUR API KEY', blockchain, network);
+ const exPub = 'xpub6BsFsonVJR5vPChKQamp55R7veBCMD2CL3LtL83B3FS5DiayYgmoHCGQodeLTukaa4anZRQD9kNtPFHuPnCzjCiT9nrXdf3voNLhXQryBRB';
 
- client.syncHDWallet('xpub6BsFsonVJR5vPChKQamp55R7veBCMD2CL3LtL83B3FS5DiayYgmoHCGQodeLTukaa4anZRQD9kNtPFHuPnCzjCiT9nrXdf3voNLhXQryBRB').then((data) => {
+ client.syncHDWallet(exPub).then((data) => {
      console.dir('API called successfully. Returned data:');
      console.dir(data);
  }, (error) => {
@@ -129,7 +130,7 @@ By creating this subscription you will be notified by Crypto APIs 2.0 when that 
  const client = new api.client('YOUR API KEY', blockchain, network);
  const callbackUrl = 'https://example.com'; // your URL for callback must be verifyed from dashboard
  
- client.createSubscriptionForUnconfirmedTokensTxs(callbackUrl,'0x6EBaF477F83E055589C1188bCC6DDCCD8C9B131a', '').then((data) => {
+ client.createSubscriptionForUnconfirmedTokensTxs(callbackUrl, '0x6EBaF477F83E055589C1188bCC6DDCCD8C9B131a').then((data) => {
      console.dir('API called successfully. Returned data:');
      console.dir(data);
  }, (error) => {
@@ -166,7 +167,7 @@ By creating this subscription you will be notified by Crypto APIs 2.0 when that 
  const client = new api.client('YOUR API KEY', blockchain, network);
  const callbackUrl = 'https://example.com'; // your URL for callback must be verifyed from dashboard
  
- client.createSubscriptionForUnconfirmedInternalTxs(callbackUrl,'0x1aD91ee08f21bE3dE0BA2ba6918E714dA6B45836').then((data) => {
+ client.createSubscriptionForUnconfirmedInternalTxs(callbackUrl, '0x1aD91ee08f21bE3dE0BA2ba6918E714dA6B45836').then((data) => {
      console.dir('API called successfully. Returned data:');
      console.dir(data);
  }, (error) => {
