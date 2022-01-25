@@ -4,7 +4,7 @@ class SubscriptionsService {
     _cryptoApis;
 
     /**
-     * @param {cryptoApi} cryptoApis
+     * @param {object} cryptoApis
      * @param {string} blockchain
      * @param {string} network
      */
@@ -19,7 +19,7 @@ class SubscriptionsService {
      * @param {string} callbackUrl
      * @param {string} address
      * @param {string|null} context
-     * @returns {Promise<void>}
+     * @returns {newUnconfirmedCoinsTransactions}
      */
     newUnconfirmedCoinsTxs(callbackUrl, address, context) {
         const item = new this._cryptoApis.NewUnconfirmedCoinsTransactionsRBDataItem(address, callbackUrl);
@@ -37,7 +37,7 @@ class SubscriptionsService {
      * @param {string} callbackUrl
      * @param {string} address
      * @param {string|null} context
-     * @returns {Promise<void>}
+     * @returns {newUnconfirmedTokensTransactions}
      */
     newUnconfirmedTokensTxs(callbackUrl, address, context) {
         const item = new this._cryptoApis.NewUnconfirmedTokensTransactionsRBDataItem(address, callbackUrl);
@@ -55,7 +55,7 @@ class SubscriptionsService {
      * @param {string} callbackUrl
      * @param {string} address
      * @param {string|null} context
-     * @returns {Promise<void>}
+     * @returns {newConfirmedInternalTransactions}
      */
     newConfirmedInternalTxs(callbackUrl, address, context) {
         const item = new this._cryptoApis.NewConfirmedInternalTransactionsRBDataItem(address, false, 'secret', callbackUrl);

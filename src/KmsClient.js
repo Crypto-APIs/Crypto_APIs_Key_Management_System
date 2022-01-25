@@ -10,7 +10,8 @@ const validateConfig = require("./validators/configValidator")
         subscriptionForUnconfirmedCoinsTxsDTO,
         subscriptionForUnconfirmedTokensTxsDTO,
         subscriptionForUnconfirmedInternalTxsDTO,
-        parseBroadcastedTransactionCallbackDTO,
+        broadcastedTransactionCallbackDTO,
+        broadcastSignedTxDTO
     } = require("./dtos")
     , subscriptionsService = require("./services/subscriptionsService")
     , broadcastService = require("./services/broadcastService")
@@ -106,25 +107,31 @@ class KmsClient {
     }
 
     /**
-     * @param {string} callbackUrl
      * @param {string} signedTransactionHex
+     * @param {string} callbackSecretKey
+     * @param {string} callbackUrl
      * @param {string|null} context
-     * @constructor
+     * @returns {broadcastSignedTxDTO}
      */
-    broadcastSignedTx(callbackUrl, signedTransactionHex, context= null) {
+    broadcastSignedTx(signedTransactionHex, callbackSecretKey, callbackUrl, context= null) {
         const createSubscriptionForApiService = new broadcastService(this._apiClient, this.blockchain, this.network);
-        return createSubscriptionForApiService.broadcastLocallySignedTransaction(callbackUrl, signedTransactionHex, context);
+        return createSubscriptionForApiService.broadcastLocallySignedTransaction(signedTransactionHex, callbackUrl, context).then (data => {
+            return new broadcastSignedTxDTO(data);
+        }, error => {
+            throw error;
+        });
+
     }
 
     /**
      * @param {string} transactionId
      * @param {string|null} context
-     * @returns {parseBroadcastedTransactionCallbackDTO}
+     * @returns {broadcastedTransactionCallbackDTO}
      */
-    parseBroadcastedTransactionCallback(transactionId, context = null) {
+    broadcastedTransactionCallback(transactionId, context = null) {
         const service = new callbacksService(this._apiClient, this.blockchain, this.network);
-        return service.broadcastedTransactionCallback(transactionId, context).then((data) => {
-            return new parseBroadcastedTransactionCallbackDTO(data);
+        return service.getTransactionDetailsByTransactionIDFromCallback(transactionId, context).then((data) => {
+            return new broadcastedTransactionCallbackDTO(data);
         }, (error) => {
             throw error;
         });

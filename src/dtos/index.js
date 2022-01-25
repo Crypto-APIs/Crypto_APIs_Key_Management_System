@@ -5,7 +5,8 @@ const walletServiceDTO = require("./walletServiceDTO")
     , subscriptionForUnconfirmedCoinsTxsDTO = require("./subscriptionForUnconfirmedCoinsTxsDTO")
     , subscriptionForUnconfirmedTokensTxsDTO = require("./subscriptionForUnconfirmedTokensTxsDTO")
     , subscriptionForUnconfirmedInternalTxsDTO = require("./subscriptionForUnconfirmedInternalTxsDTO")
-    , parseBroadcastedTransactionCallbackDTO = require("./parseBroadcastedTransactionCallbackDTO")
+    , broadcastedTransactionCallbackDTO = require("./broadcastedTransactionCallbackDTO")
+    , broadcastSignedTxDTO = require("./broadcastSignedTxDTO")
     , errorDTO = require("./errorDTO")
 
 module.exports = {
@@ -14,6 +15,7 @@ module.exports = {
     subscriptionForUnconfirmedCoinsTxsDTO: subscriptionForUnconfirmedCoinsTxsDTO,
     subscriptionForUnconfirmedTokensTxsDTO: subscriptionForUnconfirmedTokensTxsDTO,
     subscriptionForUnconfirmedInternalTxsDTO: subscriptionForUnconfirmedInternalTxsDTO,
-    parseBroadcastedTransactionCallbackDTO: parseBroadcastedTransactionCallbackDTO,
+    broadcastedTransactionCallbackDTO: broadcastedTransactionCallbackDTO,
+    broadcastSignedTxDTO: broadcastSignedTxDTO,
     errorDTO: errorDTO,
 }

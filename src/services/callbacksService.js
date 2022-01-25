@@ -20,7 +20,7 @@ class CallbacksService {
      * @param {string|null} context
      * @returns {getTransactionDetailsByTransactionIDFromCallback}
      */
-    broadcastedTransactionCallback(transactionId, context) {
+    getTransactionDetailsByTransactionIDFromCallback(transactionId, context) {
         const opts = {
             context: context,
         };

@@ -2,11 +2,11 @@
 
 const baseDTO = require('./baseDTO');
 
-class ParseBroadcastedTransactionCallbackDTO extends baseDTO {
+class BroadcastSignedTxDTO extends baseDTO {
 
     /**
      * @param {object} object
-     * @returns {ParseBroadcastedTransactionCallbackDTO}
+     * @returns {BroadcastSignedTxDTO}
      */
     constructor(object) {
         super(object);
@@ -15,4 +15,4 @@ class ParseBroadcastedTransactionCallbackDTO extends baseDTO {
     }
 }
 
-module.exports = ParseBroadcastedTransactionCallbackDTO
+module.exports = BroadcastSignedTxDTO

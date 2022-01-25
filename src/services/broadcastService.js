@@ -16,13 +16,14 @@ class BroadcastService {
     }
 
     /**
-     * @param {string} callbackUrl
      * @param {string} signedTransactionHex
+     * @param {string} callbackSecretKey
+     * @param {string} callbackUrl
      * @param {string|null} context
-     * @returns {Promise<void>}
+     * @returns {broadcastLocallySignedTransaction}
      */
-    async broadcastLocallySignedTransaction(callbackUrl, signedTransactionHex, context) {
-        const item = new this._cryptoApis.BroadcastLocallySignedTransactionRBDataItem(callbackUrl, signedTransactionHex);
+    async broadcastLocallySignedTransaction(signedTransactionHex, callbackSecretKey, callbackUrl, context) {
+        const item = new this._cryptoApis.BroadcastLocallySignedTransactionRBDataItem(signedTransactionHex, callbackSecretKey, callbackUrl);
         const postData = new this._cryptoApis.BroadcastLocallySignedTransactionRBData(item);
 
         const opts = {

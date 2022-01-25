@@ -25,7 +25,7 @@ This method create HD Wallet for specific blockchain and network.
 ```javascript
 const api = require('../src/');
 const blockchain = api.blockchains.BITCOIN;
-const network = api.networks[api.blockchains.BITCOIN].NETWORK_BITCOIN_MAINNET;
+const network = api.networks[blockchain].NETWORK_BITCOIN_MAINNET;
 const client = new api.client('YOUR API KEY', blockchain, network);
  
 client.createWallet().then((data) => {
@@ -53,10 +53,10 @@ After initial sync we keep updating the synced HD wallets all the time.
 ```javascript
  const api = require('../src/');
  const blockchain = api.blockchains.BITCOIN;
- const network = api.networks[api.blockchains.BITCOIN].NETWORK_BITCOIN_MAINNET;
+ const network = api.networks[blockchain].NETWORK_BITCOIN_MAINNET;
  const client = new api.client('YOUR API KEY', blockchain, network);
 
- const data = client.syncHDWallet('xpub6BsFsonVJR5vPChKQamp55R7veBCMD2CL3LtL83B3FS5DiayYgmoHCGQodeLTukaa4anZRQD9kNtPFHuPnCzjCiT9nrXdf3voNLhXQryBRB').then((data) => {
+ client.syncHDWallet('xpub6BsFsonVJR5vPChKQamp55R7veBCMD2CL3LtL83B3FS5DiayYgmoHCGQodeLTukaa4anZRQD9kNtPFHuPnCzjCiT9nrXdf3voNLhXQryBRB').then((data) => {
      console.dir('API called successfully. Returned data:');
      console.dir(data);
  }, (error) => {
@@ -88,10 +88,10 @@ By creating this subscription you will be notified by Crypto APIs 2.0 when that 
 ```javascript
  const api = require('../src/');
  const blockchain = api.blockchains.ETHEREUM;
- const network = api.networks[api.blockchains.BITCOIN].NETWORK_ETHEREUM_MAINNET;
+ const network = api.networks[blockchain].NETWORK_ETHEREUM_MAINNET;
  const client = new api.client('YOUR API KEY', blockchain, network);
  
- const data = client.createSubscriptionForUnconfirmedCoinsTxs(callbackUrl, '0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D').then((data) => {
+ client.createSubscriptionForUnconfirmedCoinsTxs(callbackUrl, '0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D').then((data) => {
      console.dir('API called successfully. Returned data:');
      console.dir(data);
  }, (error) => {
@@ -124,10 +124,10 @@ By creating this subscription you will be notified by Crypto APIs 2.0 when that 
 ```javascript
  const api = require('../src/');
  const blockchain = api.blockchains.ETHEREUM;
- const network = api.networks[api.blockchains.BITCOIN].NETWORK_ETHEREUM_MAINNET;
+ const network = api.networks[blockchain].NETWORK_ETHEREUM_MAINNET;
  const client = new api.client('YOUR API KEY', blockchain, network);
  
- const data = client.createSubscriptionForUnconfirmedTokensTxs(callbackUrl,'0x6EBaF477F83E055589C1188bCC6DDCCD8C9B131a', '').then((data) => {
+ client.createSubscriptionForUnconfirmedTokensTxs(callbackUrl,'0x6EBaF477F83E055589C1188bCC6DDCCD8C9B131a', '').then((data) => {
      console.dir('API called successfully. Returned data:');
      console.dir(data);
  }, (error) => {
@@ -160,10 +160,10 @@ By creating this subscription you will be notified by Crypto APIs 2.0 when that 
 ```javascript
  const api = require('../src/');
  const blockchain = api.blockchains.ETHEREUM;
- const network = api.networks[api.blockchains.BITCOIN].NETWORK_ETHEREUM_MAINNET;
+ const network = api.networks[blockchain].NETWORK_ETHEREUM_MAINNET;
  const client = new api.client('YOUR API KEY', blockchain, network);
  
- const data = client.createSubscriptionForUnconfirmedInternalTxs(callbackUrl,'0x1aD91ee08f21bE3dE0BA2ba6918E714dA6B45836').then((data) => {
+ client.createSubscriptionForUnconfirmedInternalTxs(callbackUrl,'0x1aD91ee08f21bE3dE0BA2ba6918E714dA6B45836').then((data) => {
      console.dir('API called successfully. Returned data:');
      console.dir(data);
  }, (error) => {
@@ -194,7 +194,7 @@ SubscriptionForUnconfirmedInternalTxsDTO
 ```javascript
  const api = require('../src/');
  const blockchain = api.blockchains.BITCOIN;
- const network = api.networks[api.blockchains.BITCOIN].NETWORK_BITCOIN_MAINNET;
+ const network = api.networks[blockchain].NETWORK_BITCOIN_MAINNET;
  const client = new api.client('YOUR API KEY', blockchain, network);
 
  try {
@@ -213,7 +213,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-ParseBroadcastedTransactionCallbackDTO
+BroadcastedTransactionCallbackDTO
 
 ### Authorization
 
@@ -227,10 +227,13 @@ broadcast locally signed transaction
 ```javascript
  const api = require('../src/');
  const blockchain = api.blockchains.BITCOIN;
- const network = api.networks[api.blockchains.BITCOIN].NETWORK_BITCOIN_MAINNET;
+ const network = api.networks[blockchain].NETWORK_BITCOIN_MAINNET;
  const client = new api.client('YOUR API KEY', blockchain, network);
+ const transactionHex = '0xf86a22827d00831e8480941b85a43e2e7f52e766ddfdfa2b901c42cb1201be8801b27f33b807c0008029a084ccbf02b27e0842fb1eda7a187a5589c3759be0e969e0ca989dc469a5e5e394a02e111e1156b197f1de4c1d9ba4af26e50665ea6d617d05b3e4047da12b915e69';
+ const callbackSecretKey = 'yourSecretString';
+ const callbackUrl = 'https://example.com'; // your URL for callback must be verifyed from dashboard  
  
- const data = client.broadcastSignedTx(callbackUrl,'347d96855d41b77f1e23048fff11c18e9fe699ee69b0b402338f34189734e0a2').then((data) => {
+ client.broadcastSignedTx(transactionHex, callbackSecretKey, callbackUrl).then((data) => {
      console.dir('API called successfully. Returned data:');
      console.dir(data);
  }, (error) => {
@@ -243,11 +246,13 @@ broadcast locally signed transaction
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **transactionId** | **String**| String identifier of the transaction |
+**callbackSecretKey** | **String**| Represents the Secret Key value provided by the customer. This field is used for security purposes during the callback notification, in order to prove the sender of the callback as Crypto APIs |
+**callbackUrl** | **String**| Represents the URL that is set by the customer where the callback will be received at. The callback notification will be received only if and when the event occurs. |
 **context** | **String**| In batch situations the user can use the context to correlate responses with requests. This property is present regardless of whether the response was successful or returned as an error. &#x60;context&#x60; is specified by the user. | [optional]
 
 ### Return type
 
-ParseBroadcastedTransactionCallbackDTO
+broadcastLocallySignedTransaction
 
 ### Authorization
 
