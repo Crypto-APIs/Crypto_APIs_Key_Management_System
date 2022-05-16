@@ -1,0 +1,22 @@
+{
+  "name": "cryptoapis-kms",
+  "version": "0.1.0",
+  "description": "Crypto APIs - Key Management System",
+  "main": "src/index.js",
+  "homepage": "",
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Crypto APIs",
+  "license": "MIT",
+  "dependencies": {
+    "@ethereumjs/common": "^2.6.0",
+    "bip39": "^3.0.4",
+    "cryptoapis": "^1.4.0",
+    "hdkey": "^2.0.1"
+  }
+}
