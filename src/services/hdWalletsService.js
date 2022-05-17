@@ -1,8 +1,14 @@
 'use strict';
 
-class HdWalletsService {
-    _cryptoApis;
+const BaseService = require("./baseService");
 
+/**
+ * HdWalletsService.
+ *
+ * @class HdWalletsService
+ * @extends {BaseService}
+ */
+class HdWalletsService extends BaseService {
     /**
      * @param {object} cryptoApis
      * @param {string} blockchain
@@ -10,10 +16,8 @@ class HdWalletsService {
      * @param {string} extendedPublicKey
      */
     constructor(cryptoApis, blockchain, network, extendedPublicKey) {
-        this._cryptoApis = cryptoApis;
+        super(cryptoApis, blockchain, network)
         this.apiInstance = new this._cryptoApis.HDWalletsApi();
-        this.blockchain = blockchain;
-        this.network = network;
         this.extendedPublicKey = extendedPublicKey;
     }
 

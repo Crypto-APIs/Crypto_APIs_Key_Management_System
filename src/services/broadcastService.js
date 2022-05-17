@@ -1,18 +1,22 @@
 'use strict';
 
-class BroadcastService {
-    _cryptoApis;
+const BaseService = require("./baseService");
 
+/**
+ * BroadcastService.
+ *
+ * @class BroadcastService
+ * @extends {BaseService}
+ */
+class BroadcastService extends BaseService {
     /**
      * @param {object} cryptoApis
-     * @param {string} blockchain
+     * @param {string} blockchain.
      * @param {string} network
      */
     constructor(cryptoApis, blockchain, network) {
-        this._cryptoApis = cryptoApis;
+        super(cryptoApis, blockchain, network)
         this.apiInstance = new this._cryptoApis.FeaturesApi();
-        this.blockchain = blockchain;
-        this.network = network;
     }
 
     /**
