@@ -11,11 +11,13 @@ const validateConfig = require("./validators/configValidator")
         subscriptionForUnconfirmedTokensTxsDTO,
         subscriptionForUnconfirmedInternalTxsDTO,
         broadcastedTransactionCallbackDTO,
-        broadcastSignedTxDTO
+        broadcastSignedTxDTO,
+        hdAddressesDTO
     } = require("./dtos")
     , subscriptionsService = require("./services/subscriptionsService")
     , broadcastService = require("./services/broadcastService")
-    , callbacksService = require("./services/callbacksService");
+    , callbacksService = require("./services/callbacksService")
+    , hdAddressesService = require("./services/hdAddressesService")
 
 class KmsClient {
     _apiClient;
@@ -134,6 +136,24 @@ class KmsClient {
             return new broadcastedTransactionCallbackDTO(data);
         }, (error) => {
             throw error;
+        });
+    }
+
+    /**
+     * @param {string} exPub Defines the account extended publicly known key which is used to derive all child public keys.
+     * @param {{context: String, addressFormat: String, addressesCount: Number, isChange: Boolean, startIndex: Number}|{}} opts Optional parameters
+     * @param {String} opts.context In batch situations the user can use the context to correlate responses with requests. This property is present regardless of whether the response was successful or returned as an error. `context` is specified by the user.
+     * @param {String} opts.addressFormat Represents the format of the address.
+     * @param {Number} opts.addressesCount Represents the addresses count.
+     * @param {Boolean} opts.isChange Defines if the specific address is a change or deposit address. If the value is True - it is a change address, if it is False - it is a Deposit address.
+     * @param {Number} opts.startIndex The starting index of the response items, i.e. where the response should start listing the returned items.
+     * @returns {data}
+     */
+    deriveHDAddresses(exPub, opts= null) {
+        opts = opts || {};
+        const service = new hdAddressesService(this._apiClient, this.blockchain, this.network);
+        return service.deriveHDWalletXPubYPubZPubChangeOrReceivingAddresses(exPub, opts).then((data) => {
+            return new hdAddressesDTO(data);
         });
     }
 }

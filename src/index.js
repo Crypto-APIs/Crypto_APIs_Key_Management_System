@@ -1,6 +1,6 @@
 'use strict';
 
-const KmsClient = require('./KmsClient')
+const KmsClient = require('./kmsClient')
     , {blockchains: BlockchainsEnum} = require('./enumerations/blockchainEnum')
     , {NETWORKS: NetworksEnum} = require('./enumerations/networksEnum')
     , {
