@@ -1,9 +1,7 @@
 'use strict';
 
-const validateConfig = require("./validators/configValidator")
-    , cryptoApis = require("cryptoapis")
-    , walletService = require("./services/walletService")
-    , hdWalletService = require("./services/hdWalletsService")
+const validateConfig = require('./validators/configValidator')
+    , cryptoApis = require('cryptoapis')
     , {
         walletServiceDTO,
         hdWalletDTO,
@@ -13,15 +11,16 @@ const validateConfig = require("./validators/configValidator")
         broadcastedTransactionCallbackDTO,
         broadcastSignedTxDTO,
         hdAddressesDTO
-    } = require("./dtos")
-    , subscriptionsService = require("./services/subscriptionsService")
-    , broadcastService = require("./services/broadcastService")
-    , callbacksService = require("./services/callbacksService")
-    , hdAddressesService = require("./services/hdAddressesService")
+    } = require('./dtos')
+    , {
+        hdWalletService,
+        walletService,
+        broadcastService,
+        callbacksService,
+        subscriptionsService
+    } = require('./services');
 
 class KmsClient {
-    _apiClient;
-
     /**
      * @param {string} apiKey
      * @param {string} blockchain Represents the specific blockchain protocol name, e.g. Ethereum, Bitcoin, etc.
@@ -34,10 +33,17 @@ class KmsClient {
         const defaultClient = cryptoApis.ApiClient.instance;
         const ApiKey = defaultClient.authentications['ApiKey'];
         ApiKey.apiKey = apiKey;
-        this._apiClient = cryptoApis;
 
+        this._apiClient = cryptoApis;
         this.network = network.toLowerCase();
         this.blockchain = blockchain.toLowerCase();
+
+        //init all services
+        this.hdWalletApiService = new hdWalletService(this._apiClient, this.blockchain, this.network);
+        this.walletApiService = new walletService(this.blockchain, this.network);
+        this.broadcastApiService = new broadcastService(this._apiClient, this.blockchain, this.network);
+        this.callbacksApiService = new callbacksService(this._apiClient, this.blockchain, this.network);
+        this.subscriptionsApiService = new subscriptionsService(this._apiClient, this.blockchain, this.network);
     }
 
     /**
@@ -45,20 +51,20 @@ class KmsClient {
      * @returns {walletServiceDTO}
      */
     createWallet() {
-        const service = new walletService();
-        return service.createWallet(this.blockchain, this.network).then((data) => {
+
+        return this.walletApiService.createWallet().then((data) => {
             return new walletServiceDTO(data);
         })
     }
 
     /**
-     * @param {string} exPub Defines the account extended publicly known key which is used to derive all child public keys.
+     * @param {string} extendedPublicKey Defines the account extended publicly known key which is used to derive all child public keys.
      * @param {string|null} context
      * @returns {hdWalletDTO}
      */
-    syncHDWallet(exPub, context = null) {
-        const hdWalletApiService = new hdWalletService(this._apiClient, this.blockchain, this.network, exPub);
-        return hdWalletApiService.syncHDWalletXPubYPubZPub(context).then((data) => {
+    syncHDWallet(extendedPublicKey, context = null) {
+
+        return this.hdWalletApiService.syncHDWalletXPubYPubZPub(extendedPublicKey, context).then((data) => {
             return new hdWalletDTO(data);
         });
     }
@@ -70,8 +76,8 @@ class KmsClient {
      * @returns {subscriptionForUnconfirmedCoinsTxsDTO}
      */
     createSubscriptionForUnconfirmedCoinsTxs(callbackUrl, address, context= null) {
-        const subscriptionsServiceApi = new subscriptionsService(this._apiClient, this.blockchain, this.network);
-        return subscriptionsServiceApi.newUnconfirmedCoinsTxs(callbackUrl, address, context).then(data => {
+
+        return this.subscriptionsApiService.newUnconfirmedCoinsTxs(callbackUrl, address, context).then(data => {
             return new subscriptionForUnconfirmedCoinsTxsDTO(data);
         }, (error) => {
             throw error;
@@ -85,8 +91,8 @@ class KmsClient {
      * @returns {subscriptionForUnconfirmedTokensTxsDTO}
      */
     createSubscriptionForUnconfirmedTokensTxs(callbackUrl, address, context= null) {
-        const subscriptionsServiceApi = new subscriptionsService(this._apiClient, this.blockchain, this.network);
-        return subscriptionsServiceApi.newUnconfirmedTokensTxs(callbackUrl, address, context).then(data => {
+
+        return this.subscriptionsApiService.newUnconfirmedTokensTxs(callbackUrl, address, context).then(data => {
             return new subscriptionForUnconfirmedTokensTxsDTO(data);
         }, error => {
             throw error;
@@ -100,8 +106,8 @@ class KmsClient {
      * @returns {subscriptionForUnconfirmedInternalTxsDTO}
      */
     createSubscriptionForUnconfirmedInternalTxs(callbackUrl, address, context= null) {
-        const subscriptionsServiceApi = new subscriptionsService(this._apiClient, this.blockchain, this.network);
-        return subscriptionsServiceApi.newConfirmedInternalTxs(callbackUrl, address, context).then(data => {
+
+        return this.subscriptionsApiService.newConfirmedInternalTxs(callbackUrl, address, context).then(data => {
             return new subscriptionForUnconfirmedInternalTxsDTO(data);
         }, error => {
             throw error;
@@ -116,8 +122,8 @@ class KmsClient {
      * @returns {broadcastSignedTxDTO}
      */
     broadcastSignedTx(signedTransactionHex, callbackSecretKey, callbackUrl, context= null) {
-        const createSubscriptionForApiService = new broadcastService(this._apiClient, this.blockchain, this.network);
-        return createSubscriptionForApiService.broadcastLocallySignedTransaction(signedTransactionHex, callbackUrl, context).then (data => {
+
+        return this.broadcastApiService.broadcastLocallySignedTransaction(signedTransactionHex, callbackUrl, context).then (data => {
             return new broadcastSignedTxDTO(data);
         }, error => {
             throw error;
@@ -131,8 +137,8 @@ class KmsClient {
      * @returns {broadcastedTransactionCallbackDTO}
      */
     broadcastedTransactionCallback(transactionId, context = null) {
-        const service = new callbacksService(this._apiClient, this.blockchain, this.network);
-        return service.getTransactionDetailsByTransactionIDFromCallback(transactionId, context).then((data) => {
+
+        return this.callbacksApiService.getTransactionDetailsByTransactionIDFromCallback(transactionId, context).then((data) => {
             return new broadcastedTransactionCallbackDTO(data);
         }, (error) => {
             throw error;
@@ -140,19 +146,19 @@ class KmsClient {
     }
 
     /**
-     * @param {string} exPub Defines the account extended publicly known key which is used to derive all child public keys.
+     * @param {string} extendedPublicKey Defines the account extended publicly known key which is used to derive all child public keys.
      * @param {{context: String, addressFormat: String, addressesCount: Number, isChange: Boolean, startIndex: Number}|{}} opts Optional parameters
      * @param {String} opts.context In batch situations the user can use the context to correlate responses with requests. This property is present regardless of whether the response was successful or returned as an error. `context` is specified by the user.
      * @param {String} opts.addressFormat Represents the format of the address.
      * @param {Number} opts.addressesCount Represents the addresses count.
      * @param {Boolean} opts.isChange Defines if the specific address is a change or deposit address. If the value is True - it is a change address, if it is False - it is a Deposit address.
      * @param {Number} opts.startIndex The starting index of the response items, i.e. where the response should start listing the returned items.
-     * @returns {data}
+     * @returns {hdAddressesDTO}
      */
-    deriveHDAddresses(exPub, opts= null) {
+    deriveHDAddresses(extendedPublicKey, opts= null) {
         opts = opts || {};
-        const service = new hdAddressesService(this._apiClient, this.blockchain, this.network);
-        return service.deriveHDWalletXPubYPubZPubChangeOrReceivingAddresses(exPub, opts).then((data) => {
+
+        return this.hdWalletApiService.deriveHDWalletXPubYPubZPubChangeOrReceivingAddresses(extendedPublicKey, opts).then((data) => {
             return new hdAddressesDTO(data);
         });
     }

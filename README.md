@@ -275,7 +275,7 @@ const api = require('./src/');
 const blockchain = api.blockchains.BITCOIN;
 const network = api.networks[blockchain].NETWORK_BITCOIN_TESTNET;
 const client = new api.client('YOUR API KEY', blockchain, network);
-const exPub = 'upub5Ez55YZxWDUCC9oW5jm38p51QNpwHYuaHcGekjtNTQZ9vktnLK8XDpMy1wRxSsZ6GSgyLAkB2KhcUNRcPgB1tjzZZ11d7wR6DycXLJvdymY'
+const extendedPublicKey = 'upub5Ez55YZxWDUCC9oW5jm38p51QNpwHYuaHcGekjtNTQZ9vktnLK8XDpMy1wRxSsZ6GSgyLAkB2KhcUNRcPgB1tjzZZ11d7wR6DycXLJvdymY'
 const opts = {
     context: 'yourExampleString',
     addressesCount: 5,
@@ -284,7 +284,7 @@ const opts = {
     addressFormat: 'p2sh'
 }
 
-client.deriveHDAddresses(exPub, opts).then((data) => {
+client.deriveHDAddresses(extendedPublicKey, opts).then((data) => {
     console.dir('API called successfully. Returned data:');
     console.dir(data);
 }, (error) => {
@@ -297,7 +297,7 @@ client.deriveHDAddresses(exPub, opts).then((data) => {
 
 | Name               | Type       | Description                                                                                                                                                                                                                    | Notes      |
 |--------------------|------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|------------|
-| **exPub**          | **String** | Defines the account extended publicly known key which is used to derive all child public keys.                                                                                                                                 |            |
+| **extendedPublicKey**          | **String** | Defines the account extended publicly known key which is used to derive all child public keys.                                                                                                                                 |            |
 | **context**        | **String** | In batch situations the user can use the context to correlate responses with requests. This property is present regardless of whether the response was successful or returned as an error. `context` is specified by the user. | [optional] |
 | **addressFormat**  | **String** | Represents the format of the address.                                                                                                                                                                                          | [optional] |
 | **addressesCount** | **Number** | Represents the addresses count.                                                                                                                                                                                                | [optional] |
