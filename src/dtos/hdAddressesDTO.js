@@ -5,7 +5,7 @@ const baseDTO = require('./baseDTO');
 class HdAddressesDTO extends baseDTO {
 
     /**
-     * @param {object} object
+     * @param {Object} object
      * @returns {HdAddressesDTO}
      */
     constructor(object) {
@@ -18,7 +18,7 @@ class HdAddressesDTO extends baseDTO {
      * @returns {Array}
      */
     get addresses() {
-        return this.data.data.item.addresses;
+        return this.item.addresses;
     }
 }
 

@@ -5,7 +5,7 @@ const baseDTO = require('./baseDTO');
 class SubscriptionForUnconfirmedCoinsTxsDTO extends baseDTO {
 
     /**
-     * @param {object} object
+     * @param {Object} object
      * @returns {SubscriptionForUnconfirmedCoinsTxsDTO}
      */
     constructor(object) {

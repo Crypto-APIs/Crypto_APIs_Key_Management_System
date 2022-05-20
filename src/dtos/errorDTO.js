@@ -7,7 +7,7 @@ class errorDTO {
 
     /**
      * @param {string} code
-     * @param {object|null} placeholder
+     * @param {Object|null} placeholder
      */
     constructor(code, placeholder = null) {
         this.error = errors.getErrorMessage(code, placeholder);

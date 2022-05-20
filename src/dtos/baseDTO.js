@@ -1,13 +1,11 @@
 'use strict';
 
 class BaseDTO {
-    data;
-
     /**
-     * @param {object} dataObj
+     * @param {Object} dataObj
      */
     constructor(dataObj) {
-        this.data = dataObj;
+        this._data = dataObj;
 
         return this;
     }
@@ -16,32 +14,32 @@ class BaseDTO {
      * @returns {string}
      */
     get apiVersion() {
-        return this.data.apiVersion;
+        return this._data.apiVersion;
     }
 
     /**
      * @returns {string}
      */
     get requestId() {
-        return this.data.requestId;
+        return this._data.requestId;
     }
 
     /**
-     * @returns {string}
+     * @returns {Object}
      */
     get data() {
-        return this.data.data;
+        return this._data.data;
     }
 
     /**
-     * @returns {string}
+     * @returns {Object}
      */
     get item() {
-        return this.data.data.item;
+        return this.data.item;
     }
 
     /**
-     * @returns {object}
+     * @returns {Object}
      */
     serialize() {
         const result = {};

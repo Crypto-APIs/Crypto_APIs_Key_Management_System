@@ -1,16 +1,16 @@
 'use strict';
 
-const BaseService = require("./baseService");
+const { BaseCryptoAPIsLibAwareService } = require("./baseServices");
 
 /**
- * CallbacksService.
+ * CallbacksService
  *
  * @class CallbacksService
- * @extends {BaseService}
+ * @extends {BaseCryptoAPIsLibAwareService}
  */
-class CallbacksService extends BaseService {
+class CallbacksService extends BaseCryptoAPIsLibAwareService {
     /**
-     * @param {object} cryptoApis
+     * @param {Object} cryptoApis
      * @param {string} blockchain
      * @param {string} network
      */
@@ -29,7 +29,7 @@ class CallbacksService extends BaseService {
             context: context,
         };
 
-        return this.apiInstance.getTransactionDetailsByTransactionIDFromCallback(this.blockchain, this.network, transactionId, opts);
+        return this.apiInstance.getTransactionDetailsByTransactionIDFromCallback(this._blockchain, this._network, transactionId, opts);
     }
 }
 

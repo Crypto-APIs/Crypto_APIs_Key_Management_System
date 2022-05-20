@@ -153,7 +153,7 @@ class KmsClient {
      * @param {Number} opts.addressesCount Represents the addresses count.
      * @param {Boolean} opts.isChange Defines if the specific address is a change or deposit address. If the value is True - it is a change address, if it is False - it is a Deposit address.
      * @param {Number} opts.startIndex The starting index of the response items, i.e. where the response should start listing the returned items.
-     * @returns {hdAddressesDTO}
+     * @returns {HdAddressesDTO}
      */
     deriveHDAddresses(extendedPublicKey, opts= null) {
         opts = opts || {};

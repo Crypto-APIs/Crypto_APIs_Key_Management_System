@@ -1,16 +1,16 @@
 'use strict';
 
-const BaseService = require("./baseService");
+const { BaseCryptoAPIsLibAwareService } = require("./baseServices");
 
 /**
- * HdWalletsService.
+ * HdWalletsService
  *
  * @class HdWalletsService
- * @extends {BaseService}
+ * @extends {BaseCryptoAPIsLibAwareService}
  */
-class HdWalletsService extends BaseService {
+class HdWalletsService extends BaseCryptoAPIsLibAwareService {
     /**
-     * @param {object} cryptoApis
+     * @param {Object} cryptoApis
      * @param {string} blockchain
      * @param {string} network
      */
@@ -34,7 +34,7 @@ class HdWalletsService extends BaseService {
             syncHDWalletXPubYPubZPubRB: new this._cryptoApis.SyncHDWalletXPubYPubZPubRB(postData)
         };
 
-        return this.hdWalletInstance.syncHDWalletXPubYPubZPub(this.blockchain, this.network, opts);
+        return this.hdWalletInstance.syncHDWalletXPubYPubZPub(this._blockchain, this._network, opts);
     }
 
     /**
@@ -49,7 +49,7 @@ class HdWalletsService extends BaseService {
      */
     async deriveHDWalletXPubYPubZPubChangeOrReceivingAddresses(extendedPublicKey, opts) {
 
-        return this.featuresInstance.deriveHDWalletXPubYPubZPubChangeOrReceivingAddresses(this.blockchain, extendedPublicKey, this.network, opts);
+        return this.featuresInstance.deriveHDWalletXPubYPubZPubChangeOrReceivingAddresses(this._blockchain, extendedPublicKey, this._network, opts);
     }
 }
 

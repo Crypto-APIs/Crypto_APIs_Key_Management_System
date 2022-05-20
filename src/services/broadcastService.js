@@ -1,16 +1,16 @@
 'use strict';
 
-const BaseService = require("./baseService");
+const { BaseCryptoAPIsLibAwareService } = require("./baseServices");
 
 /**
- * BroadcastService.
+ * BroadcastService
  *
  * @class BroadcastService
- * @extends {BaseService}
+ * @extends {BaseCryptoAPIsLibAwareService}
  */
-class BroadcastService extends BaseService {
+class BroadcastService extends BaseCryptoAPIsLibAwareService {
     /**
-     * @param {object} cryptoApis
+     * @param {Object} cryptoApis
      * @param {string} blockchain.
      * @param {string} network
      */
@@ -35,7 +35,7 @@ class BroadcastService extends BaseService {
             broadcastLocallySignedTransactionRB: new this._cryptoApis.BroadcastLocallySignedTransactionRB(postData)
         };
 
-        return this.apiInstance.broadcastLocallySignedTransaction(this.blockchain, this.network, opts);
+        return this.apiInstance.broadcastLocallySignedTransaction(this._blockchain, this._network, opts);
     }
 }
 

@@ -1,13 +1,15 @@
 'use strict';
 
-class WalletServiceDTO {
+const baseDTO = require('./baseDTO');
+
+class WalletServiceDTO extends baseDTO {
 
     /**
-     * @param dataObj
+     * @param {Object} dataObj
      * @returns {WalletServiceDTO}
      */
     constructor(dataObj) {
-        this.data = dataObj;
+        super(dataObj);
 
         return this;
     }
@@ -16,56 +18,56 @@ class WalletServiceDTO {
      * @returns {string}
      */
     get blockchain() {
-        return this.data.blockchain;
+        return this._data.blockchain;
     }
 
     /**
      * @returns {string}
      */
     get network() {
-        return this.data.network;
+        return this._data.network;
     }
 
     /**
      * @returns {string}
      */
     get mnemonic() {
-        return this.data.mnemonic;
+        return this._data.mnemonic;
     }
 
     /**
      * @returns {string}
      */
     get seed() {
-        return this.data.seed;
+        return this._data.seed;
     }
 
     /**
-     * @returns {string}
+     * @returns {Array}
      */
     get xpubsList() {
-        return this.data.xpubsList;
+        return this._data.xpubsList;
     }
 
     /**
      * @returns {string}
      */
     get xpub() {
-        return this.data.xpubsList[0];
+        return this._data.xpubsList[0];
     }
 
     /**
      * @returns {string}
      */
     get ypub() {
-        return this.data.xpubsList[1];
+        return this._data.xpubsList[1];
     }
 
     /**
      * @returns {string}
      */
     get zpub() {
-        return this.data.xpubsList[1];
+        return this._data.xpubsList[2];
     }
 }
 

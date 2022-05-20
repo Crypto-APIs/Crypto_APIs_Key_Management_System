@@ -5,7 +5,7 @@ const baseDTO = require('./baseDTO');
 class hdWalletDTO extends baseDTO {
 
     /**
-     * @param {object} object
+     * @param {Object} object
      * @returns {hdWalletDTO}
      */
     constructor(object) {

@@ -1,16 +1,16 @@
 'use strict';
 
-const BaseService = require("./baseService");
+const { BaseCryptoAPIsLibAwareService } = require("./baseServices");
 
 /**
- * SubscriptionsService.
+ * SubscriptionsService
  *
  * @class SubscriptionsService
- * @extends {BaseService}
+ * @extends {BaseCryptoAPIsLibAwareService}
  */
-class SubscriptionsService extends BaseService {
+class SubscriptionsService extends BaseCryptoAPIsLibAwareService {
     /**
-     * @param {object} cryptoApis
+     * @param {Object} cryptoApis
      * @param {string} blockchain
      * @param {string} network
      */
@@ -34,7 +34,7 @@ class SubscriptionsService extends BaseService {
             newUnconfirmedCoinsTransactionsRB: new this._cryptoApis.NewUnconfirmedCoinsTransactionsRB(postData)
         };
 
-        return this.apiInstance.newUnconfirmedCoinsTransactions(this.blockchain, this.network, opts);
+        return this.apiInstance.newUnconfirmedCoinsTransactions(this._blockchain, this._network, opts);
     }
 
     /**
@@ -52,7 +52,7 @@ class SubscriptionsService extends BaseService {
             newUnconfirmedTokensTransactionsRB: new this._cryptoApis.NewUnconfirmedTokensTransactionsRB(postData)
         };
 
-        return this.apiInstance.newUnconfirmedTokensTransactions(this.blockchain, this.network, opts);
+        return this.apiInstance.newUnconfirmedTokensTransactions(this._blockchain, this._network, opts);
     }
 
     /**
@@ -70,7 +70,7 @@ class SubscriptionsService extends BaseService {
             newConfirmedInternalTransactionsRB: new this._cryptoApis.NewConfirmedInternalTransactionsRB(postData)
         };
 
-        return this.apiInstance.newConfirmedInternalTransactions(this.blockchain, this.network, opts);
+        return this.apiInstance.newConfirmedInternalTransactions(this._blockchain, this._network, opts);
     }
 }
 
