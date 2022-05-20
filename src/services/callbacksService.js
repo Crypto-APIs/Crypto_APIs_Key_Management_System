@@ -16,7 +16,7 @@ class CallbacksService extends BaseCryptoAPIsLibAwareService {
      */
     constructor(cryptoApis, blockchain, network) {
         super(cryptoApis, blockchain, network)
-        this.apiInstance = new this._cryptoApis.CallbackDataApi();
+        this.apiInstance = new this.cryptoApis.CallbackDataApi();
     }
 
     /**
@@ -29,7 +29,7 @@ class CallbacksService extends BaseCryptoAPIsLibAwareService {
             context: context,
         };
 
-        return this.apiInstance.getTransactionDetailsByTransactionIDFromCallback(this._blockchain, this._network, transactionId, opts);
+        return this.apiInstance.getTransactionDetailsByTransactionIDFromCallback(this.blockchain, this.network, transactionId, opts);
     }
 }
 

@@ -16,8 +16,8 @@ class HdWalletsService extends BaseCryptoAPIsLibAwareService {
      */
     constructor(cryptoApis, blockchain, network) {
         super(cryptoApis, blockchain, network)
-        this.hdWalletInstance = new this._cryptoApis.HDWalletsApi();
-        this.featuresInstance = new this._cryptoApis.FeaturesApi()
+        this.hdWalletInstance = new this.cryptoApis.HDWalletsApi();
+        this.featuresInstance = new this.cryptoApis.FeaturesApi()
     }
 
     /**
@@ -26,15 +26,15 @@ class HdWalletsService extends BaseCryptoAPIsLibAwareService {
      * @returns {syncHDWalletXPubYPubZPub}
      */
     async syncHDWalletXPubYPubZPub(extendedPublicKey, context) {
-        const item = new this._cryptoApis.SyncHDWalletXPubYPubZPubRBDataItem(extendedPublicKey);
-        const postData = new this._cryptoApis.SyncHDWalletXPubYPubZPubRBData(item);
+        const item = new this.cryptoApis.SyncHDWalletXPubYPubZPubRBDataItem(extendedPublicKey);
+        const postData = new this.cryptoApis.SyncHDWalletXPubYPubZPubRBData(item);
 
         const opts = {
             context: context,
-            syncHDWalletXPubYPubZPubRB: new this._cryptoApis.SyncHDWalletXPubYPubZPubRB(postData)
+            syncHDWalletXPubYPubZPubRB: new this.cryptoApis.SyncHDWalletXPubYPubZPubRB(postData)
         };
 
-        return this.hdWalletInstance.syncHDWalletXPubYPubZPub(this._blockchain, this._network, opts);
+        return this.hdWalletInstance.syncHDWalletXPubYPubZPub(this.blockchain, this.network, opts);
     }
 
     /**
@@ -49,7 +49,7 @@ class HdWalletsService extends BaseCryptoAPIsLibAwareService {
      */
     async deriveHDWalletXPubYPubZPubChangeOrReceivingAddresses(extendedPublicKey, opts) {
 
-        return this.featuresInstance.deriveHDWalletXPubYPubZPubChangeOrReceivingAddresses(this._blockchain, extendedPublicKey, this._network, opts);
+        return this.featuresInstance.deriveHDWalletXPubYPubZPubChangeOrReceivingAddresses(this.blockchain, extendedPublicKey, this.network, opts);
     }
 }
 

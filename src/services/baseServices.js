@@ -18,6 +18,20 @@ class BaseBlockchainAwareService {
         this._blockchain = blockchain;
         this._network = network;
     }
+
+    /**
+     * @returns {string}
+     */
+    get blockchain() {
+        return this._blockchain;
+    }
+
+    /**
+     * @returns {string}
+     */
+    get network() {
+        return this._network;
+    }
 }
 
 /**
@@ -40,6 +54,13 @@ class BaseCryptoAPIsLibAwareService extends BaseBlockchainAwareService {
         }
 
         this._cryptoApis = cryptoApis;
+    }
+
+    /**
+     * @returns {Object}
+     */
+    get cryptoApis() {
+        return this._cryptoApis;
     }
 }
 

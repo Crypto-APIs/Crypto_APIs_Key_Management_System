@@ -34,16 +34,16 @@ class WalletService extends BaseBlockchainAwareService {
         const strength = (DEFAULT_WORDS_COUNT / 1.5) * MNEMONIC_STRENGTH_MULTIPLIER;
         const mnemonic = bip39.generateMnemonic(strength);
         const seed = await bip39.mnemonicToSeed(mnemonic);
-        const xpubDerivationTypes = xpubDerivationTypesEnum[this._blockchain];
+        const xpubDerivationTypes = xpubDerivationTypesEnum[this.blockchain];
 
         let xpubList = [];
         for (let derivationType of Object.keys(xpubDerivationTypes)) {
-            xpubList.push(xpubDerivationTypes[derivationType](seed, this._network));
+            xpubList.push(xpubDerivationTypes[derivationType](seed, this.network));
         }
 
         const data = {
-            blockchain: this._blockchain,
-            network: this._network,
+            blockchain: this.blockchain,
+            network: this.network,
             mnemonic: mnemonic,
             seed: seed.toString('hex'),
             xpubsList: xpubList
