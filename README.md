@@ -39,7 +39,7 @@ client.createWallet().then((data) => {
 
 ### Return type
 
-WalletServiceDTO
+WalletDTO
 
 ### Authorization
 

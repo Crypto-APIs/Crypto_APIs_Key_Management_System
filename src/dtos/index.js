@@ -1,6 +1,6 @@
 'use strict';
 
-const walletServiceDTO = require("./walletServiceDTO")
+const walletServiceDTO = require("./walletDTO")
     , hdWalletDTO = require("./hdWalletDTO")
     , subscriptionForUnconfirmedCoinsTxsDTO = require("./subscriptionForUnconfirmedCoinsTxsDTO")
     , subscriptionForUnconfirmedTokensTxsDTO = require("./subscriptionForUnconfirmedTokensTxsDTO")
