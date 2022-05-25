@@ -1,18 +1,22 @@
 'use strict';
 
-class BroadcastService {
-    _cryptoApis;
+const { BaseCryptoAPIsLibAwareService } = require("./baseServices");
 
+/**
+ * BroadcastService
+ *
+ * @class BroadcastService
+ * @extends {BaseCryptoAPIsLibAwareService}
+ */
+class BroadcastService extends BaseCryptoAPIsLibAwareService {
     /**
-     * @param {object} cryptoApis
-     * @param {string} blockchain
+     * @param {Object} cryptoApis
+     * @param {string} blockchain.
      * @param {string} network
      */
     constructor(cryptoApis, blockchain, network) {
-        this._cryptoApis = cryptoApis;
-        this.apiInstance = new this._cryptoApis.FeaturesApi();
-        this.blockchain = blockchain;
-        this.network = network;
+        super(cryptoApis, blockchain, network)
+        this.apiInstance = new this.cryptoApis.FeaturesApi();
     }
 
     /**
@@ -23,12 +27,12 @@ class BroadcastService {
      * @returns {broadcastLocallySignedTransaction}
      */
     async broadcastLocallySignedTransaction(signedTransactionHex, callbackSecretKey, callbackUrl, context) {
-        const item = new this._cryptoApis.BroadcastLocallySignedTransactionRBDataItem(signedTransactionHex, callbackSecretKey, callbackUrl);
-        const postData = new this._cryptoApis.BroadcastLocallySignedTransactionRBData(item);
+        const item = new this.cryptoApis.BroadcastLocallySignedTransactionRBDataItem(signedTransactionHex, callbackSecretKey, callbackUrl);
+        const postData = new this.cryptoApis.BroadcastLocallySignedTransactionRBData(item);
 
         const opts = {
             context: context,
-            broadcastLocallySignedTransactionRB: new this._cryptoApis.BroadcastLocallySignedTransactionRB(postData)
+            broadcastLocallySignedTransactionRB: new this.cryptoApis.BroadcastLocallySignedTransactionRB(postData)
         };
 
         return this.apiInstance.broadcastLocallySignedTransaction(this.blockchain, this.network, opts);

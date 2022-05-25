@@ -1,10 +1,12 @@
 'use strict';
 
-class WalletServiceDTO {
+const baseDTO = require('./baseDTO');
+
+class WalletDTO {
 
     /**
-     * @param dataObj
-     * @returns {WalletServiceDTO}
+     * @param {Object} dataObj
+     * @returns {WalletDTO}
      */
     constructor(dataObj) {
         this.data = dataObj;
@@ -41,7 +43,7 @@ class WalletServiceDTO {
     }
 
     /**
-     * @returns {string}
+     * @returns {Array}
      */
     get xpubsList() {
         return this.data.xpubsList;
@@ -65,8 +67,8 @@ class WalletServiceDTO {
      * @returns {string}
      */
     get zpub() {
-        return this.data.xpubsList[1];
+        return this.data.xpubsList[2];
     }
 }
 
-module.exports = WalletServiceDTO;
+module.exports = WalletDTO;

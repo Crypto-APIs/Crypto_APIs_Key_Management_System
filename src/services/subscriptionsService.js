@@ -1,18 +1,22 @@
 'use strict';
 
-class SubscriptionsService {
-    _cryptoApis;
+const { BaseCryptoAPIsLibAwareService } = require("./baseServices");
 
+/**
+ * SubscriptionsService
+ *
+ * @class SubscriptionsService
+ * @extends {BaseCryptoAPIsLibAwareService}
+ */
+class SubscriptionsService extends BaseCryptoAPIsLibAwareService {
     /**
-     * @param {object} cryptoApis
+     * @param {Object} cryptoApis
      * @param {string} blockchain
      * @param {string} network
      */
     constructor(cryptoApis, blockchain, network) {
-        this._cryptoApis = cryptoApis;
-        this.apiInstance = new this._cryptoApis.CreateSubscriptionsForApi();
-        this.blockchain = blockchain;
-        this.network = network;
+        super(cryptoApis, blockchain, network)
+        this.apiInstance = new this.cryptoApis.CreateSubscriptionsForApi();
     }
 
     /**
@@ -22,12 +26,12 @@ class SubscriptionsService {
      * @returns {newUnconfirmedCoinsTransactions}
      */
     newUnconfirmedCoinsTxs(callbackUrl, address, context) {
-        const item = new this._cryptoApis.NewUnconfirmedCoinsTransactionsRBDataItem(address, callbackUrl);
-        const postData = new this._cryptoApis.NewUnconfirmedCoinsTransactionsRBData(item);
+        const item = new this.cryptoApis.NewUnconfirmedCoinsTransactionsRBDataItem(address, callbackUrl);
+        const postData = new this.cryptoApis.NewUnconfirmedCoinsTransactionsRBData(item);
 
         const opts = {
             context: context,
-            newUnconfirmedCoinsTransactionsRB: new this._cryptoApis.NewUnconfirmedCoinsTransactionsRB(postData)
+            newUnconfirmedCoinsTransactionsRB: new this.cryptoApis.NewUnconfirmedCoinsTransactionsRB(postData)
         };
 
         return this.apiInstance.newUnconfirmedCoinsTransactions(this.blockchain, this.network, opts);
@@ -40,8 +44,8 @@ class SubscriptionsService {
      * @returns {newUnconfirmedTokensTransactions}
      */
     newUnconfirmedTokensTxs(callbackUrl, address, context) {
-        const item = new this._cryptoApis.NewUnconfirmedTokensTransactionsRBDataItem(address, callbackUrl);
-        const postData = new this._cryptoApis.NewUnconfirmedTokensTransactionsRBData(item);
+        const item = new this.cryptoApis.NewUnconfirmedTokensTransactionsRBDataItem(address, callbackUrl);
+        const postData = new this.cryptoApis.NewUnconfirmedTokensTransactionsRBData(item);
 
         const opts = {
             context: context,
@@ -58,12 +62,12 @@ class SubscriptionsService {
      * @returns {newConfirmedInternalTransactions}
      */
     newConfirmedInternalTxs(callbackUrl, address, context) {
-        const item = new this._cryptoApis.NewConfirmedInternalTransactionsRBDataItem(address, false, 'secret', callbackUrl);
-        const postData = new this._cryptoApis.NewConfirmedInternalTransactionsRBData(item);
+        const item = new this.cryptoApis.NewConfirmedInternalTransactionsRBDataItem(address, false, 'secret', callbackUrl);
+        const postData = new this.cryptoApis.NewConfirmedInternalTransactionsRBData(item);
 
         const opts = {
             context: context,
-            newConfirmedInternalTransactionsRB: new this._cryptoApis.NewConfirmedInternalTransactionsRB(postData)
+            newConfirmedInternalTransactionsRB: new this.cryptoApis.NewConfirmedInternalTransactionsRB(postData)
         };
 
         return this.apiInstance.newConfirmedInternalTransactions(this.blockchain, this.network, opts);

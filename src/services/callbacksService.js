@@ -1,18 +1,22 @@
 'use strict';
 
-class CallbacksService {
-    _cryptoApis;
+const { BaseCryptoAPIsLibAwareService } = require("./baseServices");
 
+/**
+ * CallbacksService
+ *
+ * @class CallbacksService
+ * @extends {BaseCryptoAPIsLibAwareService}
+ */
+class CallbacksService extends BaseCryptoAPIsLibAwareService {
     /**
-     * @param {object} cryptoApis
+     * @param {Object} cryptoApis
      * @param {string} blockchain
      * @param {string} network
      */
     constructor(cryptoApis, blockchain, network) {
-        this._cryptoApis = cryptoApis;
-        this.apiInstance = new this._cryptoApis.CallbackDataApi();
-        this.blockchain = blockchain;
-        this.network = network;
+        super(cryptoApis, blockchain, network)
+        this.apiInstance = new this.cryptoApis.CallbackDataApi();
     }
 
     /**

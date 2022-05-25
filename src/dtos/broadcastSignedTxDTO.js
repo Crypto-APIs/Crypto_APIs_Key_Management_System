@@ -5,7 +5,7 @@ const baseDTO = require('./baseDTO');
 class BroadcastSignedTxDTO extends baseDTO {
 
     /**
-     * @param {object} object
+     * @param {Object} object
      * @returns {BroadcastSignedTxDTO}
      */
     constructor(object) {

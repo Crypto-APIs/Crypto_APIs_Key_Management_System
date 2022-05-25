@@ -39,7 +39,7 @@ client.createWallet().then((data) => {
 
 ### Return type
 
-WalletServiceDTO
+WalletDTO
 
 ### Authorization
 
@@ -257,6 +257,57 @@ Name | Type | Description  | Notes
 ### Return type
 
 broadcastSignedTxDTO
+
+### Authorization
+
+[ApiKey](#ApiKey)
+
+## Derive HD Wallet (xPub, yPub, zPub) Change Or Receiving Addresses
+
+Derive up to 10 addresses - both change and receive, from a certain HD Wallet (xPub, yPub, zPub), by providing an extended public key. By default, 
+the system creates a receiving/deposit address, unless the isChange attribute is set to 'true'. In that case the system derives a 'change' address. 
+The change address can be derived only for UTXO based blockchains, for all the rest, this endpoint always creates a deposit/receiving address.
+
+### Example
+
+```javascript
+const api = require('./src/');
+const blockchain = api.blockchains.BITCOIN;
+const network = api.networks[blockchain].NETWORK_BITCOIN_TESTNET;
+const client = new api.client('YOUR API KEY', blockchain, network);
+const extendedPublicKey = 'upub5Ez55YZxWDUCC9oW5jm38p51QNpwHYuaHcGekjtNTQZ9vktnLK8XDpMy1wRxSsZ6GSgyLAkB2KhcUNRcPgB1tjzZZ11d7wR6DycXLJvdymY'
+const opts = {
+    context: 'yourExampleString',
+    addressesCount: 5,
+    isChange: true,
+    startIndex: 3,
+    addressFormat: 'p2sh'
+}
+
+client.deriveHDAddresses(extendedPublicKey, opts).then((data) => {
+    console.dir('API called successfully. Returned data:');
+    console.dir(data);
+}, (error) => {
+    console.log(error);
+});
+
+```
+
+### Parameters
+
+| Name               | Type       | Description                                                                                                                                                                                                                    | Notes      |
+|--------------------|------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|------------|
+| **extendedPublicKey**          | **String** | Defines the account extended publicly known key which is used to derive all child public keys.                                                                                                                                 |            |
+| **context**        | **String** | In batch situations the user can use the context to correlate responses with requests. This property is present regardless of whether the response was successful or returned as an error. `context` is specified by the user. | [optional] |
+| **addressFormat**  | **String** | Represents the format of the address.                                                                                                                                                                                          | [optional] |
+| **addressesCount** | **Number** | Represents the addresses count.                                                                                                                                                                                                | [optional] |
+| **isChange**       | **Boolean** | Defines if the specific address is a change or deposit address. If the value is True - it is a change address, if it is False - it is a Deposit address.                                                                      | [optional] |
+| **startIndex**     | **Number** | The starting index of the response items, i.e. where the response should start listing the returned items.                                                                                                                     | [optional] |
+
+
+### Return type
+
+HdAddressesDTO
 
 ### Authorization
 
