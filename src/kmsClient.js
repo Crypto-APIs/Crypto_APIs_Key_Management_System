@@ -3,22 +3,23 @@
 const validateConfig = require('./validators/configValidator')
     , cryptoApis = require('cryptoapis')
     , {
-        walletServiceDTO,
-        hdWalletDTO,
-        subscriptionForUnconfirmedCoinsTxsDTO,
-        subscriptionForUnconfirmedTokensTxsDTO,
-        subscriptionForUnconfirmedInternalTxsDTO,
-        broadcastedTransactionCallbackDTO,
-        broadcastSignedTxDTO,
-        hdAddressesDTO
-    } = require('./dtos')
+    walletServiceDTO,
+    hdWalletDTO,
+    subscriptionForUnconfirmedCoinsTxsDTO,
+    subscriptionForUnconfirmedTokensTxsDTO,
+    subscriptionForUnconfirmedInternalTxsDTO,
+    broadcastedTransactionCallbackDTO,
+    broadcastSignedTxDTO,
+    hdAddressesDTO
+} = require('./dtos')
     , {
-        hdWalletService,
-        walletService,
-        broadcastService,
-        callbacksService,
-        subscriptionsService
-    } = require('./services');
+    hdWalletService,
+    walletService,
+    broadcastService,
+    callbacksService,
+    subscriptionsService,
+    signService
+} = require('./services');
 
 class KmsClient {
     /**
@@ -44,6 +45,7 @@ class KmsClient {
         this.broadcastApiService = new broadcastService(this._apiClient, this.blockchain, this.network);
         this.callbacksApiService = new callbacksService(this._apiClient, this.blockchain, this.network);
         this.subscriptionsApiService = new subscriptionsService(this._apiClient, this.blockchain, this.network);
+        this.signService = new signService(this.blockchain, this.network);
     }
 
     /**
@@ -75,7 +77,7 @@ class KmsClient {
      * @param {string|null} context
      * @returns {subscriptionForUnconfirmedCoinsTxsDTO}
      */
-    createSubscriptionForUnconfirmedCoinsTxs(callbackUrl, address, context= null) {
+    createSubscriptionForUnconfirmedCoinsTxs(callbackUrl, address, context = null) {
 
         return this.subscriptionsApiService.newUnconfirmedCoinsTxs(callbackUrl, address, context).then(data => {
             return new subscriptionForUnconfirmedCoinsTxsDTO(data);
@@ -90,7 +92,7 @@ class KmsClient {
      * @param {string|null} context
      * @returns {subscriptionForUnconfirmedTokensTxsDTO}
      */
-    createSubscriptionForUnconfirmedTokensTxs(callbackUrl, address, context= null) {
+    createSubscriptionForUnconfirmedTokensTxs(callbackUrl, address, context = null) {
 
         return this.subscriptionsApiService.newUnconfirmedTokensTxs(callbackUrl, address, context).then(data => {
             return new subscriptionForUnconfirmedTokensTxsDTO(data);
@@ -105,7 +107,7 @@ class KmsClient {
      * @param {string|null} context
      * @returns {subscriptionForUnconfirmedInternalTxsDTO}
      */
-    createSubscriptionForUnconfirmedInternalTxs(callbackUrl, address, context= null) {
+    createSubscriptionForUnconfirmedInternalTxs(callbackUrl, address, context = null) {
 
         return this.subscriptionsApiService.newConfirmedInternalTxs(callbackUrl, address, context).then(data => {
             return new subscriptionForUnconfirmedInternalTxsDTO(data);
@@ -121,9 +123,9 @@ class KmsClient {
      * @param {string|null} context
      * @returns {broadcastSignedTxDTO}
      */
-    broadcastSignedTx(signedTransactionHex, callbackSecretKey, callbackUrl, context= null) {
+    broadcastSignedTx(signedTransactionHex, callbackSecretKey, callbackUrl, context = null) {
 
-        return this.broadcastApiService.broadcastLocallySignedTransaction(signedTransactionHex, callbackUrl, context).then (data => {
+        return this.broadcastApiService.broadcastLocallySignedTransaction(signedTransactionHex, callbackUrl, context).then(data => {
             return new broadcastSignedTxDTO(data);
         }, error => {
             throw error;
@@ -155,12 +157,21 @@ class KmsClient {
      * @param {Number} opts.startIndex The starting index of the response items, i.e. where the response should start listing the returned items.
      * @returns {HdAddressesDTO}
      */
-    deriveHDAddresses(extendedPublicKey, opts= null) {
+    deriveHDAddresses(extendedPublicKey, opts = null) {
         opts = opts || {};
 
         return this.hdWalletApiService.deriveHDWalletXPubYPubZPubChangeOrReceivingAddresses(extendedPublicKey, opts).then((data) => {
             return new hdAddressesDTO(data);
         });
+    }
+
+    /**
+     * @param {string} privateKey
+     * @param {Transaction} transaction
+     * @return {{id: string, raw: string}}
+     */
+    signPreparedTransaction(privateKey, transaction) {
+        return this.signService.signPreparedTransaction(privateKey, transaction);
     }
 }
 
