@@ -1,7 +1,7 @@
 'use strict';
 
 const validateBlockchain = require("./blockchainValidator")
-    , {NETWORKS: NetworksEnum} = require('../enumerations/networksEnum')
+    , {NETWORKS: NetworksEnum} = require('../enumerations/networks')
     , errors = require('./customErrors')
     , errorDTO = require('../dtos/errorDTO');
 

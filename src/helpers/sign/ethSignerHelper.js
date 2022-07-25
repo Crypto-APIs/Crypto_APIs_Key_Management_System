@@ -52,7 +52,7 @@ class EthSigner extends BaseSigner {
         };
 
         txData = Object.assign(txData, {
-            v: this.networkConfig.common.chainId() * 2 + 35,
+            v: this.networkConfig.chainId * 2 + 35,
             r: 0,
             s: 0,
         });

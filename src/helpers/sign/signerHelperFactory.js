@@ -2,7 +2,7 @@
 
 const EthSigner = require('./ethSignerHelper')
     , BtcSigner = require('./btcSignerHelper')
-    , {blockchains} = require('../../enumerations/blockchainEnum')
+    , {blockchains} = require('../../enumerations/blockchains')
 ;
 
 class SignerHelperFactory {

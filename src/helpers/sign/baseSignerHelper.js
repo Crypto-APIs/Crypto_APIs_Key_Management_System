@@ -1,6 +1,6 @@
 'use strict';
 
-const NetworksConfigsEnum = require('../../enumerations/networksConfigs');
+const NetworksConfigsEnum = require('../../enumerations/networks');
 
 class BaseSigner {
     /**
@@ -11,12 +11,12 @@ class BaseSigner {
         this.blockchain = blockchain;
         this.network = network;
 
-        if (!NetworksConfigsEnum.hasOwnProperty(this.blockchain)
-            || !NetworksConfigsEnum[this.blockchain].hasOwnProperty(this.network)) {
+        if (!NetworksConfigsEnum.NETWORKS_CONFIGS.hasOwnProperty(this.blockchain)
+            || !Object.keys(NetworksConfigsEnum.NETWORKS_CONFIGS[this.blockchain].hasOwnProperty(this.network))) {
             throw new Error('Unknown configuration for ' + this.blockchain + ':' + this.network);
         }
 
-        this.networkConfig = NetworksConfigsEnum[this.blockchain][this.network];
+        this.networkConfig = NetworksConfigsEnum.NETWORKS_CONFIGS[this.blockchain][this.network];
     }
 
     /**
