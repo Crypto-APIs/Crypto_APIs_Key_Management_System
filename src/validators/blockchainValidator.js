@@ -1,6 +1,6 @@
 'use strict';
 
-const enumerations = require("../enumerations/blockchainEnum")
+const enumerations = require("../enumerations/blockchains")
     , errorDTO = require("../dtos/errorDTO");
 
 module.exports = function validateBlockchain(chain) {
@@ -12,7 +12,7 @@ module.exports = function validateBlockchain(chain) {
             return blockchainsEnum[k]
         }).join(", ");
 
-        return new errorDTO('INVALID_BLOCKCHAIn', {'blockchains': blockchainsList});
+        return new errorDTO('INVALID_BLOCKCHAIN', {'blockchains': blockchainsList});
     }
 
     return true;

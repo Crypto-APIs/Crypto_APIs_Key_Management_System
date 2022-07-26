@@ -23,9 +23,9 @@ class BtcSigner extends BaseSigner {
     /**
      * @inheritDoc
      */
-    sign({pk, transaction, options = {}}) {
+    sign({key, transaction, options = {}}) {
         const signer = bitcoinjs.ECPair.fromPrivateKey(
-            Buffer.from(pk, 'hex'),
+            Buffer.from(key, 'hex'),
             {network: this.networkConfig}
         );
 
