@@ -45,7 +45,7 @@ WalletDTO
 
 [ApiKey](#ApiKey)
 
-## syncHDWallet
+## syncNewXPub
 After initial sync we keep updating the synced HD wallets all the time.
 
 ### Example
@@ -57,7 +57,7 @@ After initial sync we keep updating the synced HD wallets all the time.
  const client = new api.client('YOUR API KEY', blockchain, network);
  const exPub = 'xpub6BsFsonVJR5vPChKQamp55R7veBCMD2CL3LtL83B3FS5DiayYgmoHCGQodeLTukaa4anZRQD9kNtPFHuPnCzjCiT9nrXdf3voNLhXQryBRB';
 
- client.syncHDWallet(exPub).then((data) => {
+ client.syncNewXPub(exPub).then((data) => {
      console.dir('API called successfully. Returned data:');
      console.dir(data);
  }, (error) => {

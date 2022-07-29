@@ -10,7 +10,8 @@ const validateConfig = require('./validators/configValidator')
     subscriptionForUnconfirmedInternalTxsDTO,
     broadcastedTransactionCallbackDTO,
     broadcastSignedTxDTO,
-    hdAddressesDTO
+    hdAddressesDTO,
+    listDTO
 } = require('./dtos')
     , {
     hdWalletService,
@@ -64,9 +65,9 @@ class KmsClient {
      * @param {string|null} context
      * @returns {hdWalletDTO}
      */
-    syncHDWallet(extendedPublicKey, context = null) {
+    syncNewXPub(extendedPublicKey, context = null) {
 
-        return this.hdWalletApiService.syncHDWalletXPubYPubZPub(extendedPublicKey, context).then((data) => {
+        return this.hdWalletApiService.syncNewXPub(extendedPublicKey, context).then((data) => {
             return new hdWalletDTO(data);
         });
     }
@@ -162,6 +163,20 @@ class KmsClient {
 
         return this.hdWalletApiService.deriveHDWalletXPubYPubZPubChangeOrReceivingAddresses(extendedPublicKey, opts).then((data) => {
             return new hdAddressesDTO(data);
+        });
+    }
+
+    /**
+     * @param {string} extendedPublicKey
+     * @param {{context: String, addressFormat: String, addressesCount: Number, isChange: Boolean, startIndex: Number}|{}} opts Optional parameters
+     * @param {String} opts.context In batch situations the user can use the context to correlate responses with requests. This property is present regardless of whether the response was successful or returned as an error. `context` is specified by the user.
+     * @returns {ListSyncedAddressesR}
+     */
+    listSyncedAddresses(extendedPublicKey, opts) { //todo dto and finish args here
+        opts = opts || {};
+
+        return this.hdWalletApiService.listSyncedAddressesByXpub(extendedPublicKey, opts).then((data) => {
+            return new listDTO(data);
         });
     }
 

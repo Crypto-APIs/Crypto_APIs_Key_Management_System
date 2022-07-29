@@ -30,8 +30,7 @@ class BtcSigner extends BaseSigner {
         );
 
         const privateKey = new bitcorejs.PrivateKey(signer.privateKey.toString('hex'));
-        const prepared = new bitcorejs.Transaction({})
-            .setVersion(transaction.version)
+        const prepared = new bitcorejs.Transaction()
             .from(transaction.inputs)
         ;
 

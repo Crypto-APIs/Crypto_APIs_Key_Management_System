@@ -3,7 +3,7 @@
 const Transaction = require('./transaction');
 const Decimal = require('decimal.js');
 
-class BitcoinBasedTransaction extends Transaction {
+class UTXOBasedTransaction extends Transaction {
     /**
      * @param {Object} data
      * @return {{transaction: {}, input_signatures: string[]}}
@@ -109,4 +109,4 @@ class BitcoinBasedTransaction extends Transaction {
     }
 }
 
-module.exports = BitcoinBasedTransaction;
+module.exports = UTXOBasedTransaction;

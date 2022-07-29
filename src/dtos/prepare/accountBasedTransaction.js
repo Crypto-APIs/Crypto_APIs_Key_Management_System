@@ -3,7 +3,7 @@
 const Transaction = require('./transaction');
 const hex2dec = require('hex2dec');
 
-class EthereumBasedTransaction extends Transaction {
+class AccountBasedTransaction extends Transaction {
     /**
      * @param {Object} data
      * @return {{gasLimit: string, to: string, nonce: string, value: string, gasPrice: string}}
@@ -86,4 +86,4 @@ class EthereumBasedTransaction extends Transaction {
     }
 }
 
-module.exports = EthereumBasedTransaction;
+module.exports = AccountBasedTransaction;
