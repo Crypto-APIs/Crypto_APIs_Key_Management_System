@@ -11,7 +11,8 @@ const validateConfig = require('./validators/configValidator')
     broadcastedTransactionCallbackDTO,
     broadcastSignedTxDTO,
     hdAddressesDTO,
-    listDTO
+    listDTO,
+    accountBasedTransactionDTO
 } = require('./dtos')
     , {
     hdWalletService,
@@ -19,8 +20,10 @@ const validateConfig = require('./validators/configValidator')
     broadcastService,
     callbacksService,
     subscriptionsService,
+    prepareService,
     signService
-} = require('./services');
+} = require('./services')
+    , feePriorities = require("./enumerations/feePriorities")
 
 class KmsClient {
     /**
@@ -47,6 +50,7 @@ class KmsClient {
         this.callbacksApiService = new callbacksService(this._apiClient, this.blockchain, this.network);
         this.subscriptionsApiService = new subscriptionsService(this._apiClient, this.blockchain, this.network);
         this.signService = new signService(this.blockchain, this.network);
+        this.prepareService = new prepareService(this._apiClient, this.blockchain, this.network);
     }
 
     /**
@@ -172,13 +176,59 @@ class KmsClient {
      * @param {String} opts.context In batch situations the user can use the context to correlate responses with requests. This property is present regardless of whether the response was successful or returned as an error. `context` is specified by the user.
      * @returns {ListSyncedAddressesR}
      */
-    listSyncedAddresses(extendedPublicKey, opts) { //todo dto and finish args here
+    listSyncedAddresses(extendedPublicKey, opts) {
         opts = opts || {};
 
         return this.hdWalletApiService.listSyncedAddressesByXpub(extendedPublicKey, opts).then((data) => {
             return new listDTO(data);
         });
     }
+
+    /**
+     * @param {string} xpub
+     * @param {string} sender
+     * @param {string} recipient
+     * @param {string} amount
+     * @param {feePriorities|null} priority
+     * @param {string|null} feeAmount
+     * @param {string|null} nonce
+     * @param {string|null} data
+     */
+    prepareAccountBasedTransactionFromXpub({
+       xpub,
+       sender,
+       recipient,
+       amount,
+       priority,
+       feeAmount,
+       nonce,
+       data
+    }){
+        return this.prepareService.prepareAccountBasedTransactionFromXpub({
+            xpub,
+            sender,
+            recipient,
+            amount,
+            priority,
+            feeAmount,
+            nonce,
+            data
+        }).then((data) => {
+            return new accountBasedTransactionDTO(data);
+        });
+    }
+
+    /**
+     * @param {string} xpub
+     * @param {string} fromAddress
+     * @param {string} toAddress
+     * @param {Object} options
+     */
+    prepareUTXOBasedTransactionFromXpub(xpub, fromAddress, toAddress, options = {}) {
+
+        return this.prepareService.prepareUTXOBasedTransactionFromXpub(xpub, fromAddress, toAddress, options);
+    }
+
 
     /**
      * @param {string} privateKey
