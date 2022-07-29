@@ -1,7 +1,9 @@
 'use strict';
 
 const BaseSigner = require('./baseSignerHelper')
-    , EthereumTx = require('@ethereumjs/tx').Transaction
+    , {FeeMarketEIP1559Transaction: GasFeeMarketTransaction} = require('@ethereumjs/tx')
+    , HDKey = require('hdkey')
+    , hex2dec = require('hex2dec');
 ;
 
 /**
@@ -23,12 +25,13 @@ class EthSigner extends BaseSigner {
      * @inheritDoc
      */
     sign({key, transaction, options = {}}) {
-        const pk = Buffer.from(key, 'hex');
+        var hdkey = HDKey.fromExtendedKey(key)
+        const derivationPath = `m/0/${transaction.derivationIndex}`;
+        const derivedPrivKey = hdkey.derive(derivationPath)
         const tx = this._buildTransaction(transaction);
-
-        const signedTX = tx.sign(pk);
+        const signedTX = tx.sign(derivedPrivKey.privateKey);
         const serializedTx = signedTX.serialize();
-
+        console.log('\n DERIVE', derivationPath, transaction.data.item, derivedPrivKey.privateKey.toString('hex'))
         return {
             id: '0x' + signedTX.hash().toString('hex'),
             raw: '0x' + serializedTx.toString('hex'),
@@ -37,27 +40,24 @@ class EthSigner extends BaseSigner {
 
     /**
      *
-     * @param {EthereumBasedTransaction} transaction
-     * @return {Transaction}
+     * @param {AccountBasedTransaction} transaction
      */
     _buildTransaction(transaction) {
         let txData = {
-            from: transaction.fromAddress,
-            to: transaction.toAddress,
-            value: transaction.amount,
-            gasPrice: transaction.gasPrice,
-            gasLimit: transaction.gasLimit,
-            nonce: transaction.nonce,
-            data: transaction.transactionData,
+            // from: transaction.sender,
+            to: transaction.recipient,
+            value: hex2dec.decToHex(transaction.amount),
+            // gasPrice: hex2dec.decToHex(transaction.gasPrice),
+            maxFeePerGas: hex2dec.decToHex(transaction.maxFeePerGas),
+            maxPriorityFeePerGas: hex2dec.decToHex(transaction.maxPriorityFeePerGas),
+            gasLimit: hex2dec.decToHex(transaction.gasLimit),
+            nonce: hex2dec.decToHex(transaction.nonce),
+            data: transaction.dataHex,
+            accessList: [],
+            type: hex2dec.decToHex('2')
         };
 
-        txData = Object.assign(txData, {
-            v: this.networkConfig.chainId * 2 + 35,
-            r: 0,
-            s: 0,
-        });
-
-        return new EthereumTx(txData, this.networkConfig);
+        return GasFeeMarketTransaction.fromTxData(txData, this.networkConfig);
     }
 }
 

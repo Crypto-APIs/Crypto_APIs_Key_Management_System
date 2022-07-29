@@ -182,38 +182,55 @@ const NETWORKS_CONFIGS = {
     },
     [BlockchainsEnum.ETHEREUM]: {
         [NETWORK_ETHEREUM_MAINNET]: {
-            chain: 'mainnet',
-            hardfork: 'london',
+            common: new ethereumCommon({
+                chain: 'mainnet',
+                hardfork: 'london',
+                networkId: 1,
+                chainId: 1
+            }),
             bip32: {
                 public: 0x0488b21e,
                 private: 0x0488ade4,
-            },
-            networkId: 1,
-            chainId: 1
+            }
         },
         [NETWORK_ETHEREUM_ROPSTEN]: {
-            chain: 'ropsten',
-            hardfork: 'london',
-            networkId: 3,
-            chainId: 3
+            common: ethereumCommon.forCustomChain(
+                'ropsten',
+                {
+                    name: 'ropsten',
+                    networkId: 3,
+                    chainId: 3,
+                },
+                'london'
+            )
         },
     },
     [BlockchainsEnum.ETHEREUM_CLASSIC]: {
         [NETWORK_ETHEREUM_CLASSIC_MAINNET]: {
-            chain: 'mainnet',
-            networkId: 1,
-            chainId: 61,
-            hardfork: 'petersburg',
+            common: ethereumCommon.forCustomChain(
+                'mainnet',
+                {
+                    name: 'mainnet',
+                    networkId: 1,
+                    chainId: 61,
+                },
+                'petersburg'
+            ),
             bip32: {
                 public: 0x0488b21e,
                 private: 0x0488ade4,
             }
         },
         [NETWORK_ETHEREUM_CLASSIC_MORDOR]: {
-            chain: 'mordor',
-            networkId: 7,
-            chainId: 63,
-            hardfork: 'petersburg',
+            common: ethereumCommon.forCustomChain(
+                'rinkeby',
+                {
+                    name: 'mordor',
+                    networkId: 7,
+                    chainId: 63,
+                },
+                'petersburg'
+            ),
             bip32: {
                 public: 0x0488b21e,
                 private: 0x0488ade4,
@@ -222,20 +239,30 @@ const NETWORKS_CONFIGS = {
     },
     [BlockchainsEnum.BINANCE_SMART_CHAIN]: {
         [NETWORK_BINANCE_SMART_CHAIN_MAINNET]: {
-            chain: 'mainnet',
-            networkId: 56,
-            chainId: 56,
-            hardfork: 'petersburg',
+            common: ethereumCommon.forCustomChain(
+                'mainnet',
+                {
+                    name: 'mainnet',
+                    networkId: 56,
+                    chainId: 56,
+                },
+                'petersburg'
+            ),
             bip32: {
                 public: 0x0488b21e,
                 private: 0x0488ade4,
             }
         },
         [NETWORK_BINANCE_SMART_CHAIN_TESTNET]: {
-            chain: 'testnet',
-            networkId: 97,
-            chainId: 97,
-            hardfork: 'petersburg'
+            common: ethereumCommon.forCustomChain(
+                'ropsten',
+                {
+                    name: 'testnet',
+                    networkId: 97,
+                    chainId: 97,
+                },
+                'petersburg'
+            )
         },
     }
 };

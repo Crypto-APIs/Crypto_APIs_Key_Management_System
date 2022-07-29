@@ -19,7 +19,7 @@
     "bip39": "^3.0.4",
     "bitcoinjs-lib": "^5.2.0",
     "bitcore-lib": "^8.25.30",
-    "cryptoapis": "^1.7.0",
+    "cryptoapis": "^1.7.1",
     "decimal.js": "^10.3.1",
     "hdkey": "^2.0.1",
     "hex2dec": "^1.1.2"

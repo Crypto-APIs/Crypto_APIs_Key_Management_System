@@ -1,36 +1,34 @@
 'use strict';
 
 const NetworksConfigsEnum = require('../../enumerations/networks');
+const {BaseCryptoAPIsLibAwareService} = require("../../services/baseServices");
 
-class BaseSigner {
+class BasePrepareTransaction extends BaseCryptoAPIsLibAwareService {
     /**
+     * @param {Object} cryptoApis
      * @param {string} blockchain
      * @param {string} network
      */
-    constructor({blockchain, network}) {
-        this.blockchain = blockchain;
-        this.network = network;
+    constructor(cryptoApis, blockchain, network) {
+        super(cryptoApis, blockchain, network)
 
         if (!NetworksConfigsEnum.NETWORKS_CONFIGS.hasOwnProperty(this.blockchain)
             || !Object.keys(NetworksConfigsEnum.NETWORKS_CONFIGS[this.blockchain].hasOwnProperty(this.network))) {
             throw new Error('Unknown configuration for ' + this.blockchain + ':' + this.network);
         }
 
-        this.networkConfig = NetworksConfigsEnum.NETWORKS_CONFIGS[this.blockchain][this.network];
-        console.log('\n config', )
+        this.featuresInstance = new this.cryptoApis.FeaturesApi();
     }
 
     /**
-     * @param {string} key
-     * @param {Object} transaction
-     * @param {Object} options
+     * @param {Object} transactionData
      * @private
      *
-     * @return {{id: string, raw: string}}
+     * @return {Promise<*>}
      */
-    sign({key, transaction, options = {}}) {
+    prepare({transactionData}) {
         throw new Error('Implement sign method for service ' + this.constructor.name);
     };
 }
 
-module.exports = BaseSigner;
+module.exports = BasePrepareTransaction;

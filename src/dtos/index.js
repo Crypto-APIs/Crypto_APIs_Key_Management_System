@@ -10,6 +10,7 @@ const walletServiceDTO = require("./walletDTO")
     , hdAddressesDTO = require("./hdAddressesDTO")
     , errorDTO = require("./errorDTO")
     , listDTO = require("./listDTO")
+    , accountBasedTransactionDTO = require("./prepare/accountBasedTransactionDTO")
 ;
 
 module.exports = {
@@ -22,5 +23,6 @@ module.exports = {
     broadcastSignedTxDTO,
     hdAddressesDTO,
     errorDTO,
-    listDTO
+    listDTO,
+    accountBasedTransactionDTO
 };

@@ -1,12 +1,16 @@
 'use strict'
 
-class Transaction {
+const BaseDTO = require("../baseDTO")
+
+class Transaction extends BaseDTO {
     /**
      * @param {Object} data
      * @throws Error
      */
     constructor(data) {
-        this.data = this._prepareData(data);
+        super(data)
+        console.log('\n item', data)
+        // this.data = this._prepareData(data);
     }
 
     /**

@@ -5,6 +5,7 @@ const hdWalletService = require('./hdWalletsService')
     , broadcastService = require('./broadcastService')
     , callbacksService = require('./callbacksService')
     , subscriptionsService = require('./subscriptionsService')
+    , prepareService = require('./prepareService')
     , signService = require('./signService')
 ;
 
@@ -14,5 +15,6 @@ module.exports = {
     broadcastService,
     callbacksService,
     subscriptionsService,
+    prepareService,
     signService
 };
