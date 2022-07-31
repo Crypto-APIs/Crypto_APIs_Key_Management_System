@@ -1,16 +1,12 @@
 'use strict'
 
-const BaseDTO = require("../baseDTO")
-
-class Transaction extends BaseDTO {
+class TransactionDTO {
     /**
-     * @param {Object} data
+     * @param {Object} object
      * @throws Error
      */
-    constructor(data) {
-        super(data)
-        console.log('\n item', data)
-        // this.data = this._prepareData(data);
+    constructor(object) {
+        this.data = this._prepareData(object);
     }
 
     /**
@@ -31,4 +27,4 @@ class Transaction extends BaseDTO {
     }
 }
 
-module.exports = Transaction;
+module.exports = TransactionDTO;

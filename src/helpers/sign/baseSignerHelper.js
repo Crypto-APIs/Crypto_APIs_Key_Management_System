@@ -17,11 +17,10 @@ class BaseSigner {
         }
 
         this.networkConfig = NetworksConfigsEnum.NETWORKS_CONFIGS[this.blockchain][this.network];
-        console.log('\n config', )
     }
 
     /**
-     * @param {string} key
+     * @param {Buffer} key
      * @param {Object} transaction
      * @param {Object} options
      * @private

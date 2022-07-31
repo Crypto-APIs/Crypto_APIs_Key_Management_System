@@ -1,6 +1,6 @@
 'use strict'
 
-const Transaction = require('./transaction');
+const Transaction = require('./transactionDTO');
 const Decimal = require('decimal.js');
 
 class UTXOBasedTransaction extends Transaction {
