@@ -27,7 +27,7 @@ class WalletService extends BaseBlockchainAwareService {
     /**
      * @returns {Promise<{seed: string, blockchain: string, xpubsList: *[], mnemonic: string, network}|boolean>}
      */
-    async createWallet() {
+    async createHDWallet() {
         const strength = (DEFAULT_WORDS_COUNT / 1.5) * MNEMONIC_STRENGTH_MULTIPLIER;
         const mnemonic = bip39.generateMnemonic(strength);
         const seed = await bip39.mnemonicToSeed(mnemonic);

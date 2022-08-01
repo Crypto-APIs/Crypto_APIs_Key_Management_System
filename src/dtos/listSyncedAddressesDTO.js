@@ -2,11 +2,11 @@
 
 const BaseDTO = require('./baseDTO');
 
-class ListDTO extends BaseDTO {
+class ListSyncedAddressesDTO extends BaseDTO {
 
     /**
      * @param {Object} object
-     * @returns {ListDTO}
+     * @returns {ListSyncedAddressesDTO}
      */
     constructor(object) {
         super(object);
@@ -22,4 +22,4 @@ class ListDTO extends BaseDTO {
     }
 }
 
-module.exports = ListDTO;
+module.exports = ListSyncedAddressesDTO;

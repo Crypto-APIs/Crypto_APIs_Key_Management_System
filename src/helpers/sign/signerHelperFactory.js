@@ -6,26 +6,19 @@ const EthSigner = require('./ethSignerHelper')
 ;
 
 class SignerHelperFactory {
-
     /**
      * @param {string} blockchain
      * @param {string} network
+     *
+     * @returns {BaseSigner|Error}
      */
-    constructor({blockchain, network}) {
-        this.blockchain = blockchain;
-        this.network = network;
-    }
-
-    /**
-     * @returns {Object}
-     */
-    create() {
+    static create({blockchain, network}) {
         const args = {
-            blockchain: this.blockchain,
-            network: this.network
+            blockchain,
+            network
         }
 
-        switch (this.blockchain.toLowerCase()) {
+        switch (blockchain.toLowerCase()) {
             case blockchains.BITCOIN:
                 return new BtcSigner(args);
             case blockchains.ETHEREUM:

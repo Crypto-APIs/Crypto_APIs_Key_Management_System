@@ -26,8 +26,10 @@ class SignService {
      * @return {{id: string, raw: string}}
      */
     signPreparedTransaction(xPriv, transaction) {
-        const signerFactory = new SignerHelperFactory({blockchain: this.blockchain, network: this.network})
-        const signer = signerFactory.create();
+        const signer = SignerHelperFactory.create({
+            blockchain: this.blockchain,
+            network: this.network
+        });
 
         return signer.sign({xPriv: xPriv, transaction: transaction});
     }

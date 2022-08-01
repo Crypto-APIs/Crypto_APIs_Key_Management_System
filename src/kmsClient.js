@@ -11,7 +11,7 @@ const validateConfig = require('./validators/configValidator')
     broadcastedTransactionCallbackDTO,
     broadcastSignedTxDTO,
     hdAddressesDTO,
-    listDTO,
+    listSyncedAddressesDTO,
     accountBasedTransactionDTO,
     utxoBasedTransactionDTO,
     signDTO
@@ -60,9 +60,9 @@ class KmsClient {
      * Create wallet for specified blockchain and network
      * @returns {walletServiceDTO}
      */
-    createHDWalletxPubyPubzPub() {
+    createHDWallet() {
 
-        return this.walletApiService.createWallet().then((data) => {
+        return this.walletApiService.createHDWallet().then((data) => {
             return new walletServiceDTO(data);
         })
     }
@@ -163,7 +163,7 @@ class KmsClient {
      */
     listSyncedAddresses(extendedPublicKey, opts) {
         return this.hdWalletApiService.listSyncedAddressesByXpub(extendedPublicKey, opts).then((data) => {
-            return new listDTO(data);
+            return new listSyncedAddressesDTO(data);
         });
     }
 
