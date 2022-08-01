@@ -15,7 +15,7 @@ class UTXOBasedTransactionDTO extends TransactionDTO {
     /**
      * @param {Object} data
      * @return {{transaction: {}, input_signatures: string[]}}
-     * @private
+     * @protected
      */
     _prepareData(data) {
         const requiredAttributes = ['vin','vout'];

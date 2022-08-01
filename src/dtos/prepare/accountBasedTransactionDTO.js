@@ -15,7 +15,7 @@ class AccountBasedTransactionDTO extends TransactionDTO {
     /**
      * {Object} data
      * @return {{transactionType: string, gasLimit: (null|string|string), amount: (null|string|string), sender: *, nonce: (null|string|string), recipient: *}}
-     * @private
+     * @protected
      */
     _prepareData(data) {
         const TRANSACTION_TYPE_GAS_FEE_MARKET = '2';

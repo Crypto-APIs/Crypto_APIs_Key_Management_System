@@ -22,7 +22,7 @@ class BasePrepareTransaction extends BaseCryptoAPIsLibAwareService {
 
     /**
      * @param {Object} transactionData
-     * @private
+     * @protected
      *
      * @return {Promise<*>}
      */

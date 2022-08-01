@@ -22,7 +22,7 @@ class BaseSigner {
     /**
      * @param {string} xPriv account extended xPriv
      * @param {TransactionDTO} transaction
-     * @private
+     * @protected
      * @return {{id: string, raw: string}}
      */
     sign({xPriv, transaction}) {

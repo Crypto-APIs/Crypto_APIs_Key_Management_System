@@ -13,7 +13,7 @@ class TransactionDTO {
      * @param {Object} data
      * @return {Object}
      * @throws Error
-     * @private
+     * @protected
      */
     _prepareData(data) {
         throw new Error('Implement _prepareData method for service ' + this.constructor.name);
