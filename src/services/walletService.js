@@ -2,14 +2,11 @@
 
 const { BaseBlockchainAwareService } = require("./baseServices");
 const bip39 = require('bip39')
-    , fs = require('fs')
     , {XPUB_DERIVATION_TYPES: xpubDerivationTypesEnum} = require('../helpers/xpubFormatsHelper')
 ;
 
 const DEFAULT_WORDS_COUNT = 12;
 const MNEMONIC_STRENGTH_MULTIPLIER = 16;
-const WALLET_PATH = "./";
-const WALLET_FILE = "wallet.dat";
 
 /**
  * WalletService
@@ -41,17 +38,13 @@ class WalletService extends BaseBlockchainAwareService {
             xpubList.push(xpubDerivationTypes[derivationType](seed, this.network));
         }
 
-        const data = {
+        return {
             blockchain: this.blockchain,
             network: this.network,
             mnemonic: mnemonic,
             seed: seed.toString('hex'),
             xpubsList: xpubList
         };
-
-        await fs.promises.writeFile(WALLET_PATH + WALLET_FILE, data.seed);
-
-        return data;
     }
 }
 

@@ -49,7 +49,8 @@ class PrepareTransactionService {
             this.network
         )
 
-        return accountBasedService.prepare({       xpub,
+        return accountBasedService.prepare({
+            xpub,
             sender,
             recipient,
             amount,
@@ -60,15 +61,31 @@ class PrepareTransactionService {
         })
     };
 
-    prepareUTXOBasedTransactionFromXpub(xpub, fromAddress, toAddress, options = {}) {
+    prepareUTXOBasedTransactionFromXpub({
+        xpub,
+        prepareStrategy,
+        recipients,
+        locktime,
+        replaceable,
+        data,
+        options
+    }){
         const accountBasedService = new UTXOBasedPrepareTransaction(
             this.cryptoApis,
             this.blockchain,
             this.network
         )
 
-        return accountBasedService.prepare({xpub, fromAddress, toAddress, options})
-    };
+        return accountBasedService.prepare({
+            xpub,
+            prepareStrategy,
+            recipients,
+            locktime,
+            replaceable,
+            data,
+            options
+        });
+    }
 }
 
 module.exports = PrepareTransactionService;

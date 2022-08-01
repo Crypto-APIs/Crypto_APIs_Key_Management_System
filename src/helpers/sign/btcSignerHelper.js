@@ -3,6 +3,7 @@
 const BaseSigner = require('./baseSignerHelper')
     , bitcoinjs = require('bitcoinjs-lib')
     , bitcorejs = require('bitcore-lib')
+    , HDKey = require("hdkey")
 ;
 
 /**
@@ -24,14 +25,8 @@ class BtcSigner extends BaseSigner {
      * @inheritDoc
      */
     sign({key, transaction, options = {}}) {
-        const signer = bitcoinjs.ECPair.fromPrivateKey(
-            Buffer.from(key, 'hex'),
-            {network: this.networkConfig}
-        );
-
-        const privateKey = new bitcorejs.PrivateKey(signer.privateKey.toString('hex'));
         const prepared = new bitcorejs.Transaction()
-            .from(transaction.inputs)
+            .from(transaction.data.inputs)
         ;
 
         for (const output of transaction.outputs) {
@@ -61,7 +56,18 @@ class BtcSigner extends BaseSigner {
             prepared.enableRBF();
         }
 
-        prepared.sign(privateKey);
+        const hdKey = HDKey.fromExtendedKey(key, this.networkConfig.bip32)
+        let privKeys = transaction.inputs.map( (input) => {
+            const derivationPath = `m/${input.change}/${input.derivationIndex}`;
+            const derivedPrivKey = hdKey.derive(derivationPath)
+            const signer = bitcoinjs.ECPair.fromPrivateKey(
+                Buffer.from(derivedPrivKey.privateKey, 'hex'),
+                {network: this.networkConfig}
+            );
+            return new bitcorejs.PrivateKey(signer.privateKey.toString('hex'));
+        })
+
+        prepared.sign(privKeys);
         prepared.isFullySigned();
 
         return {

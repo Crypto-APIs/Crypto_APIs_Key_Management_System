@@ -1,18 +1,24 @@
 'use strict'
 
-const Transaction = require('./transactionDTO');
+const TransactionDTO = require('./transactionDTO');
 const Decimal = require('decimal.js');
 
-class UTXOBasedTransaction extends Transaction {
+class UTXOBasedTransaction extends TransactionDTO {
+    /**
+     * @param {Object} object
+     * @returns {UTXOBasedTransaction}
+     */
+    constructor(object) {
+        super(object.data.item);
+    }
+
     /**
      * @param {Object} data
      * @return {{transaction: {}, input_signatures: string[]}}
      * @private
      */
     _prepareData(data) {
-        let prepared = {};
-
-        const requiredAttributes = ['inputs','outputs'];
+        const requiredAttributes = ['vin','vout'];
 
         for (const attr of requiredAttributes) {
             if (!data.hasOwnProperty(attr)) {
@@ -20,16 +26,16 @@ class UTXOBasedTransaction extends Transaction {
             }
         }
 
-        if (!Array.isArray(data['inputs']) || data['inputs'].length === 0) {
+        if (!Array.isArray(data['vin']) || data['vout'].length === 0) {
             throw new Error('inputs are empty or not an array');
         }
 
-        if (!Array.isArray(data['outputs']) || data['outputs'].length === 0) {
+        if (!Array.isArray(data['vout']) || data['vout'].length === 0) {
             throw new Error('outputs are empty or not an array');
         }
 
-        const requiredInputAttributes = ['txId', 'outputIndex', 'address', 'script', 'satoshis'];
-        for (const input of data['inputs']) {
+        const requiredInputAttributes = ['transactionId', 'outputIndex', 'address', 'script', 'change', 'satoshis', 'derivationIndex'];
+        for (const input of data['vin']) {
             for (const attr of requiredInputAttributes) {
                 if (!input.hasOwnProperty(attr)) {
                     throw new Error('Input ' + attr + ' is not provided');
@@ -38,7 +44,7 @@ class UTXOBasedTransaction extends Transaction {
         }
 
         const requiredOutputAttributes = ['script','address'];
-        for (const output of data['outputs']) {
+        for (const output of data['vout']) {
             for (const attr of requiredOutputAttributes) {
                 if (!output.hasOwnProperty(attr)) {
                     throw new Error('Input ' + attr + ' is not provided');
@@ -46,17 +52,25 @@ class UTXOBasedTransaction extends Transaction {
             }
         }
 
-        prepared = {
-            inputs: data['inputs'],
-            outputs: data['outputs'],
-            locktime: data.hasOwnProperty('locktime') ? data['locktime'] : null,
-            replaceable: data.hasOwnProperty('replaceable') ? data['replaceable'] : false,
-            data: data.hasOwnProperty('data') ? data['data'] : null,
-            feePerByte: data.hasOwnProperty('feePerByte') ? new Decimal(data['feePerByte']).toDecimalPlaces(8).toFixed() : null,
-            fee: data.hasOwnProperty('fee') ? data['fee'] : 0,
+        return {
+            inputs: data.vin.map((input) => {
+                return {
+                    address: input.address,
+                    txid: input.transactionId,
+                    satoshis: input.satoshis,
+                    script: input.script,
+                    outputIndex: input.outputIndex,
+                    derivationIndex: input.derivationIndex,
+                    change: input.change
+                }
+            }),
+            outputs: data.vout,
+            locktime: data?.locktime ? data.locktime : null,
+            replaceable: data?.replaceable ? data.replaceable : false,
+            data: data?.data ? data.data : null,
+            feePerByte: data?.feePerByte ? new Decimal(data.feePerByte).toDecimalPlaces(8).toFixed() : null,
+            fee: data?.fee ? data.fee : 0,
         };
-
-        return prepared;
     }
 
     /**

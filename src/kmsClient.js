@@ -12,7 +12,8 @@ const validateConfig = require('./validators/configValidator')
     broadcastSignedTxDTO,
     hdAddressesDTO,
     listDTO,
-    accountBasedTransactionDTO
+    accountBasedTransactionDTO,
+    utxoBasedTransactionDTO
 } = require('./dtos')
     , {
     hdWalletService,
@@ -65,12 +66,13 @@ class KmsClient {
     }
 
     /**
-     * @param {string} extendedPublicKey Defines the account extended publicly known key which is used to derive all child public keys.
+     * Sync New xPub
+     * Through this endpoint users can add a brand new xPub to the Crypto APIs system to be ready for deriving. Unlike our other similar endpoint “Sync HD Wallet (xPub, yPub, zPub)”, this endpoint does not create new addresses nor syncs old data.
+     * @param {string} extendedPublicKey
      * @param {string|null} context
-     * @returns {hdWalletDTO}
+     * @returns {module:model/SyncNewXPubR}
      */
-    syncNewXPub(extendedPublicKey, context = null) {
-
+    syncNewXPub(extendedPublicKey, context) {
         return this.hdWalletApiService.syncNewXPub(extendedPublicKey, context).then((data) => {
             return new hdWalletDTO(data);
         });
@@ -139,11 +141,13 @@ class KmsClient {
     }
 
     /**
-     * @param {string} transactionId
-     * @param {string|null} context
-     * @returns {broadcastedTransactionCallbackDTO}
+     * Get Transaction Details By Transaction ID From Callback
+     * This endpoint creates a shortcut to obtain information from Blockchain data by going through Blockchain Events and a specific Event Subscription. It provides data for a specific transaction from the Event it takes part in by providing the `transactionId` attribute. It applies only for Events related to that user.
+     * @param {String} transactionId Represents the unique identifier of a transaction, i.e. it could be transactionId in UTXO-based protocols like Bitcoin, and transaction hash in Ethereum blockchain.
+     * @param {String|null} context In batch situations the user can use the context to correlate responses with requests. This property is present regardless of whether the response was successful or returned as an error. `context` is specified by the user.
+     * @return {module:model/GetTransactionDetailsByTransactionIDFromCallbackR}
      */
-    broadcastedTransactionCallback(transactionId, context = null) {
+    broadcastedTransactionCallback(transactionId, context) {
 
         return this.callbacksApiService.getTransactionDetailsByTransactionIDFromCallback(transactionId, context).then((data) => {
             return new broadcastedTransactionCallbackDTO(data);
@@ -153,32 +157,41 @@ class KmsClient {
     }
 
     /**
-     * @param {string} extendedPublicKey Defines the account extended publicly known key which is used to derive all child public keys.
-     * @param {{context: String, addressFormat: String, addressesCount: Number, isChange: Boolean, startIndex: Number}|{}} opts Optional parameters
-     * @param {String} opts.context In batch situations the user can use the context to correlate responses with requests. This property is present regardless of whether the response was successful or returned as an error. `context` is specified by the user.
-     * @param {String} opts.addressFormat Represents the format of the address.
-     * @param {Number} opts.addressesCount Represents the addresses count.
-     * @param {Boolean} opts.isChange Defines if the specific address is a change or deposit address. If the value is True - it is a change address, if it is False - it is a Deposit address.
-     * @param {Number} opts.startIndex The starting index of the response items, i.e. where the response should start listing the returned items.
-     * @returns {HdAddressesDTO}
+     * Derive And Sync New Change Addresses
+     * Through this endpoint users can derive 100 change addresses, starting from the last index we have data for, which are then added to the xPub, subscribed for syncing, and start recording data. If no data is available, it will start from index 0.
+     * @param {string} extendedPublicKey
+     * @param {String|null} context In batch situations the user can use the context to correlate responses with requests. This property is present regardless of whether the response was successful or returned as an error. `context` is specified by the user.     * @param {String} opts.context In batch situations the user can use the context to correlate responses with requests. This property is present regardless of whether the response was successful or returned as an error. `context` is specified by the user.
+     * @returns {module:model/DeriveAndSyncNewChangeAddressesR}
      */
-    deriveHDAddresses(extendedPublicKey, opts = null) {
-        opts = opts || {};
-
-        return this.hdWalletApiService.deriveHDWalletXPubYPubZPubChangeOrReceivingAddresses(extendedPublicKey, opts).then((data) => {
+    deriveAndSyncNewChangeAddresses(extendedPublicKey, context) {
+        return this.hdWalletApiService.deriveAndSyncNewChangeAddresses(extendedPublicKey, context).then((data) => {
             return new hdAddressesDTO(data);
         });
     }
 
     /**
+     * Derive And Sync New Receiving Addresses
+     * Through this endpoint users can derive 100 receiving addresses, starting from the last index we have data for, which are then added to the xPub, subscribed for syncing, and start recording data. If no data is available, it will start from index 0.
      * @param {string} extendedPublicKey
-     * @param {{context: String, addressFormat: String, addressesCount: Number, isChange: Boolean, startIndex: Number}|{}} opts Optional parameters
+     * @param {String|null} context In batch situations the user can use the context to correlate responses with requests. This property is present regardless of whether the response was successful or returned as an error. `context` is specified by the user.     * @param {String} opts.context In batch situations the user can use the context to correlate responses with requests. This property is present regardless of whether the response was successful or returned as an error. `context` is specified by the user.
+     */
+    deriveAndSyncNewReceivingAddresses(extendedPublicKey, context) {
+        return this.hdWalletApiService.deriveAndSyncNewReceivingAddresses(extendedPublicKey, context).then((data) => {
+            return new hdAddressesDTO(data);
+        });
+    }
+
+    /**
+     * List Synced Addresses
+     * Through this endpoint users can list all addresses that Crypto APIs has synced for a specific xPub. This includes previous and current/new xPubs, what addresses we’ve synced for them, etc.
+     * @param {String} extendedPublicKey Defines the account extended publicly known key which is used to derive all child public keys.
+     * @param {Object} opts Optional parameters
      * @param {String} opts.context In batch situations the user can use the context to correlate responses with requests. This property is present regardless of whether the response was successful or returned as an error. `context` is specified by the user.
-     * @returns {ListSyncedAddressesR}
+     * @param {Boolean} opts.isChangeAddress Defines if the address is change addres or not. (default to true)
+     * @param {String} opts.addressFormat Represents the format of the address.
+     * @returns {module:model/ListSyncedAddressesR}
      */
     listSyncedAddresses(extendedPublicKey, opts) {
-        opts = opts || {};
-
         return this.hdWalletApiService.listSyncedAddressesByXpub(extendedPublicKey, opts).then((data) => {
             return new listDTO(data);
         });
@@ -219,24 +232,43 @@ class KmsClient {
     }
 
     /**
-     * @param {string} xpub
-     * @param {string} fromAddress
-     * @param {string} toAddress
-     * @param {Object} options
+     // * @param {string} xpub
+     // * @param {string} fromAddress
+     // * @param {string} toAddress;
+     // * @param {Object} options
      */
-    prepareUTXOBasedTransactionFromXpub(xpub, fromAddress, toAddress, options = {}) {
+    prepareUTXOBasedTransactionFromXpub({
+        xpub,
+        prepareStrategy,
+        recipients,
+        locktime,
+        replaceable,
+        data, options = {}
+    }){
 
-        return this.prepareService.prepareUTXOBasedTransactionFromXpub(xpub, fromAddress, toAddress, options);
+        return this.prepareService.prepareUTXOBasedTransactionFromXpub({
+            xpub,
+            prepareStrategy,
+            recipients,
+            locktime,
+            replaceable,
+            data,
+            options
+        }).then((data) => {
+            return new utxoBasedTransactionDTO(data);
+        });
     }
 
 
     /**
-     * @param {string} privateKey
+     * Sign Prepared Transaction Locally
+     * Through this endpoint users can sign their transactions locally(offline) using the transaction response from Prepare Transaction From XPUB endpoint, both for account-based and UTXO-based
+     * @param {string} xpriv extended account xpriv
      * @param {Transaction} transaction
      * @return {{id: string, raw: string}}
      */
-    signPreparedTransaction(privateKey, transaction) {
-        return this.signService.signPreparedTransaction(privateKey, transaction);
+    signPreparedTransaction(xpriv, transaction) {
+        return this.signService.signPreparedTransaction(xpriv, transaction);
     }
 }
 

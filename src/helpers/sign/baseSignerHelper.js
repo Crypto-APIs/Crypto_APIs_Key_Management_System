@@ -20,7 +20,7 @@ class BaseSigner {
     }
 
     /**
-     * @param {Buffer} key
+     * @param {string} key
      * @param {Object} transaction
      * @param {Object} options
      * @private

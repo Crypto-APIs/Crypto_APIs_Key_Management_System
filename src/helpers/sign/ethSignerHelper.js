@@ -3,6 +3,7 @@
 const BaseSigner = require('./baseSignerHelper')
     , {FeeMarketEIP1559Transaction: GasFeeMarketTransaction} = require('@ethereumjs/tx')
     , AccountBasedTransaction = require('../prepare/accountBasedPrepareHelper')
+    , HDKey = require("hdkey")
 ;
 
 /**
@@ -24,8 +25,11 @@ class EthSigner extends BaseSigner {
      * @inheritDoc
      */
     sign({key, transaction, options = {}}) {
+        var hdkey = HDKey.fromExtendedKey(key)
+        const derivationPath = `m/0/${transaction.derivationIndex}`;
+        const derivedPrivKey = hdkey.derive(derivationPath)
         const tx = this._buildTransaction(transaction);
-        const signedTX = tx.sign(key);
+        const signedTX = tx.sign(derivedPrivKey.privateKey);
         const serializedTx = signedTX.serialize();
 
         return {
