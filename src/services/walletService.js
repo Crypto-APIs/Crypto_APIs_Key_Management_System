@@ -3,6 +3,7 @@
 const { BaseBlockchainAwareService } = require("./baseServices");
 const bip39 = require('bip39')
     , {XPUB_DERIVATION_TYPES: xpubDerivationTypesEnum} = require('../helpers/xpubFormatsHelper')
+    , WalletDTO = require('../dtos/walletDTO')
 ;
 
 const DEFAULT_WORDS_COUNT = 12;
@@ -25,7 +26,7 @@ class WalletService extends BaseBlockchainAwareService {
     }
 
     /**
-     * @returns {Promise<{seed: string, blockchain: string, xpubsList: *[], mnemonic: string, network}|boolean>}
+     * @returns {Promise<WalletDTO>}
      */
     async createHDWallet() {
         const strength = (DEFAULT_WORDS_COUNT / 1.5) * MNEMONIC_STRENGTH_MULTIPLIER;
@@ -38,13 +39,13 @@ class WalletService extends BaseBlockchainAwareService {
             xPubList.push(xpubDerivationTypes[derivationType](seed, this.network));
         }
 
-        return {
+        return new WalletDTO({
             blockchain: this.blockchain,
             network: this.network,
             mnemonic: mnemonic,
             seed: seed.toString('hex'),
             xPubsList: xPubList
-        };
+        });
     }
 }
 

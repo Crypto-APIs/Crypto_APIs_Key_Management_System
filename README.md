@@ -27,12 +27,18 @@ otherwise the data is lost and cannot be recovered.
 ### Example
 
 ```javascript
-client.createHDWalletxPubyPubzPub().then((data) => {
-    console.dir('API called successfully. Returned data:');
+ const blockchain = api.blockchains.BITCOIN;
+ const network = api.networks[blockchain].NETWORK_BITCOIN_MAINNET;
+ const walletService = new WalletService(blockchain, network)
+
+ walletService.createHDWallet().then((data) => {
+    console.dir('HD Wallet created successfully. Returned data:');
     console.dir(data);
-}, (error) => {
+    console.dir(data.xPub.accountXpriv);
+    console.dir(data.xPub.accountXpub);
+ }, (error) => {
     console.log(error)
-});
+ });
 
 ```
 
@@ -167,7 +173,8 @@ previous and current/new xPubs, what addresses we’ve synced for them, etc.
  const opts = {
             context: 'yourExampleString',
             addressFormat: "P2WPKH",
-            isChangeAddress: true
+            isChangeAddress: true,
+            limit: 15,
        };
  client.listSyncedAddresses(xPub, opts).then((data) => {
       console.dir('API called successfully. Returned data:');
@@ -185,11 +192,13 @@ Name | Type       | Description | Notes
 **opts** | **Object** | Optional parameters | [optional]
 **opts.context** | **String** | In batch situations the user can use the context to correlate responses with requests. This property is present regardless of whether the response was successful or returned as an error. &#x60;context&#x60; is specified by the user. | [optional]
 **opts.addressFormat** | **String** | Defines if the address is change addres or not. (default to true) | [optional]
-**opts.isChangeAddress** | **String** | Represents the format of the address. | [optional]
+**opts.isChangeAddress** | **String** | Represents the format of the address | [optional]
+**opts.limit** | **String** | Defines how many items should be returned in the response per page basis. | [optional]
+**opts.offset** | **String** | The starting index of the response items, i.e. where the response should start listing the returned items | [optional]
 
 ### Return type
 
-ListDTO
+ListSyncedAddressesDTO
 
 ### Authorization
 
@@ -320,7 +329,7 @@ Litecoin, etc.
  const blockchain = api.blockchains.BITCOIN;
  const network = api.networks[blockchain].NETWORK_BITCOIN_MAINNET;
  const client = new api.client('YOUR API KEY', blockchain, network);
- const xPub = "tpubDDiZDUezyZ9p9Shbtmi8FqBoKDv3ozcktrvpfHvbD4xBbqL8mjD6xxyjQVseki9XDLwbtYUVZnjAHaVDGEezZGEHC88zVgbfHnDShRhstip"
+ const xPub = "xpub6BsFsonVJR5vPChKQamp55R7veBCMD2CL3LtL83B3FS5DiayYgmoHCGQodeLTukaa4anZRQD9kNtPFHuPnCzjCiT9nrXdf3voNLhXQryBRB"
  const feeOptions = new UTXOBasedFeeOptions({
     prepareStrategy: 'MINIMIZE_DUST',
     priority: feePriorityEnum.FAST,
@@ -375,7 +384,7 @@ account-based blockchain protocols, e.g. Ethereum, BSC, etc
  const blockchain = api.blockchains.ETHEREUM;
  const network = api.networks[blockchain].NETWORK_ETHEREUM_MAINNET;
  const client = new api.client('YOUR API KEY', blockchain, network);
- const xPub = "xpub6BueGVeSfjXMr8xCnbn5Lo1....A8UB1nFz1pyAJJdvUDhSL8DbqT4N4Qu4k95i"
+ const xPub = "xpub6BsFsonVJR5vPChKQamp55R7veBCMD2CL3LtL83B3FS5DiayYgmoHCGQodeLTukaa4anZRQD9kNtPFHuPnCzjCiT9nrXdf3voNLhXQryBRB
  const sender = '0x0b7155094947d785530f66d250b097b25c30a557';
  const recipient = '0xd4e2a5949359e95c7c604050dd9d54af419689c0';
  const amount = '1.2123';
@@ -430,7 +439,7 @@ Prepare Transaction From XPUB endpoint, both for account-based and UTXO-based
  const network = api.networks[blockchain].NETWORK_BITCOIN_MAINNET;
  const client = new api.client('YOUR API KEY', blockchain, network);
  const preparedUTXO = await client.prepareUTXOBasedTransactionFromXpub({...})
- const accountXpriv = 'xprv9yWX2ffE9vrZWSNU...Q6o7s1pU';
+ const accountXpriv = 'xprv8gdau6KURKnX7mcKNjLMWx3a3tEzHCMiJDBtFCJrvmXCsHNj3wvSuJ3T8g67WvN9hkFa4y1Mnr9ZbyUzs9fdhi8mhegLufkEuwSdmDeBXvz';
 
  client.signPreparedTransactionLocally(accountXpriv, preparedUTXO).then((data) => {
      console.dir('API called successfully. Returned data:');

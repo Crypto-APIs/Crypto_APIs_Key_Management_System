@@ -31,7 +31,7 @@ class AccountBasedPrepareTransaction extends BasePrepareTransaction {
      * @param {string|null} nonce Representation of the nonce value
      * @param {string|null} data Representation of the additional data
      *
-     * @returns {Promise|module:model/PrepareAnAccountBasedTransactionFromXPubR}
+     * @returns {Promise|module:model/PrepareAnAccountBasedTransactionFromHDWalletXPubYPubZPubR}
      */
     prepare({
         xPub,
@@ -42,10 +42,11 @@ class AccountBasedPrepareTransaction extends BasePrepareTransaction {
         nonce,
         data
     }) {
-        const fee = new this.cryptoApis.PrepareAnAccountBasedTransactionFromXPubRBDataItemFee(feeOptions.getPriority())
+        const fee = new this.cryptoApis.PrepareAnAccountBasedTransactionFromHDWalletXPubYPubZPubRBDataItemFee()
+        fee.priority = feeOptions.getPriority();
         fee.exactAmount = feeOptions.getFeeAmount();
 
-        const item = new this.cryptoApis.PrepareAnAccountBasedTransactionFromXPubRBDataItem(
+        const item = new this.cryptoApis.PrepareAnAccountBasedTransactionFromHDWalletXPubYPubZPubRBDataItem(
             amount,
             fee,
             recipient,
@@ -56,13 +57,13 @@ class AccountBasedPrepareTransaction extends BasePrepareTransaction {
         item.additionalData = data;
         item.nonce = nonce;
         item.transactionType = "gas-fee-market-transaction";
-        const postData = new this.cryptoApis.PrepareAnAccountBasedTransactionFromXPubRBData(item);
+        const postData = new this.cryptoApis.PrepareAnAccountBasedTransactionFromHDWalletXPubYPubZPubRBData(item);
 
         const opts = {
-            prepareAnAccountBasedTransactionFromXPubRB: new this.cryptoApis.PrepareAnAccountBasedTransactionFromXPubRB(postData)
+            prepareAnAccountBasedTransactionFromHDWalletXPubYPubZPubRB: new this.cryptoApis.PrepareAnAccountBasedTransactionFromHDWalletXPubYPubZPubRB(postData)
         };
 
-        return this.featuresInstance.prepareAnAccountBasedTransactionFromXPub(this.blockchain, this.network, opts)
+        return this.featuresInstance.prepareAnAccountBasedTransactionFromHDWalletXPubYPubZPub(this.blockchain, this.network, opts)
     };
 }
 

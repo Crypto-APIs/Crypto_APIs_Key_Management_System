@@ -48,21 +48,21 @@ class WalletDTO {
     }
 
     /**
-     * @returns {string}
+     * @returns {Object}
      */
     get xPub() {
         return this.data.xPubsList[0];
     }
 
     /**
-     * @returns {string}
+     * @returns {Object}
      */
     get yPub() {
         return this.data.xPubsList[1];
     }
 
     /**
-     * @returns {string}
+     * @returns {Object}
      */
     get zPub() {
         return this.data.xPubsList[2];

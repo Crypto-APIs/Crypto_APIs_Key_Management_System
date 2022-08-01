@@ -3,7 +3,6 @@
 const validateConfig = require('./validators/configValidator')
     , cryptoApis = require('cryptoapis')
     , {
-    walletServiceDTO,
     hdWalletDTO,
     subscriptionForUnconfirmedCoinsTxsDTO,
     subscriptionForUnconfirmedTokensTxsDTO,
@@ -18,7 +17,6 @@ const validateConfig = require('./validators/configValidator')
 } = require('./dtos')
     , {
     hdWalletService,
-    walletService,
     broadcastService,
     callbacksService,
     subscriptionsService,
@@ -48,23 +46,11 @@ class KmsClient {
 
         //init all services
         this.hdWalletApiService = new hdWalletService(this._apiClient, this.blockchain, this.network);
-        this.walletApiService = new walletService(this.blockchain, this.network);
         this.broadcastApiService = new broadcastService(this._apiClient, this.blockchain, this.network);
         this.callbacksApiService = new callbacksService(this._apiClient, this.blockchain, this.network);
         this.subscriptionsApiService = new subscriptionsService(this._apiClient, this.blockchain, this.network);
         this.signService = new signService(this.blockchain, this.network);
         this.prepareService = new prepareService(this._apiClient, this.blockchain, this.network);
-    }
-
-    /**
-     * Create wallet for specified blockchain and network
-     * @returns {walletServiceDTO}
-     */
-    createHDWallet() {
-
-        return this.walletApiService.createHDWallet().then((data) => {
-            return new walletServiceDTO(data);
-        })
     }
 
     /**
@@ -178,7 +164,7 @@ class KmsClient {
      * @param {string|null} nonce Representation of the nonce value
      * @param {string|null} data Representation of the additional data
      *
-     * @returns {Promise|module:model/PrepareAnAccountBasedTransactionFromXPubR}
+     * @returns {Promise|module:model/PrepareAnAccountBasedTransactionFromHDWalletXPubYPubZPubR}
      */
     prepareAccountBasedTransactionFromHDWallet({
        xPub,
@@ -212,7 +198,7 @@ class KmsClient {
      * @param {Boolean} replaceable Representation of whether the transaction is replaceable
      * @param {string} data Representation of the additional data
      *
-     * @returns {Promise|module:model/PrepareAUTXOBasedTransactionFromXPubR}
+     * @returns {Promise|module:model/PrepareAUTXOBasedTransactionFromHDWalletXPubYPubZPubR}
      */
     prepareUTXOBasedTransactionFromHDWallet({
         xPub,

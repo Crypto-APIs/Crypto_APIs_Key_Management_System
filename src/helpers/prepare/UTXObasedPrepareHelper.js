@@ -30,7 +30,7 @@ class UTXObasedPrepareTransaction extends BasePrepareTransaction {
      * @param {Boolean} replaceable Representation of whether the transaction is replaceable
      * @param {string} data Representation of the additional data
      *
-     * @returns {Promise|module:model/PrepareAUTXOBasedTransactionFromXPubR}
+     * @returns {Promise|module:model/PrepareAUTXOBasedTransactionFromHDWalletXPubYPubZPubR}
      */
     prepare({
         xPub,
@@ -40,34 +40,34 @@ class UTXObasedPrepareTransaction extends BasePrepareTransaction {
         replaceable,
         data,
     }) {
-        const fee = new this.cryptoApis.PrepareAUTXOBasedTransactionFromXPubRBDataItemFee(
-            feeOptions.getFeeAddress(), feeOptions.getFeeAmount()
-        )
+        const fee = new this.cryptoApis.PrepareAUTXOBasedTransactionFromHDWalletXPubYPubZPubRBDataItemFee()
+        fee.address = feeOptions.getFeeAddress();
+        fee.exactAmount = feeOptions.getFeeAmount()
         fee.priority = feeOptions.getPriority();
 
         const receivers = recipients.map((recipient) => {
-            return new this.cryptoApis.PrepareAUTXOBasedTransactionFromXPubRBDataItemRecipientsInner(
+            return new this.cryptoApis.PrepareAUTXOBasedTransactionFromHDWalletXPubYPubZPubRBDataItemRecipientsInner(
                 recipient.getAddress(),
                 recipient.getAmount());
         });
 
-        const item = new this.cryptoApis.PrepareAUTXOBasedTransactionFromXPubRBDataItem(
+        const item = new this.cryptoApis.PrepareAUTXOBasedTransactionFromHDWalletXPubYPubZPubRBDataItem(
             fee,
-            feeOptions.getPrepareStrategy(),
             receivers,
             xPub,
         );
 
+        item.prepareStrategy = feeOptions.getPrepareStrategy();
         item.additionalData = data;
         item.locktime = locktime;
         item.replaceable = replaceable;
-        const postData = new this.cryptoApis.PrepareAUTXOBasedTransactionFromXPubRBData(item);
+        const postData = new this.cryptoApis.PrepareAUTXOBasedTransactionFromHDWalletXPubYPubZPubRBData(item);
 
         const opts = {
-            prepareAUTXOBasedTransactionFromXPubRB: new this.cryptoApis.PrepareAUTXOBasedTransactionFromXPubRB(postData)
+            prepareAUTXOBasedTransactionFromHDWalletXPubYPubZPubRB: new this.cryptoApis.PrepareAUTXOBasedTransactionFromHDWalletXPubYPubZPubRB(postData)
         };
 
-        return this.featuresInstance.prepareAUTXOBasedTransactionFromXPub(this.blockchain, this.network, opts)
+        return this.featuresInstance.prepareAUTXOBasedTransactionFromHDWalletXPubYPubZPub(this.blockchain, this.network, opts)
     };
 }
 

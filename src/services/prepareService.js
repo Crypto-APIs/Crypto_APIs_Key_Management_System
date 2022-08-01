@@ -35,7 +35,7 @@ class PrepareTransactionService {
      * @param {string|null} nonce Representation of the nonce value
      * @param {string|null} data Representation of the additional data
      *
-     * @returns {Promise|module:model/PrepareAnAccountBasedTransactionFromXPubR}
+     * @returns {Promise|module:model/PrepareAnAccountBasedTransactionFromHDWalletXPubYPubZPubR}
      */
     prepareAccountBasedTransactionFromHDWallet({
        xPub,
@@ -73,7 +73,7 @@ class PrepareTransactionService {
      * @param {Boolean} replaceable Representation of whether the transaction is replaceable
      * @param {string} data Representation of the additional data
      *
-     * @returns {Promise|module:model/PrepareAUTXOBasedTransactionFromXPubR}
+     * @returns {Promise|module:model/PrepareAUTXOBasedTransactionFromHDWalletXPubYPubZPubR}
      */
     prepareUTXOBasedTransactionFromHDWallet({
         xPub,
