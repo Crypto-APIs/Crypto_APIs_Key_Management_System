@@ -19,9 +19,11 @@ Then install it via:
 npm install cryptoapis-kms-os-sdk
 ```
 
-## createWallet
+## Usage
 
-This method generates a new XPUB for a specific blockchain and network. The response from the endpoint should be stored,
+## createHDWallet (xPub, yPub, zPub)
+
+This method generates a new HD Wallet for a specific blockchain and network. The response from the endpoint should be stored,
 otherwise the data is lost and cannot be recovered.
 
 ### Example
@@ -79,7 +81,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-hdWalletDTO
+HDWalletDTO
 
 ### Authorization
 
@@ -115,7 +117,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-hdWalletDTO
+HDWalletDTO
 
 ### Authorization
 
@@ -152,7 +154,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-hdWalletDTO
+HDWalletDTO
 
 ### Authorization
 
@@ -497,7 +499,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-broadcastSignedTxDTO
+BroadcastSignedTxDTO
 
 ### Authorization
 
