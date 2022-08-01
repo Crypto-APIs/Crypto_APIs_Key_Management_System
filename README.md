@@ -474,7 +474,7 @@ broadcast locally signed transaction
  const blockchain = api.blockchains.BITCOIN;
  const network = api.networks[blockchain].NETWORK_BITCOIN_MAINNET;
  const client = new api.client('YOUR API KEY', blockchain, network);
- const signedTx = client.signPreparedTransactionLocally(xpriv, preparedUTXOtx)
+ const signedTx = client.signPreparedTransactionLocally(accountXpriv, preparedUTXO)
  const callbackSecretKey = 'yourSecretString';
  const callbackUrl = 'https://example.com'; // your URL for callback must be verifyed from dashboard  
  

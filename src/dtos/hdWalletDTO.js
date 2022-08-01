@@ -1,12 +1,12 @@
 'use strict';
 
-const baseDTO = require('./baseDTO');
+const BaseDTO = require('./baseDTO');
 
-class hdWalletDTO extends baseDTO {
+class HDWalletDTO extends BaseDTO {
 
     /**
      * @param {Object} object
-     * @returns {hdWalletDTO}
+     * @returns {HDWalletDTO}
      */
     constructor(object) {
         super(object);
@@ -15,4 +15,4 @@ class hdWalletDTO extends baseDTO {
     }
 }
 
-module.exports = hdWalletDTO;
+module.exports = HDWalletDTO;

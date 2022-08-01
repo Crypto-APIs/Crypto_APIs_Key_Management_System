@@ -3,25 +3,25 @@
 const validateConfig = require('./validators/configValidator')
     , cryptoApis = require('cryptoapis')
     , {
-    hdWalletDTO,
-    subscriptionForUnconfirmedCoinsTxsDTO,
-    subscriptionForUnconfirmedTokensTxsDTO,
-    subscriptionForUnconfirmedInternalTxsDTO,
-    broadcastedTransactionCallbackDTO,
-    broadcastSignedTxDTO,
-    hdAddressesDTO,
-    listSyncedAddressesDTO,
-    accountBasedTransactionDTO,
-    utxoBasedTransactionDTO,
-    signDTO
+    HDWalletDTO,
+    SubscriptionForUnconfirmedCoinsTxsDTO,
+    SubscriptionForUnconfirmedTokensTxsDTO,
+    SubscriptionForUnconfirmedInternalTxsDTO,
+    BroadcastedTransactionCallbackDTO,
+    BroadcastSignedTxDTO,
+    HDAddressesDTO,
+    ListSyncedAddressesDTO,
+    AccountBasedTransactionDTO,
+    UTXOBasedTransactionDTO,
+    SignDTO
 } = require('./dtos')
     , {
-    hdWalletService,
-    broadcastService,
-    callbacksService,
-    subscriptionsService,
-    prepareService,
-    signService
+    HDWalletService,
+    BroadcastService,
+    CallbacksService,
+    SubscriptionsService,
+    PrepareService,
+    SignService
 } = require('./services')
     , feePriorityEnum = require("./enumerations/feePriorities")
     , prepareStrategyEnum = require("./enumerations/feePriorities")
@@ -45,12 +45,12 @@ class KmsClient {
         this.blockchain = blockchain.toLowerCase();
 
         //init all services
-        this.hdWalletApiService = new hdWalletService(this._apiClient, this.blockchain, this.network);
-        this.broadcastApiService = new broadcastService(this._apiClient, this.blockchain, this.network);
-        this.callbacksApiService = new callbacksService(this._apiClient, this.blockchain, this.network);
-        this.subscriptionsApiService = new subscriptionsService(this._apiClient, this.blockchain, this.network);
-        this.signService = new signService(this.blockchain, this.network);
-        this.prepareService = new prepareService(this._apiClient, this.blockchain, this.network);
+        this.hdWalletApiService = new HDWalletService(this._apiClient, this.blockchain, this.network);
+        this.broadcastApiService = new BroadcastService(this._apiClient, this.blockchain, this.network);
+        this.callbacksApiService = new CallbacksService(this._apiClient, this.blockchain, this.network);
+        this.subscriptionsApiService = new SubscriptionsService(this._apiClient, this.blockchain, this.network);
+        this.signService = new SignService(this.blockchain, this.network);
+        this.prepareService = new PrepareService(this._apiClient, this.blockchain, this.network);
     }
 
     /**
@@ -62,7 +62,7 @@ class KmsClient {
      */
     syncNewHDWallet(extendedPublicKey, context = null) {
         return this.hdWalletApiService.syncNewHDWallet(extendedPublicKey, context).then((data) => {
-            return new hdWalletDTO(data);
+            return new HDWalletDTO(data);
         });
     }
 
@@ -75,7 +75,7 @@ class KmsClient {
     createSubscriptionForUnconfirmedCoinsTxs(callbackUrl, address, context = null) {
 
         return this.subscriptionsApiService.newUnconfirmedCoinsTxs(callbackUrl, address, context).then(data => {
-            return new subscriptionForUnconfirmedCoinsTxsDTO(data);
+            return new SubscriptionForUnconfirmedCoinsTxsDTO(data);
         }, (error) => {
             throw error;
         });
@@ -90,7 +90,7 @@ class KmsClient {
     createSubscriptionForUnconfirmedTokensTxs(callbackUrl, address, context = null) {
 
         return this.subscriptionsApiService.newUnconfirmedTokensTxs(callbackUrl, address, context).then(data => {
-            return new subscriptionForUnconfirmedTokensTxsDTO(data);
+            return new SubscriptionForUnconfirmedTokensTxsDTO(data);
         }, error => {
             throw error;
         });
@@ -105,7 +105,7 @@ class KmsClient {
     createSubscriptionForUnconfirmedInternalTxs(callbackUrl, address, context = null) {
 
         return this.subscriptionsApiService.newConfirmedInternalTxs(callbackUrl, address, context).then(data => {
-            return new subscriptionForUnconfirmedInternalTxsDTO(data);
+            return new SubscriptionForUnconfirmedInternalTxsDTO(data);
         }, error => {
             throw error;
         });
@@ -120,7 +120,7 @@ class KmsClient {
      */
     deriveAndSyncNewChangeAddresses(extendedPublicKey, context) {
         return this.hdWalletApiService.deriveAndSyncNewChangeAddresses(extendedPublicKey, context).then((data) => {
-            return new hdAddressesDTO(data);
+            return new HDAddressesDTO(data);
         });
     }
 
@@ -133,7 +133,7 @@ class KmsClient {
      */
     deriveAndSyncNewReceivingAddresses(extendedPublicKey, context) {
         return this.hdWalletApiService.deriveAndSyncNewReceivingAddresses(extendedPublicKey, context).then((data) => {
-            return new hdAddressesDTO(data);
+            return new HDAddressesDTO(data);
         });
     }
 
@@ -149,7 +149,7 @@ class KmsClient {
      */
     listSyncedAddresses(extendedPublicKey, opts) {
         return this.hdWalletApiService.listSyncedAddressesByXpub(extendedPublicKey, opts).then((data) => {
-            return new listSyncedAddressesDTO(data);
+            return new ListSyncedAddressesDTO(data);
         });
     }
 
@@ -184,7 +184,7 @@ class KmsClient {
             nonce,
             data
         }).then((data) => {
-            return new accountBasedTransactionDTO(data);
+            return new AccountBasedTransactionDTO(data);
         });
     }
 
@@ -217,7 +217,7 @@ class KmsClient {
             replaceable,
             data,
         }).then((data) => {
-            return new utxoBasedTransactionDTO(data);
+            return new UTXOBasedTransactionDTO(data);
         });
     }
 
@@ -228,12 +228,12 @@ class KmsClient {
      * @param {string} xPriv extended account xPriv
      * @param {TransactionDTO} transaction
      * @throws {Error}
-     * @return {{id: string, raw: string}}
+     * @return {SignDTO}
      */
     signPreparedTransactionLocally(xPriv, transaction) {
         try {
              const signed = this.signService.signPreparedTransaction(xPriv, transaction);
-             return new signDTO(signed)
+             return new SignDTO(signed)
         } catch (error) {
             throw error;
         }
@@ -245,12 +245,12 @@ class KmsClient {
      * @param {string} callbackSecretKey
      * @param {string} callbackUrl
      * @param {string|null} context
-     * @returns {broadcastSignedTxDTO}
+     * @returns {BroadcastSignedTxDTO}
      */
     broadcastSignedTx(signedTransactionHex, callbackSecretKey, callbackUrl, context = null) {
 
         return this.broadcastApiService.broadcastLocallySignedTransaction(signedTransactionHex, callbackUrl, context).then(data => {
-            return new broadcastSignedTxDTO(data);
+            return new BroadcastSignedTxDTO(data);
         }, error => {
             throw error;
         });
@@ -267,7 +267,7 @@ class KmsClient {
     broadcastedTransactionCallback(transactionId, context) {
 
         return this.callbacksApiService.getTransactionDetailsByTransactionIDFromCallback(transactionId, context).then((data) => {
-            return new broadcastedTransactionCallbackDTO(data);
+            return new BroadcastedTransactionCallbackDTO(data);
         }, (error) => {
             throw error;
         });

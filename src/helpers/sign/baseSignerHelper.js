@@ -23,7 +23,7 @@ class BaseSigner {
      * @param {string} xPriv account extended xPriv
      * @param {TransactionDTO} transaction
      * @protected
-     * @return {{id: string, raw: string}}
+     * @return {SignDTO}
      */
     sign({xPriv, transaction}) {
         throw new Error('Implement sign method for service ' + this.constructor.name);

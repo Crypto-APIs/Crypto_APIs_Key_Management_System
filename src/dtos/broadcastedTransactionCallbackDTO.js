@@ -1,8 +1,8 @@
 'use strict';
 
-const baseDTO = require('./baseDTO');
+const BaseDTO = require('./baseDTO');
 
-class BroadcastedTransactionCallbackDTO extends baseDTO {
+class BroadcastedTransactionCallbackDTO extends BaseDTO {
 
     /**
      * @param {Object} object

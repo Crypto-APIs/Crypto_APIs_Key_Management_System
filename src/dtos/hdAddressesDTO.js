@@ -1,8 +1,8 @@
 'use strict';
 
-const baseDTO = require('./baseDTO');
+const BaseDTO = require('./baseDTO');
 
-class HdAddressesDTO extends baseDTO {
+class HdAddressesDTO extends BaseDTO {
 
     /**
      * @param {Object} object

@@ -2,7 +2,7 @@
 
 const errors = require('../validators/customErrors');
 
-class errorDTO {
+class ErrorDTO {
     error;
 
     /**
@@ -16,4 +16,4 @@ class errorDTO {
     }
 }
 
-module.exports = errorDTO;
+module.exports = ErrorDTO;

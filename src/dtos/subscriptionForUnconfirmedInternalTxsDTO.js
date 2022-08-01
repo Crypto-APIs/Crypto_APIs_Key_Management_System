@@ -1,8 +1,8 @@
 'use strict';
 
-const baseDTO = require('./baseDTO');
+const BaseDTO = require('./baseDTO');
 
-class SubscriptionForUnconfirmedInternalTxsDTO extends baseDTO {
+class SubscriptionForUnconfirmedInternalTxsDTO extends BaseDTO {
 
     /**
      * @param {Object} object
