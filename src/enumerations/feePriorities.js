@@ -1,9 +1,9 @@
 'use strict';
 
-const feePriorities = {
+const feePriorityEnum = {
     SLOW: 'slow',
     STANDARD: 'standard',
     FAST: 'fast'
 };
 
-module.exports = feePriorities;
+module.exports = feePriorityEnum;

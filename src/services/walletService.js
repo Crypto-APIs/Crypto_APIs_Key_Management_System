@@ -33,9 +33,9 @@ class WalletService extends BaseBlockchainAwareService {
         const seed = await bip39.mnemonicToSeed(mnemonic);
         const xpubDerivationTypes = xpubDerivationTypesEnum[this.blockchain];
 
-        let xpubList = [];
+        let xPubList = [];
         for (let derivationType of Object.keys(xpubDerivationTypes)) {
-            xpubList.push(xpubDerivationTypes[derivationType](seed, this.network));
+            xPubList.push(xpubDerivationTypes[derivationType](seed, this.network));
         }
 
         return {
@@ -43,7 +43,7 @@ class WalletService extends BaseBlockchainAwareService {
             network: this.network,
             mnemonic: mnemonic,
             seed: seed.toString('hex'),
-            xpubsList: xpubList
+            xPubsList: xPubList
         };
     }
 }

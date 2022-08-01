@@ -1,7 +1,9 @@
 'use strict';
 
-
-const BasePrepareTransaction = require("./basePrepareHelper");
+const BasePrepareTransaction = require("./basePrepareHelper")
+    , {UTXOBasedFeeOptions} = require('../../models/feeOptions')
+    , Recipient = require('../../models/recipient')
+;
 
 /**
  * UTXObasedPrepareTransaction
@@ -20,38 +22,46 @@ class UTXObasedPrepareTransaction extends BasePrepareTransaction {
     }
 
     /**
-     * @returns module:model/PrepareAUTXOBasedTransactionFromXPubR
+     * Prepare An UTXO-Based Transaction From HD Wallet (xPub, yPub, zPub)
+     * @param {string} xPub Defines the account extended publicly known key which is used to derive all child public keys
+     * @param {Array<Recipient>} recipients Represents a list of recipient addresses with the respective amounts
+     * @param {UTXOBasedFeeOptions} feeOptions Represents the fee options
+     * @param {Number} locktime Represents the time at which a particular transaction can be added to the blockchain
+     * @param {Boolean} replaceable Representation of whether the transaction is replaceable
+     * @param {string} data Representation of the additional data
+     *
+     * @returns {Promise|module:model/PrepareAUTXOBasedTransactionFromXPubR}
      */
-
-//     @param fee {module:model/PrepareAUTXOBasedTransactionFromXPubRBDataItemFee}
-// @param prepareStrategy {module:model/PrepareAUTXOBasedTransactionFromXPubRBDataItem.PrepareStrategyEnum} Representation of the transaction's strategy type
-// @param recipients {Array.<module:model/PrepareAUTXOBasedTransactionFromXPubRBDataItemRecipientsInner>} Represents a list of recipient addresses with the respective amounts. In account-based protocols like Ethereum there is only one address in this list.
     prepare({
-        xpub,
-        prepareStrategy,
+        xPub,
         recipients,
+        feeOptions,
         locktime,
         replaceable,
         data,
-        options = {}
     }) {
-        const fee = new this.cryptoApis.PrepareAUTXOBasedTransactionFromXPubRBDataItemFee('tb1q9msv4rgehy0ls027vahfaaczaqxawwrfmqnq27', 'standard')
-        //fee, prepareStrategy, recipients, xpub
-        // const recipients = [] //PrepareAUTXOBasedTransactionFromXPubRBDataItemRecipientsInner
+        const fee = new this.cryptoApis.PrepareAUTXOBasedTransactionFromXPubRBDataItemFee(
+            feeOptions.getFeeAddress(), feeOptions.getFeeAmount()
+        )
+        fee.priority = feeOptions.getPriority();
+
         const receivers = recipients.map((recipient) => {
-            return new this.cryptoApis.PrepareAUTXOBasedTransactionFromXPubRBDataItemRecipientsInner(recipient.address, recipient.amount);
-        })
+            return new this.cryptoApis.PrepareAUTXOBasedTransactionFromXPubRBDataItemRecipientsInner(
+                recipient.getAddress(),
+                recipient.getAmount());
+        });
+
         const item = new this.cryptoApis.PrepareAUTXOBasedTransactionFromXPubRBDataItem(
             fee,
-            prepareStrategy,
+            feeOptions.getPrepareStrategy(),
             receivers,
-            xpub,
+            xPub,
         );
 
-        const postData = new this.cryptoApis.PrepareAUTXOBasedTransactionFromXPubRBData(item);
         item.additionalData = data;
         item.locktime = locktime;
         item.replaceable = replaceable;
+        const postData = new this.cryptoApis.PrepareAUTXOBasedTransactionFromXPubRBData(item);
 
         const opts = {
             prepareAUTXOBasedTransactionFromXPubRB: new this.cryptoApis.PrepareAUTXOBasedTransactionFromXPubRB(postData)

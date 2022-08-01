@@ -1,7 +1,7 @@
 'use strict';
 
 const BasePrepareTransaction = require("./basePrepareHelper")
-    , feePriorities = require('../../enumerations/feePriorities')
+    , {AccountBasedFeeOptions} = require('../../models/feeOptions')
 ;
 
 /**
@@ -21,41 +21,42 @@ class AccountBasedPrepareTransaction extends BasePrepareTransaction {
     }
 
     /**
-     * @param {string} xpub
-     * @param {string} sender
-     * @param {string} recipient
-     * @param {string} amount
-     * @param {feePriorities|null} priority
-     * @param {string|null} feeAmount
-     * @param {string|null} nonce
-     * @param {string|null} data
+     * Prepare An Account-Based Transaction From HD Wallet (xPub, yPub, zPub)
+     * Through the “Prepare an account-based transaction from HD Wallet” endpoint users can prepare a transaction for signing from a synced with Crypto APIs address from the specific xPub. This endpoint applies to all supported account-based blockchain protocols, e.g. Ethereum, BSC, etc
+     * @param {string} xPub Defines the account extended publicly known key which is used to derive all child public keys.
+     * @param {string} sender Represents a sender address
+     * @param {string} recipient Represents a recipient address
+     * @param {string} amount Representation of the amount of the transaction
+     * @param {AccountBasedFeeOptions} feeOptions Represents the fee options
+     * @param {string|null} nonce Representation of the nonce value
+     * @param {string|null} data Representation of the additional data
      *
-     * @returns {module:model/PrepareAnAccountBasedTransactionFromXPubR}
+     * @returns {Promise|module:model/PrepareAnAccountBasedTransactionFromXPubR}
      */
     prepare({
-        xpub,
+        xPub,
         sender,
         recipient,
         amount,
-        priority,
-        feeAmount,
+        feeOptions,
         nonce,
         data
     }) {
-        const fee = new this.cryptoApis.PrepareAnAccountBasedTransactionFromXPubRBDataItemFee('standard')
-        const transactionType = "gas-fee-market-transaction";
+        const fee = new this.cryptoApis.PrepareAnAccountBasedTransactionFromXPubRBDataItemFee(feeOptions.getPriority())
+        fee.exactAmount = feeOptions.getFeeAmount();
+
         const item = new this.cryptoApis.PrepareAnAccountBasedTransactionFromXPubRBDataItem(
             amount,
             fee,
             recipient,
             sender,
-            xpub,
+            xPub,
         );
 
-        const postData = new this.cryptoApis.PrepareAnAccountBasedTransactionFromXPubRBData(item);
         item.additionalData = data;
         item.nonce = nonce;
-        item.transactionType = transactionType;
+        item.transactionType = "gas-fee-market-transaction";
+        const postData = new this.cryptoApis.PrepareAnAccountBasedTransactionFromXPubRBData(item);
 
         const opts = {
             prepareAnAccountBasedTransactionFromXPubRB: new this.cryptoApis.PrepareAnAccountBasedTransactionFromXPubRB(postData)

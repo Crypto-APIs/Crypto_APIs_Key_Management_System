@@ -25,7 +25,8 @@ const validateConfig = require('./validators/configValidator')
     prepareService,
     signService
 } = require('./services')
-    , feePriorities = require("./enumerations/feePriorities")
+    , feePriorityEnum = require("./enumerations/feePriorities")
+    , prepareStrategyEnum = require("./enumerations/feePriorities")
 
 class KmsClient {
     /**
@@ -59,7 +60,7 @@ class KmsClient {
      * Create wallet for specified blockchain and network
      * @returns {walletServiceDTO}
      */
-    createWallet() {
+    createHDWalletxPubyPubzPub() {
 
         return this.walletApiService.createWallet().then((data) => {
             return new walletServiceDTO(data);
@@ -67,13 +68,13 @@ class KmsClient {
     }
 
     /**
-     * Sync New xPub
+     * Sync New HD Wallet xPub yPub zPub
      * Through this endpoint users can add a brand new xPub to the Crypto APIs system to be ready for deriving. Unlike our other similar endpoint “Sync HD Wallet (xPub, yPub, zPub)”, this endpoint does not create new addresses nor syncs old data.
      * @param {string} extendedPublicKey
      * @param {string|null} context
      * @returns {module:model/SyncNewXPubR}
      */
-    syncNewXPub(extendedPublicKey, context) {
+    syncNewHDWalletxPubyPubzPub(extendedPublicKey, context) {
         return this.hdWalletApiService.syncNewXPub(extendedPublicKey, context).then((data) => {
             return new hdWalletDTO(data);
         });
@@ -167,32 +168,33 @@ class KmsClient {
     }
 
     /**
-     * @param {string} xpub
-     * @param {string} sender
-     * @param {string} recipient
-     * @param {string} amount
-     * @param {feePriorities|null} priority
-     * @param {string|null} feeAmount
-     * @param {string|null} nonce
-     * @param {string|null} data
+     * Prepare An Account-Based Transaction From HD Wallet (xPub, yPub, zPub)
+     * Through the “Prepare an account-based transaction from xPub” endpoint users can prepare a transaction for signing from a synced with Crypto APIs address from the specific xPub. This endpoint applies to all supported account-based blockchain protocols, e.g. Ethereum, BSC, etc
+     * @param {string} xPub Defines the account extended publicly known key which is used to derive all child public keys.
+     * @param {string} sender Represents a  sender address
+     * @param {string} recipient Represents a recipient address
+     * @param {string} amount Representation of the amount of the transaction
+     * @param {AccountBasedFeeOptions} feeOptions Represents the fee options
+     * @param {string|null} nonce Representation of the nonce value
+     * @param {string|null} data Representation of the additional data
+     *
+     * @returns {Promise|module:model/PrepareAnAccountBasedTransactionFromXPubR}
      */
-    prepareAccountBasedTransactionFromXpub({
-       xpub,
+    prepareAccountBasedTransactionFromHDWalletxPubyPubzPub({
+       xPub,
        sender,
        recipient,
        amount,
-       priority,
-       feeAmount,
+       feeOptions,
        nonce,
        data
     }){
-        return this.prepareService.prepareAccountBasedTransactionFromXpub({
-            xpub,
+        return this.prepareService.prepareAccountBasedTransactionFromHDWalletxPubyPubzPub({
+            xPub,
             sender,
             recipient,
             amount,
-            priority,
-            feeAmount,
+            feeOptions,
             nonce,
             data
         }).then((data) => {
@@ -201,28 +203,33 @@ class KmsClient {
     }
 
     /**
-     // * @param {string} xpub
-     // * @param {string} fromAddress
-     // * @param {string} toAddress;
-     // * @param {Object} options
+     * Prepare An UTXO-Based Transaction From HD Wallet (xPub, yPub, zPub)
+     * Through the “Prepare a UTXO-based transaction from HD Wallet” endpoint users can prepare a transaction for signing from all synced with Crypto APIs addresses for the specific xPub. This is based on the `selectionStrategy` and the addresses’ balances. In the case a user has an address not synced with Crypto APIs, it will not be included. This endpoint applies to all supported UTXO-based blockchain protocols, e.g. Bitcoin, Litecoin, etc.
+     * @param {string} xPub Defines the account extended publicly known key which is used to derive all child public keys
+     * @param {Array<Recipient>} recipients Represents a list of recipient addresses with the respective amounts
+     * @param {UTXOBasedFeeOptions} feeOptions Represents the fee options
+     * @param {Number} locktime Represents the time at which a particular transaction can be added to the blockchain.
+     * @param {Boolean} replaceable Representation of whether the transaction is replaceable
+     * @param {string} data Representation of the additional data
+     *
+     * @returns {Promise|module:model/PrepareAUTXOBasedTransactionFromXPubR}
      */
-    prepareUTXOBasedTransactionFromXpub({
-        xpub,
-        prepareStrategy,
+    prepareUTXOBasedTransactionFromHDWalletxPubyPubzPub({
+        xPub,
         recipients,
+        feeOptions,
         locktime,
         replaceable,
-        data, options = {}
+        data,
     }){
 
-        return this.prepareService.prepareUTXOBasedTransactionFromXpub({
-            xpub,
-            prepareStrategy,
+        return this.prepareService.prepareUTXOBasedTransactionFromHDWalletxPubyPubzPub({
+            xPub,
             recipients,
+            feeOptions,
             locktime,
             replaceable,
             data,
-            options
         }).then((data) => {
             return new utxoBasedTransactionDTO(data);
         });
@@ -231,15 +238,15 @@ class KmsClient {
 
     /**
      * Sign Prepared Transaction Locally
-     * Through this endpoint users sign their transactions locally(offline) using the transaction response from Prepare Transaction From XPUB endpoint, both for account-based and UTXO-based
-     * @param {string} xpriv extended account xpriv
+     * Through this endpoint users sign their transactions locally(offline) using the transaction response from Prepare Transaction From HD Wallet (xPub, yPub, zPub) endpoint, both for account-based and UTXO-based
+     * @param {string} xPriv extended account xPriv
      * @param {TransactionDTO} transaction
      * @throws {Error}
      * @return {{id: string, raw: string}}
      */
-    signPreparedTransactionLocally(xpriv, transaction) {
+    signPreparedTransactionLocally(xPriv, transaction) {
         try {
-             const signed = this.signService.signPreparedTransaction(xpriv, transaction);
+             const signed = this.signService.signPreparedTransaction(xPriv, transaction);
              return new signDTO(signed)
         } catch (error) {
             throw error;

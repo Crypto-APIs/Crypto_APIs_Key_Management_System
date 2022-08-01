@@ -3,10 +3,10 @@
 const TransactionDTO = require('./transactionDTO');
 const Decimal = require('decimal.js');
 
-class UTXOBasedTransaction extends TransactionDTO {
+class UTXOBasedTransactionDTO extends TransactionDTO {
     /**
      * @param {Object} object
-     * @returns {UTXOBasedTransaction}
+     * @returns {UTXOBasedTransactionDTO}
      */
     constructor(object) {
         super(object.data.item);
@@ -123,4 +123,4 @@ class UTXOBasedTransaction extends TransactionDTO {
     }
 }
 
-module.exports = UTXOBasedTransaction;
+module.exports = UTXOBasedTransactionDTO;

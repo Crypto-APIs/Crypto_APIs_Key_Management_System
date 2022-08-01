@@ -2,7 +2,8 @@
 
 const AccountBasedPrepareTransaction = require("../helpers/prepare/accountBasedPrepareHelper")
     , UTXOBasedPrepareTransaction = require("../helpers/prepare/UTXObasedPrepareHelper")
-    , feePriorities = require('../enumerations/feePriorities')
+    , feePriorityEnum = require('../enumerations/feePriorities')
+    , prepareStrategyEnum = require('../enumerations/prepareStrategies')
 ;
 
 /**
@@ -24,22 +25,24 @@ class PrepareTransactionService {
     }
 
     /**
-     * @param {string} xpub
-     * @param {string} sender
-     * @param {string} recipient
-     * @param {string} amount
-     * @param {feePriorities|null} priority
-     * @param {string|null} feeAmount
-     * @param {string|null} nonce
-     * @param {string|null} data
+     * Prepare An Account-Based Transaction From HD Wallet (xPub, yPub, zPub)
+     * Through the “Prepare an account-based transaction from xPub” endpoint users can prepare a transaction for signing from a synced with Crypto APIs address from the specific xPub. This endpoint applies to all supported account-based blockchain protocols, e.g. Ethereum, BSC, etc
+     * @param {string} xPub Defines the account extended publicly known key which is used to derive all child public keys.
+     * @param {string} sender Represents a  sender address
+     * @param {string} recipient Represents a recipient address
+     * @param {string} amount Representation of the amount of the transaction
+     * @param {AccountBasedFeeOptions} feeOptions Represents the fee options
+     * @param {string|null} nonce Representation of the nonce value
+     * @param {string|null} data Representation of the additional data
+     *
+     * @returns {Promise|module:model/PrepareAnAccountBasedTransactionFromXPubR}
      */
-    prepareAccountBasedTransactionFromXpub({
-       xpub,
+    prepareAccountBasedTransactionFromHDWalletxPubyPubzPub({
+       xPub,
        sender,
        recipient,
        amount,
-       priority,
-       feeAmount,
+       feeOptions,
        nonce,
        data
    }){
@@ -50,40 +53,49 @@ class PrepareTransactionService {
         )
 
         return accountBasedService.prepare({
-            xpub,
+            xPub,
             sender,
             recipient,
             amount,
-            priority,
-            feeAmount,
+            feeOptions,
             nonce,
             data
         })
     };
 
-    prepareUTXOBasedTransactionFromXpub({
-        xpub,
-        prepareStrategy,
+    /**
+     * Prepare An UTXO-Based Transaction From HD Wallet (xPub, yPub, zPub)
+     * Through the “Prepare a UTXO-based transaction from HD Wallet” endpoint users can prepare a transaction for signing from all synced with Crypto APIs addresses for the specific xPub. This is based on the `selectionStrategy` and the addresses’ balances. In the case a user has an address not synced with Crypto APIs, it will not be included. This endpoint applies to all supported UTXO-based blockchain protocols, e.g. Bitcoin, Litecoin, etc.
+     * @param {string} xPub Defines the account extended publicly known key which is used to derive all child public keys
+     * @param {Array<Recipient>} recipients Represents a list of recipient addresses with the respective amounts
+     * @param {UTXOBasedFeeOptions} feeOptions Represents the fee options
+     * @param {Number} locktime Represents the time at which a particular transaction can be added to the blockchain.
+     * @param {Boolean} replaceable Representation of whether the transaction is replaceable
+     * @param {string} data Representation of the additional data
+     *
+     * @returns {Promise|module:model/PrepareAUTXOBasedTransactionFromXPubR}
+     */
+    prepareUTXOBasedTransactionFromHDWalletxPubyPubzPub({
+        xPub,
         recipients,
+        feeOptions,
         locktime,
         replaceable,
         data,
-        options
     }){
-        const accountBasedService = new UTXOBasedPrepareTransaction(
+        const UTXOBasedService = new UTXOBasedPrepareTransaction(
             this.cryptoApis,
             this.blockchain,
             this.network
         )
 
-        return accountBasedService.prepare({
-            xpub,
-            prepareStrategy,
+        return UTXOBasedService.prepare({
+            xPub,
             recipients,
+            feeOptions,
             locktime,
             replaceable,
             data,
-            options
         });
     }
 }

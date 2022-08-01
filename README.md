@@ -32,7 +32,7 @@ const blockchain = api.blockchains.BITCOIN;
 const network = api.networks[blockchain].NETWORK_BITCOIN_MAINNET;
 const client = new api.client('YOUR API KEY', blockchain, network);
  
-client.createWallet().then((data) => {
+client.createHDWalletxPubyPubzPub().then((data) => {
     console.dir('API called successfully. Returned data:');
     console.dir(data);
 }, (error) => {
@@ -49,7 +49,7 @@ WalletDTO
 
 [ApiKey](#ApiKey)
 
-## syncNewXPub
+## syncNewHDWalletxPubyPubzPub
 After initial sync we keep updating the synced xpub all the time.
 
 ### Example
@@ -61,7 +61,7 @@ After initial sync we keep updating the synced xpub all the time.
  const client = new api.client('YOUR API KEY', blockchain, network);
  const exPub = 'xpub6BsFsonVJR5vPChKQamp55R7veBCMD2CL3LtL83B3FS5DiayYgmoHCGQodeLTukaa4anZRQD9kNtPFHuPnCzjCiT9nrXdf3voNLhXQryBRB';
 
- client.syncNewXPub(exPub).then((data) => {
+ client.syncNewHDWalletxPubyPubzPub(exPub).then((data) => {
      console.dir('API called successfully. Returned data:');
      console.dir(data);
  }, (error) => {
@@ -311,7 +311,12 @@ SubscriptionForUnconfirmedInternalTxsDTO
 
 [ApiKey](#ApiKey)
 
-## broadcastedTransactionCallback
+## prepareUTXOBasedTransactionFromHDWalletxPubyPubzPub
+Through the “Prepare a UTXO-based transaction from HD Wallet” endpoint users can prepare a transaction for
+signing from all synced with Crypto APIs addresses for the specific xPub. This is based on the 
+`selectionStrategy` and the addresses’ balances. In the case a user has an address not synced with Crypto APIs, 
+it will not be included. This endpoint applies to all supported UTXO-based blockchain protocols, e.g. Bitcoin, 
+Litecoin, etc.
 
 ### Example
 
@@ -320,24 +325,99 @@ SubscriptionForUnconfirmedInternalTxsDTO
  const blockchain = api.blockchains.BITCOIN;
  const network = api.networks[blockchain].NETWORK_BITCOIN_MAINNET;
  const client = new api.client('YOUR API KEY', blockchain, network);
+ const xPub = "tpubDDiZDUezyZ9p9Shbtmi8FqBoKDv3ozcktrvpfHvbD4xBbqL8mjD6xxyjQVseki9XDLwbtYUVZnjAHaVDGEezZGEHC88zVgbfHnDShRhstip"
+ const feeOptions = new UTXOBasedFeeOptions({
+    prepareStrategy: 'MINIMIZE_DUST',
+    priority: feePriorityEnum.FAST,
+ });
+ const recipients = [ 
+     new Recipients("tb1q8qrk9pxkjcuk4a29ec7snskaxll55jzfhrcq24", '0.000031')
+ ];
 
- try {
-     const data = client.broadcastedTransactionCallback('8888f6c8168ff69aaf6438ab185c690e8c76c63e5f9c472c1c86f08406ea74f2');
- } catch (e) {
-     console.log(e.message);
- }
+ const preparedUTXOTransaction = await client.prepareUTXOBasedTransactionFromHDWalletxPubyPubzPub({
+     xPub: xPub,
+     recipients: recipients,
+     feeOptions,
+ }).then((data) => {
+     console.dir('API called successfully. Returned data:');
+     console.dir(data);
+ }, (error) => {
+     console.log(error)
+ })
 ```
 
 ### Parameters
 
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
-**transactionId** | **String**| String identifier of the transaction |
-**context** | **String**| In batch situations the user can use the context to correlate responses with requests. This property is present regardless of whether the response was successful or returned as an error. &#x60;context&#x60; is specified by the user. | [optional]
+Name | Type                     | Description                                                          | Notes
+------------- |--------------------------|----------------------------------------------------------------------| -------------
+**xPub** | **String**               | Account Extended Public Key                                          | 
+**recipients** | **Array<**Recipient**>** | Represents a list of recipient addresses with the respective amounts |
+**feeOptions** | **UTXOBasedFeeOptions**  | Represents the fee options                                           |
+**feeOptions.address** | **string**               | Represents the fee address                                           | [optional]
+**feeOptions.priority** | **string**               | Represents the fee priority                                          | [optional]
+**feeOptions.feeAmount** | **string**               | Represents the fee amount                                            | [optional]
+**locktime** | **Number**               | Represents the time at which a particular transaction can be added to the blockchain              | [optional]
+**replaceable** | **Boolean**              | Representation of whether the transaction is replaceable           | [optional]
+**data** | **string**               | Representation of the additional data          | [optional]
 
 ### Return type
 
-BroadcastedTransactionCallbackDTO
+UTXOBasedTransactionDTO
+
+### Authorization
+
+[ApiKey](#ApiKey)
+
+## prepareAccountBasedTransactionFromHDWalletxPubyPubzPub
+Through the “Prepare an account-based transaction from HD Wallet” endpoint users can prepare a transaction for
+signing from a synced with Crypto APIs address from the specific xPub. This endpoint applies to all supported 
+account-based blockchain protocols, e.g. Ethereum, BSC, etc
+
+### Example
+
+```javascript
+ const api = require('../src/');
+ const blockchain = api.blockchains.ETHEREUM;
+ const network = api.networks[blockchain].NETWORK_ETHEREUM_MAINNET;
+ const client = new api.client('YOUR API KEY', blockchain, network);
+ const xPub = "xpub6BueGVeSfjXMr8xCnbn5Lo1....A8UB1nFz1pyAJJdvUDhSL8DbqT4N4Qu4k95i"
+ const sender = '0x0b7155094947d785530f66d250b097b25c30a557';
+ const recipient = '0xd4e2a5949359e95c7c604050dd9d54af419689c0';
+ const amount = '1.2123';
+ const feeOptions = new AccountBasedFeeOptions({
+    priority: feePriorityEnum.FAST,
+ });
+ const preparedAccountTransaction = await client.prepareAccountBasedTransactionFromHDWalletxPubyPubzPub({
+     xPub,
+     sender,
+     recipient,
+     amount,
+     feeOptions
+ }).then((data) => {
+     console.dir('API called successfully. Returned data:');
+     console.dir(data);
+ }, (error) => {
+     console.log(error)
+ })
+```
+
+### Parameters
+
+Name | Type                    | Description                                                          | Notes
+------------- |-------------------------|----------------------------------------------------------------------| -------------
+**xPub** | **string**              | Account Extended Public Key                                          |
+**sender** | **string**              | Represents a sender address                                       |
+**recipient** | **string**              | Represents a recipient addresses  |
+**amount** | **string**              | Representation of the amount of the transaction  |
+**feeOptions** | **UTXOBasedFeeOptions** | Represents the fee options                                           |
+**feeOptions.priority** | **string**              | Represents the fee priority                                          | [optional]
+**feeOptions.feeAmount** | **string**              | Represents the fee amount                                            | [optional]
+**nonce** | **string**              | Representation of the nonce value            | [optional]
+**data** | **string**              | Representation of the additional data          | [optional]
+
+### Return type
+
+AccountBasedTransactionDTO
 
 ### Authorization
 
@@ -414,6 +494,39 @@ Name | Type | Description  | Notes
 ### Return type
 
 broadcastSignedTxDTO
+
+### Authorization
+
+[ApiKey](#ApiKey)
+
+
+## broadcastedTransactionCallback
+
+### Example
+
+```javascript
+ const api = require('../src/');
+ const blockchain = api.blockchains.BITCOIN;
+ const network = api.networks[blockchain].NETWORK_BITCOIN_MAINNET;
+ const client = new api.client('YOUR API KEY', blockchain, network);
+
+ try {
+     const data = client.broadcastedTransactionCallback('8888f6c8168ff69aaf6438ab185c690e8c76c63e5f9c472c1c86f08406ea74f2');
+ } catch (e) {
+     console.log(e.message);
+ }
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**transactionId** | **String**| String identifier of the transaction |
+**context** | **String**| In batch situations the user can use the context to correlate responses with requests. This property is present regardless of whether the response was successful or returned as an error. &#x60;context&#x60; is specified by the user. | [optional]
+
+### Return type
+
+BroadcastedTransactionCallbackDTO
 
 ### Authorization
 
