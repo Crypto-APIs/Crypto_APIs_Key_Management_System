@@ -24,7 +24,7 @@ class BtcSigner extends BaseSigner {
     /**
      * @inheritDoc
      */
-    sign({key, transaction, options = {}}) {
+    sign({xpriv, transaction}) {
         const prepared = new bitcorejs.Transaction()
             .from(transaction.data.inputs)
         ;
@@ -56,7 +56,7 @@ class BtcSigner extends BaseSigner {
             prepared.enableRBF();
         }
 
-        const hdKey = HDKey.fromExtendedKey(key, this.networkConfig.bip32)
+        const hdKey = HDKey.fromExtendedKey(xpriv, this.networkConfig.bip32)
         let privKeys = transaction.inputs.map( (input) => {
             const derivationPath = `m/${input.change}/${input.derivationIndex}`;
             const derivedPrivKey = hdKey.derive(derivationPath)

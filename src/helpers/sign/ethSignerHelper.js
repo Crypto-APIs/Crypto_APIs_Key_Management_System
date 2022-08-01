@@ -24,8 +24,8 @@ class EthSigner extends BaseSigner {
     /**
      * @inheritDoc
      */
-    sign({key, transaction, options = {}}) {
-        var hdkey = HDKey.fromExtendedKey(key)
+    sign({xpriv, transaction}) {
+        const hdkey = HDKey.fromExtendedKey(xpriv)
         const derivationPath = `m/0/${transaction.derivationIndex}`;
         const derivedPrivKey = hdkey.derive(derivationPath)
         const tx = this._buildTransaction(transaction);

@@ -1,7 +1,5 @@
 'use strict';
 
-const baseDTO = require('./baseDTO');
-
 class WalletDTO {
 
     /**

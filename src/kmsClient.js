@@ -13,7 +13,8 @@ const validateConfig = require('./validators/configValidator')
     hdAddressesDTO,
     listDTO,
     accountBasedTransactionDTO,
-    utxoBasedTransactionDTO
+    utxoBasedTransactionDTO,
+    signDTO
 } = require('./dtos')
     , {
     hdWalletService,
@@ -124,39 +125,6 @@ class KmsClient {
     }
 
     /**
-     * @param {string} signedTransactionHex
-     * @param {string} callbackSecretKey
-     * @param {string} callbackUrl
-     * @param {string|null} context
-     * @returns {broadcastSignedTxDTO}
-     */
-    broadcastSignedTx(signedTransactionHex, callbackSecretKey, callbackUrl, context = null) {
-
-        return this.broadcastApiService.broadcastLocallySignedTransaction(signedTransactionHex, callbackUrl, context).then(data => {
-            return new broadcastSignedTxDTO(data);
-        }, error => {
-            throw error;
-        });
-
-    }
-
-    /**
-     * Get Transaction Details By Transaction ID From Callback
-     * This endpoint creates a shortcut to obtain information from Blockchain data by going through Blockchain Events and a specific Event Subscription. It provides data for a specific transaction from the Event it takes part in by providing the `transactionId` attribute. It applies only for Events related to that user.
-     * @param {String} transactionId Represents the unique identifier of a transaction, i.e. it could be transactionId in UTXO-based protocols like Bitcoin, and transaction hash in Ethereum blockchain.
-     * @param {String|null} context In batch situations the user can use the context to correlate responses with requests. This property is present regardless of whether the response was successful or returned as an error. `context` is specified by the user.
-     * @return {module:model/GetTransactionDetailsByTransactionIDFromCallbackR}
-     */
-    broadcastedTransactionCallback(transactionId, context) {
-
-        return this.callbacksApiService.getTransactionDetailsByTransactionIDFromCallback(transactionId, context).then((data) => {
-            return new broadcastedTransactionCallbackDTO(data);
-        }, (error) => {
-            throw error;
-        });
-    }
-
-    /**
      * Derive And Sync New Change Addresses
      * Through this endpoint users can derive 100 change addresses, starting from the last index we have data for, which are then added to the xPub, subscribed for syncing, and start recording data. If no data is available, it will start from index 0.
      * @param {string} extendedPublicKey
@@ -174,6 +142,7 @@ class KmsClient {
      * Through this endpoint users can derive 100 receiving addresses, starting from the last index we have data for, which are then added to the xPub, subscribed for syncing, and start recording data. If no data is available, it will start from index 0.
      * @param {string} extendedPublicKey
      * @param {String|null} context In batch situations the user can use the context to correlate responses with requests. This property is present regardless of whether the response was successful or returned as an error. `context` is specified by the user.     * @param {String} opts.context In batch situations the user can use the context to correlate responses with requests. This property is present regardless of whether the response was successful or returned as an error. `context` is specified by the user.
+     * @returns {module:model/DeriveAndSyncNewChangeAddressesR}
      */
     deriveAndSyncNewReceivingAddresses(extendedPublicKey, context) {
         return this.hdWalletApiService.deriveAndSyncNewReceivingAddresses(extendedPublicKey, context).then((data) => {
@@ -262,13 +231,53 @@ class KmsClient {
 
     /**
      * Sign Prepared Transaction Locally
-     * Through this endpoint users can sign their transactions locally(offline) using the transaction response from Prepare Transaction From XPUB endpoint, both for account-based and UTXO-based
+     * Through this endpoint users sign their transactions locally(offline) using the transaction response from Prepare Transaction From XPUB endpoint, both for account-based and UTXO-based
      * @param {string} xpriv extended account xpriv
-     * @param {Transaction} transaction
+     * @param {TransactionDTO} transaction
+     * @throws {Error}
      * @return {{id: string, raw: string}}
      */
-    signPreparedTransaction(xpriv, transaction) {
-        return this.signService.signPreparedTransaction(xpriv, transaction);
+    signPreparedTransactionLocally(xpriv, transaction) {
+        try {
+             const signed = this.signService.signPreparedTransaction(xpriv, transaction);
+             return new signDTO(signed)
+        } catch (error) {
+            throw error;
+        }
+    };
+
+
+    /**
+     * @param {string} signedTransactionHex
+     * @param {string} callbackSecretKey
+     * @param {string} callbackUrl
+     * @param {string|null} context
+     * @returns {broadcastSignedTxDTO}
+     */
+    broadcastSignedTx(signedTransactionHex, callbackSecretKey, callbackUrl, context = null) {
+
+        return this.broadcastApiService.broadcastLocallySignedTransaction(signedTransactionHex, callbackUrl, context).then(data => {
+            return new broadcastSignedTxDTO(data);
+        }, error => {
+            throw error;
+        });
+
+    }
+
+    /**
+     * Get Transaction Details By Transaction ID From Callback
+     * This endpoint creates a shortcut to obtain information from Blockchain data by going through Blockchain Events and a specific Event Subscription. It provides data for a specific transaction from the Event it takes part in by providing the `transactionId` attribute. It applies only for Events related to that user.
+     * @param {String} transactionId Represents the unique identifier of a transaction, i.e. it could be transactionId in UTXO-based protocols like Bitcoin, and transaction hash in Ethereum blockchain.
+     * @param {String|null} context In batch situations the user can use the context to correlate responses with requests. This property is present regardless of whether the response was successful or returned as an error. `context` is specified by the user.
+     * @return {module:model/GetTransactionDetailsByTransactionIDFromCallbackR}
+     */
+    broadcastedTransactionCallback(transactionId, context) {
+
+        return this.callbacksApiService.getTransactionDetailsByTransactionIDFromCallback(transactionId, context).then((data) => {
+            return new broadcastedTransactionCallbackDTO(data);
+        }, (error) => {
+            throw error;
+        });
     }
 }
 

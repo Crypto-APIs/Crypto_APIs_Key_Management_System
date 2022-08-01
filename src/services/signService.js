@@ -22,14 +22,14 @@ class SignService {
      * Sign Prepared Transaction Locally
      * Through this endpoint users can sign their transactions locally(offline) using the transaction response from Prepare Transaction From XPUB endpoint, both for account-based and UTXO-based
      * @param {string} xpriv extended account xpriv
-     * @param {Transaction} transaction
+     * @param {TransactionDTO} transaction
      * @return {{id: string, raw: string}}
      */
     signPreparedTransaction(xpriv, transaction) {
         const signerFactory = new SignerHelperFactory({blockchain: this.blockchain, network: this.network})
         const signer = signerFactory.create();
 
-        return signer.sign({key: xpriv, transaction: transaction, options: {}})
+        return signer.sign({xpriv: xpriv, transaction: transaction});
     }
 }
 

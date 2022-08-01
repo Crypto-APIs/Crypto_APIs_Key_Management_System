@@ -20,14 +20,12 @@ class BaseSigner {
     }
 
     /**
-     * @param {string} key
-     * @param {Object} transaction
-     * @param {Object} options
+     * @param {string} xpriv
+     * @param {TransactionDTO} transaction
      * @private
-     *
      * @return {{id: string, raw: string}}
      */
-    sign({key, transaction, options = {}}) {
+    sign({xpriv, transaction}) {
         throw new Error('Implement sign method for service ' + this.constructor.name);
     };
 }
