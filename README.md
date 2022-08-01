@@ -27,11 +27,6 @@ otherwise the data is lost and cannot be recovered.
 ### Example
 
 ```javascript
-const api = require('../src/');
-const blockchain = api.blockchains.BITCOIN;
-const network = api.networks[blockchain].NETWORK_BITCOIN_MAINNET;
-const client = new api.client('YOUR API KEY', blockchain, network);
- 
 client.createHDWalletxPubyPubzPub().then((data) => {
     console.dir('API called successfully. Returned data:');
     console.dir(data);
@@ -49,7 +44,7 @@ WalletDTO
 
 [ApiKey](#ApiKey)
 
-## syncNewHDWalletxPubyPubzPub
+## syncNewHDWallet
 After initial sync we keep updating the synced xpub all the time.
 
 ### Example
@@ -61,7 +56,7 @@ After initial sync we keep updating the synced xpub all the time.
  const client = new api.client('YOUR API KEY', blockchain, network);
  const exPub = 'xpub6BsFsonVJR5vPChKQamp55R7veBCMD2CL3LtL83B3FS5DiayYgmoHCGQodeLTukaa4anZRQD9kNtPFHuPnCzjCiT9nrXdf3voNLhXQryBRB';
 
- client.syncNewHDWalletxPubyPubzPub(exPub).then((data) => {
+ client.syncNewHDWallet(exPub).then((data) => {
      console.dir('API called successfully. Returned data:');
      console.dir(data);
  }, (error) => {
@@ -311,7 +306,7 @@ SubscriptionForUnconfirmedInternalTxsDTO
 
 [ApiKey](#ApiKey)
 
-## prepareUTXOBasedTransactionFromHDWalletxPubyPubzPub
+## prepareUTXOBasedTransactionFromHDWallet
 Through the “Prepare a UTXO-based transaction from HD Wallet” endpoint users can prepare a transaction for
 signing from all synced with Crypto APIs addresses for the specific xPub. This is based on the 
 `selectionStrategy` and the addresses’ balances. In the case a user has an address not synced with Crypto APIs, 
@@ -334,7 +329,7 @@ Litecoin, etc.
      new Recipients("tb1q8qrk9pxkjcuk4a29ec7snskaxll55jzfhrcq24", '0.000031')
  ];
 
- const preparedUTXOTransaction = await client.prepareUTXOBasedTransactionFromHDWalletxPubyPubzPub({
+ const preparedUTXOTransaction = await client.prepareUTXOBasedTransactionFromHDWallet({
      xPub: xPub,
      recipients: recipients,
      feeOptions,
@@ -368,7 +363,7 @@ UTXOBasedTransactionDTO
 
 [ApiKey](#ApiKey)
 
-## prepareAccountBasedTransactionFromHDWalletxPubyPubzPub
+## prepareAccountBasedTransactionFromHDWallet
 Through the “Prepare an account-based transaction from HD Wallet” endpoint users can prepare a transaction for
 signing from a synced with Crypto APIs address from the specific xPub. This endpoint applies to all supported 
 account-based blockchain protocols, e.g. Ethereum, BSC, etc
@@ -387,7 +382,7 @@ account-based blockchain protocols, e.g. Ethereum, BSC, etc
  const feeOptions = new AccountBasedFeeOptions({
     priority: feePriorityEnum.FAST,
  });
- const preparedAccountTransaction = await client.prepareAccountBasedTransactionFromHDWalletxPubyPubzPub({
+ const preparedAccountTransaction = await client.prepareAccountBasedTransactionFromHDWallet({
      xPub,
      sender,
      recipient,

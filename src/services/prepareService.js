@@ -37,7 +37,7 @@ class PrepareTransactionService {
      *
      * @returns {Promise|module:model/PrepareAnAccountBasedTransactionFromXPubR}
      */
-    prepareAccountBasedTransactionFromHDWalletxPubyPubzPub({
+    prepareAccountBasedTransactionFromHDWallet({
        xPub,
        sender,
        recipient,
@@ -75,7 +75,7 @@ class PrepareTransactionService {
      *
      * @returns {Promise|module:model/PrepareAUTXOBasedTransactionFromXPubR}
      */
-    prepareUTXOBasedTransactionFromHDWalletxPubyPubzPub({
+    prepareUTXOBasedTransactionFromHDWallet({
         xPub,
         recipients,
         feeOptions,

@@ -74,7 +74,7 @@ class KmsClient {
      * @param {string|null} context
      * @returns {module:model/SyncNewXPubR}
      */
-    syncNewHDWalletxPubyPubzPub(extendedPublicKey, context) {
+    syncNewHDWallet(extendedPublicKey, context) {
         return this.hdWalletApiService.syncNewXPub(extendedPublicKey, context).then((data) => {
             return new hdWalletDTO(data);
         });
@@ -180,7 +180,7 @@ class KmsClient {
      *
      * @returns {Promise|module:model/PrepareAnAccountBasedTransactionFromXPubR}
      */
-    prepareAccountBasedTransactionFromHDWalletxPubyPubzPub({
+    prepareAccountBasedTransactionFromHDWallet({
        xPub,
        sender,
        recipient,
@@ -189,7 +189,7 @@ class KmsClient {
        nonce,
        data
     }){
-        return this.prepareService.prepareAccountBasedTransactionFromHDWalletxPubyPubzPub({
+        return this.prepareService.prepareAccountBasedTransactionFromHDWallet({
             xPub,
             sender,
             recipient,
@@ -214,7 +214,7 @@ class KmsClient {
      *
      * @returns {Promise|module:model/PrepareAUTXOBasedTransactionFromXPubR}
      */
-    prepareUTXOBasedTransactionFromHDWalletxPubyPubzPub({
+    prepareUTXOBasedTransactionFromHDWallet({
         xPub,
         recipients,
         feeOptions,
@@ -223,7 +223,7 @@ class KmsClient {
         data,
     }){
 
-        return this.prepareService.prepareUTXOBasedTransactionFromHDWalletxPubyPubzPub({
+        return this.prepareService.prepareUTXOBasedTransactionFromHDWallet({
             xPub,
             recipients,
             feeOptions,
