@@ -20,22 +20,22 @@ class HdWalletsService extends BaseCryptoAPIsLibAwareService {
     }
 
     /**
-     * Sync New xPub
+     * Sync New HD Wallet (xPub yPub zPub)
      * Through this endpoint users can add a brand new xPub to the Crypto APIs system to be ready for deriving. Unlike our other similar endpoint “Sync HD Wallet (xPub, yPub, zPub)”, this endpoint does not create new addresses nor syncs old data.
      * @param {string} extendedPublicKey
      * @param {String|null} context In batch situations the user can use the context to correlate responses with requests. This property is present regardless of whether the response was successful or returned as an error. `context` is specified by the user.     * @param {String} opts.context In batch situations the user can use the context to correlate responses with requests. This property is present regardless of whether the response was successful or returned as an error. `context` is specified by the user.
-     * @returns {module:model/SyncNewXPubR}
+     * @returns {module:model/SyncNewHDWalletXPubYPubZPubR}
      */
-    async syncNewXPub(extendedPublicKey, context) {
-        const item = new this.cryptoApis.SyncNewXPubRI(extendedPublicKey);
-        const data = new this.cryptoApis.SyncNewXPubRData(item);
+    async syncNewHDWallet(extendedPublicKey, context) {
+        const item = new this.cryptoApis.SyncHDWalletXPubYPubZPubRBDataItem(extendedPublicKey);
+        const data = new this.cryptoApis.SyncHDWalletXPubYPubZPubRBData(item);
 
         const opts = {
             context: context,
-            syncNewXPubRB: new this.cryptoApis.SyncNewXPubRB(data)
+            syncNewHDWalletXPubYPubZPubRB: new this.cryptoApis.SyncNewHDWalletXPubYPubZPubRB(data)
         };
 
-        return this.hdWalletInstance.syncNewXPub(this.blockchain, this.network, opts);
+        return this.hdWalletInstance.syncNewHDWalletXPubYPubZPub(this.blockchain, this.network, opts);
     }
 
     /**

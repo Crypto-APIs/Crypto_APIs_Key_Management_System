@@ -54,14 +54,14 @@ class KmsClient {
     }
 
     /**
-     * Sync New HD Wallet xPub yPub zPub
+     * Sync New HD Wallet (xPub yPub zPub)
      * Through this endpoint users can add a brand new xPub to the Crypto APIs system to be ready for deriving. Unlike our other similar endpoint “Sync HD Wallet (xPub, yPub, zPub)”, this endpoint does not create new addresses nor syncs old data.
      * @param {string} extendedPublicKey
      * @param {string|null} context
-     * @returns {module:model/SyncNewXPubR}
+     * @returns {module:model/SyncNewHDWalletXPubYPubZPubR}
      */
-    syncNewHDWallet(extendedPublicKey, context) {
-        return this.hdWalletApiService.syncNewXPub(extendedPublicKey, context).then((data) => {
+    syncNewHDWallet(extendedPublicKey, context = null) {
+        return this.hdWalletApiService.syncNewHDWallet(extendedPublicKey, context).then((data) => {
             return new hdWalletDTO(data);
         });
     }
