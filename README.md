@@ -54,9 +54,9 @@ After initial sync we keep updating the synced xpub all the time.
  const blockchain = api.blockchains.BITCOIN;
  const network = api.networks[blockchain].NETWORK_BITCOIN_MAINNET;
  const client = new api.client('YOUR API KEY', blockchain, network);
- const exPub = 'xpub6BsFsonVJR5vPChKQamp55R7veBCMD2CL3LtL83B3FS5DiayYgmoHCGQodeLTukaa4anZRQD9kNtPFHuPnCzjCiT9nrXdf3voNLhXQryBRB';
+ const xPub = 'xpub6BsFsonVJR5vPChKQamp55R7veBCMD2CL3LtL83B3FS5DiayYgmoHCGQodeLTukaa4anZRQD9kNtPFHuPnCzjCiT9nrXdf3voNLhXQryBRB';
 
- client.syncNewHDWallet(exPub).then((data) => {
+ client.syncNewHDWallet(xPub).then((data) => {
      console.dir('API called successfully. Returned data:');
      console.dir(data);
  }, (error) => {
@@ -68,7 +68,7 @@ After initial sync we keep updating the synced xpub all the time.
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
-**exPub** | **String**| Defines the account extended publicly known key which is used to derive all child public keys. |
+**xPub** | **String**| Defines the account extended publicly known key which is used to derive all child public keys. |
 **context** | **String**| In batch situations the user can use the context to correlate responses with requests. This property is present regardless of whether the response was successful or returned as an error. &#x60;context&#x60; is specified by the user. | [optional]
 
 ### Return type
@@ -90,9 +90,9 @@ it will start from index 0.
  const blockchain = api.blockchains.BITCOIN;
  const network = api.networks[blockchain].NETWORK_BITCOIN_MAINNET;
  const client = new api.client('YOUR API KEY', blockchain, network);
- const exPub = 'xpub6BsFsonVJR5vPChKQamp55R7veBCMD2CL3LtL83B3FS5DiayYgmoHCGQodeLTukaa4anZRQD9kNtPFHuPnCzjCiT9nrXdf3voNLhXQryBRB';
+ const xPub = 'xpub6BsFsonVJR5vPChKQamp55R7veBCMD2CL3LtL83B3FS5DiayYgmoHCGQodeLTukaa4anZRQD9kNtPFHuPnCzjCiT9nrXdf3voNLhXQryBRB';
 
- client.deriveAndSyncNewChangeAddresses(exPub).then((data) => {
+ client.deriveAndSyncNewChangeAddresses(xPub).then((data) => {
      console.dir('API called successfully. Returned data:');
      console.dir(data);
  }, (error) => {
@@ -104,7 +104,7 @@ it will start from index 0.
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
-**exPub** | **String**| Defines the account extended publicly known key which is used to derive all child public keys. |
+**xPub** | **String**| Defines the account extended publicly known key which is used to derive all child public keys. |
 **context** | **String**| In batch situations the user can use the context to correlate responses with requests. This property is present regardless of whether the response was successful or returned as an error. &#x60;context&#x60; is specified by the user. | [optional]
 
 ### Return type
@@ -127,9 +127,9 @@ start from index 0.
  const blockchain = api.blockchains.BITCOIN;
  const network = api.networks[blockchain].NETWORK_BITCOIN_MAINNET;
  const client = new api.client('YOUR API KEY', blockchain, network);
- const exPub = 'xpub6BsFsonVJR5vPChKQamp55R7veBCMD2CL3LtL83B3FS5DiayYgmoHCGQodeLTukaa4anZRQD9kNtPFHuPnCzjCiT9nrXdf3voNLhXQryBRB';
+ const xPub = 'xpub6BsFsonVJR5vPChKQamp55R7veBCMD2CL3LtL83B3FS5DiayYgmoHCGQodeLTukaa4anZRQD9kNtPFHuPnCzjCiT9nrXdf3voNLhXQryBRB';
 
- client.deriveAndSyncNewReceivingAddresses(exPub).then((data) => {
+ client.deriveAndSyncNewReceivingAddresses(xPub).then((data) => {
      console.dir('API called successfully. Returned data:');
      console.dir(data);
  }, (error) => {
@@ -141,7 +141,7 @@ start from index 0.
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
-**exPub** | **String**| Defines the account extended publicly known key which is used to derive all child public keys. |
+**xPub** | **String**| Defines the account extended publicly known key which is used to derive all child public keys. |
 **context** | **String**| In batch situations the user can use the context to correlate responses with requests. This property is present regardless of whether the response was successful or returned as an error. &#x60;context&#x60; is specified by the user. | [optional]
 
 ### Return type
@@ -163,13 +163,13 @@ previous and current/new xPubs, what addresses we’ve synced for them, etc.
  const blockchain = api.blockchains.BITCOIN;
  const network = api.networks[blockchain].NETWORK_BITCOIN_MAINNET;
  const client = new api.client('YOUR API KEY', blockchain, network);
- const exPub = 'xpub6BsFsonVJR5vPChKQamp55R7veBCMD2CL3LtL83B3FS5DiayYgmoHCGQodeLTukaa4anZRQD9kNtPFHuPnCzjCiT9nrXdf3voNLhXQryBRB';
+ const xPub = 'xpub6BsFsonVJR5vPChKQamp55R7veBCMD2CL3LtL83B3FS5DiayYgmoHCGQodeLTukaa4anZRQD9kNtPFHuPnCzjCiT9nrXdf3voNLhXQryBRB';
  const opts = {
             context: 'yourExampleString',
             addressFormat: "P2WPKH",
             isChangeAddress: true
        };
- client.listSyncedAddresses(exPub, opts).then((data) => {
+ client.listSyncedAddresses(xPub, opts).then((data) => {
       console.dir('API called successfully. Returned data:');
       console.dir(data);
  }, (error) => {
@@ -181,7 +181,7 @@ previous and current/new xPubs, what addresses we’ve synced for them, etc.
 
 Name | Type       | Description | Notes
 ------------- |------------| ------------ | -------------
-**exPub** | **String** | Defines the account extended publicly known key which is used to derive all child public keys. |
+**xPub** | **String** | Defines the account extended publicly known key which is used to derive all child public keys. |
 **opts** | **Object** | Optional parameters | [optional]
 **opts.context** | **String** | In batch situations the user can use the context to correlate responses with requests. This property is present regardless of whether the response was successful or returned as an error. &#x60;context&#x60; is specified by the user. | [optional]
 **opts.addressFormat** | **String** | Defines if the address is change addres or not. (default to true) | [optional]
