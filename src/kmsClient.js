@@ -12,8 +12,7 @@ const validateConfig = require('./validators/configValidator')
     HDAddressesDTO,
     ListSyncedAddressesDTO,
     AccountBasedTransactionDTO,
-    UTXOBasedTransactionDTO,
-    SignDTO
+    UTXOBasedTransactionDTO
 } = require('./dtos')
     , {
     HDWalletService,
@@ -116,7 +115,7 @@ class KmsClient {
      * @param {String|null} context In batch situations the user can use the context to correlate responses with requests. This property is present regardless of whether the response was successful or returned as an error. `context` is specified by the user.     * @param {String} opts.context In batch situations the user can use the context to correlate responses with requests. This property is present regardless of whether the response was successful or returned as an error. `context` is specified by the user.
      * @returns {module:model/DeriveAndSyncNewChangeAddressesR}
      */
-    deriveAndSyncNewChangeAddresses(extendedPublicKey, context) {
+    deriveAndSyncNewChangeAddresses(extendedPublicKey, context = null) {
         return this.hdWalletApiService.deriveAndSyncNewChangeAddresses(extendedPublicKey, context).then((data) => {
             return new HDAddressesDTO(data);
         });
@@ -129,7 +128,7 @@ class KmsClient {
      * @param {String|null} context In batch situations the user can use the context to correlate responses with requests. This property is present regardless of whether the response was successful or returned as an error. `context` is specified by the user.     * @param {String} opts.context In batch situations the user can use the context to correlate responses with requests. This property is present regardless of whether the response was successful or returned as an error. `context` is specified by the user.
      * @returns {module:model/DeriveAndSyncNewChangeAddressesR}
      */
-    deriveAndSyncNewReceivingAddresses(extendedPublicKey, context) {
+    deriveAndSyncNewReceivingAddresses(extendedPublicKey, context = null) {
         return this.hdWalletApiService.deriveAndSyncNewReceivingAddresses(extendedPublicKey, context).then((data) => {
             return new HDAddressesDTO(data);
         });

@@ -3,7 +3,7 @@
 const validateBlockchain = require("./blockchainValidator")
     , {NETWORKS: NetworksEnum} = require('../enumerations/networkEnum')
     , errors = require('./customErrors')
-    , errorDTO = require('../dtos/errorDTO')
+    , ErrorDTO = require('../dtos/errorDTO')
 ;
 
 module.exports = {
@@ -34,7 +34,7 @@ module.exports = {
 
         const networks = Object.values(NetworksEnum[blockchain]);
         if (!networks.includes(network.toLowerCase())) {
-            throw new errorDTO('INVALID_NETWORK', {'networks': networks.join(', ')});
+            throw new ErrorDTO('INVALID_NETWORK', {'networks': networks.join(', ')});
         }
 
         return true;

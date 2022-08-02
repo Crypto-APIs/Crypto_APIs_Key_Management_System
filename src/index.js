@@ -1,7 +1,7 @@
 'use strict';
 
 const KmsClient = require('./kmsClient')
-    , {blockchains: blockchainEnum} = require('./enumerations/blockchainEnum')
+    , {blockchainEnum} = require('./enumerations/blockchainEnum')
     , {NETWORKS: networkEnum} = require('./enumerations/networkEnum')
     , {
         XPUB_DERIVATION_PATHS: xPubDerivationPathsEnum,

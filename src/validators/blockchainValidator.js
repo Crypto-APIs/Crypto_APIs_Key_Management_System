@@ -1,16 +1,15 @@
 'use strict';
 
-const enumerations = require("../enumerations/blockchainEnum")
+const {blockchainEnum, reversed} = require("../enumerations/blockchainEnum")
     , ErrorDTO = require("../dtos/errorDTO")
 ;
 
-module.exports = function validateBlockchain(chain) {
-    const blockchainsEnum = enumerations.blockchains;
-    const validBlockchain = blockchainsEnum.hasOwnProperty(chain.toUpperCase());
+module.exports = function validateBlockchain(blockchain) {
+    const validBlockchain = blockchainEnum.hasOwnProperty(reversed[blockchain]);
 
     if (validBlockchain === false) {
-        const blockchainsList = Object.keys(blockchainsEnum).map((k) => {
-            return blockchainsEnum[k]
+        const blockchainsList = Object.keys(blockchainEnum).map((k) => {
+            return blockchainEnum[k]
         }).join(", ");
 
         return new ErrorDTO('INVALID_BLOCKCHAIN', {'blockchains': blockchainsList});
