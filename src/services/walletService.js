@@ -6,7 +6,6 @@ const bip39 = require('bip39')
     , WalletDTO = require('../dtos/walletDTO')
 ;
 
-const DEFAULT_WORDS_COUNT = 12;
 const MNEMONIC_STRENGTH_MULTIPLIER = 16;
 
 /**
@@ -18,10 +17,16 @@ const MNEMONIC_STRENGTH_MULTIPLIER = 16;
  */
 class WalletService extends BaseBlockchainAwareService {
     /**
+     * @param {number} mnemonicWordsCount
+     *
      * @returns {Promise<WalletDTO>}
      */
-    async createHDWallet() {
-        const strength = (DEFAULT_WORDS_COUNT / 1.5) * MNEMONIC_STRENGTH_MULTIPLIER;
+    async createHDWallet(mnemonicWordsCount = 12) {
+        if (![12, 18, 24].includes(mnemonicWordsCount)) {
+            throw new Error("Possible values for 'mnemonicWordsCount' are 12, 18 or 24");
+        }
+
+        const strength = (mnemonicWordsCount / 1.5) * MNEMONIC_STRENGTH_MULTIPLIER;
         const mnemonic = bip39.generateMnemonic(strength);
         const seed = await bip39.mnemonicToSeed(mnemonic);
         const xpubDerivationTypes = xpubDerivationTypesEnum[this.blockchain];

@@ -46,6 +46,13 @@ otherwise the data is lost and cannot be recovered.
  })();
 ```
 
+### Parameters
+
+Name | Type       | Description                                                      | Notes
+------------- |------------|------------------------------------------------------------------| -------------
+**mnemonicWordsCount** | **Number** | Mnemonic words count. Possible values are 12(default), 18 or 24. | [optional]
+
+
 ### Return type
 
 WalletDTO
