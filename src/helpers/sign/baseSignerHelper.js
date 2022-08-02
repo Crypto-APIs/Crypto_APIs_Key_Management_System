@@ -1,15 +1,21 @@
 'use strict';
 
 const NetworksConfigsEnum = require('../../enumerations/networks');
+const {BaseBlockchainAwareService} = require("../../services/baseServices");
 
-class BaseSigner {
+/**
+ * BaseSigner
+ *
+ * @class BaseSigner
+ * @extends {BaseBlockchainAwareService}
+ */
+class BaseSigner extends BaseBlockchainAwareService {
     /**
      * @param {string} blockchain
      * @param {string} network
      */
     constructor({blockchain, network}) {
-        this.blockchain = blockchain;
-        this.network = network;
+        super(blockchain, network)
 
         if (!NetworksConfigsEnum.NETWORKS_CONFIGS.hasOwnProperty(this.blockchain)
             || !Object.keys(NetworksConfigsEnum.NETWORKS_CONFIGS[this.blockchain].hasOwnProperty(this.network))) {

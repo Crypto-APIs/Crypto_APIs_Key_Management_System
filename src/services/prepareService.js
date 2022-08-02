@@ -4,24 +4,22 @@ const AccountBasedPrepareTransaction = require("../helpers/prepare/accountBasedP
     , UTXOBasedPrepareTransaction = require("../helpers/prepare/UTXObasedPrepareHelper")
     , feePriorityEnum = require('../enumerations/feePriorities')
     , prepareStrategyEnum = require('../enumerations/prepareStrategies')
-;
+;const {BaseCryptoAPIsLibAwareService} = require("./baseServices");
 
 /**
  * PrepareTransactionService
  *
  * @class PrepareTransactionService
- *
+ * @extends {BaseCryptoAPIsLibAwareService}
  */
-class PrepareTransactionService {
+class PrepareTransactionService  extends BaseCryptoAPIsLibAwareService {
     /**
      * @param {Object} cryptoApis
      * @param {string} blockchain
      * @param {string} network
      */
     constructor(cryptoApis, blockchain, network) {
-        this.cryptoApis = cryptoApis;
-        this.blockchain = blockchain;
-        this.network = network;
+        super(cryptoApis, blockchain, network)
     }
 
     /**
