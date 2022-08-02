@@ -54,7 +54,7 @@ WalletDTO
 
 [ApiKey](#ApiKey)
 
-## syncNewHDWallet
+## syncNewHDWallet (xPub, yPub, zPub)
 After initial sync we keep updating the synced xpub all the time.
 
 ### Example
@@ -208,118 +208,7 @@ ListSyncedAddressesDTO
 
 [ApiKey](#ApiKey)
 
-## createSubscriptionForUnconfirmedCoinsTxs
-Create callback subscriptions for a specific event. In this case the event called when there are new incoming or outgoing confirmed transactions for coins from/to the customer's address. 
-By creating this subscription you will be notified by Crypto APIs 2.0 when that event occurs. The information is returned per specified address.
-
-### Example
-
-```javascript
- const {Enumerations, Client, Services } = require('./src')
- const blockchain = Enumerations.Blockchains.ETHEREUM;
- const network = Enumerations.Networks[blockchain].NETWORK_ETHEREUM_MAINNET;
- const client = new Client('YOUR API KEY', blockchain, network);
- const callbackUrl = 'https://example.com'; // your URL for callback must be verifyed from dashboard
- 
- client.createSubscriptionForUnconfirmedCoinsTxs(callbackUrl, '0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D').then((data) => {
-     console.dir('API called successfully. Returned data:');
-     console.dir(data);
- }, (error) => {
-     console.log(error);
- });
-```
-
-### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
-**callbackUrl** | **String**| Represents the URL that is set by the customer where the callback will be received at. The callback notification will be received only if and when the event occurs. |
-**address** | **String**| Represents the address of the transaction, per which the result is returned. |
-**context** | **String**| In batch situations the user can use the context to correlate responses with requests. This property is present regardless of whether the response was successful or returned as an error. &#x60;context&#x60; is specified by the user. | [optional]
-
-### Return type
-
-SubscriptionForUnconfirmedCoinsTxsDTO
-
-### Authorization
-
-[ApiKey](#ApiKey)
-
-## createSubscriptionForUnconfirmedTokensTxs
-Create callback subscriptions for a specific event. In this case the event called when there are new unconfirmed tokens transactions for the user. 
-By creating this subscription you will be notified by Crypto APIs 2.0 when that event occurs. The information is returned per specified address.
-
-### Example
-
-```javascript
- const {Enumerations, Client, Services } = require('./src')
- const blockchain = Enumerations.Blockchains.BITCOIN;
- const network = Enumerations.Networks[blockchain].NETWORK_BITCOIN_MAINNET;
- const client = new Client('YOUR API KEY', blockchain, network);
- const callbackUrl = 'https://example.com'; // your URL for callback must be verifyed from dashboard
- 
- client.createSubscriptionForUnconfirmedTokensTxs(callbackUrl, '0x6EBaF477F83E055589C1188bCC6DDCCD8C9B131a').then((data) => {
-     console.dir('API called successfully. Returned data:');
-     console.dir(data);
- }, (error) => {
-     console.log(error);
- });
-```
-
-### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
-**callbackUrl** | **String**| Represents the URL that is set by the customer where the callback will be received at. The callback notification will be received only if and when the event occurs. |
-**address** | **String**| Represents the address of the transaction, per which the result is returned. |
-**context** | **String**| In batch situations the user can use the context to correlate responses with requests. This property is present regardless of whether the response was successful or returned as an error. &#x60;context&#x60; is specified by the user. | [optional]
-
-### Return type
-
-SubscriptionForUnconfirmedTokensTxsDTO
-
-### Authorization
-
-[ApiKey](#ApiKey)
-
-## createSubscriptionForUnconfirmedInternalTxs
-Create callback subscriptions for a specific event. In this case the event called when there are new unconfirmed coins transactions for the user.
-By creating this subscription you will be notified by Crypto APIs 2.0 when that event occurs. The information is returned per specified address.
-
-### Example
-
-```javascript
- const {Enumerations, Client, Services } = require('./src')
- const blockchain = Enumerations.Blockchains.ETHEREUM;
- const network = Enumerations.Networks[blockchain].NETWORK_ETHEREUM_MAINNET;
- const client = new Client('YOUR API KEY', blockchain, network);
- const callbackUrl = 'https://example.com'; // your URL for callback must be verifyed from dashboard
- 
- client.createSubscriptionForUnconfirmedInternalTxs(callbackUrl, '0x1aD91ee08f21bE3dE0BA2ba6918E714dA6B45836').then((data) => {
-     console.dir('API called successfully. Returned data:');
-     console.dir(data);
- }, (error) => {
-     console.log(error);
- });
-```
-
-### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
-**callbackUrl** | **String**| Represents the URL that is set by the customer where the callback will be received at. The callback notification will be received only if and when the event occurs. |
-**address** | **String**| Represents the address of the transaction, per which the result is returned. |
-**context** | **String**| In batch situations the user can use the context to correlate responses with requests. This property is present regardless of whether the response was successful or returned as an error. &#x60;context&#x60; is specified by the user. | [optional]
-
-### Return type
-
-SubscriptionForUnconfirmedInternalTxsDTO
-
-### Authorization
-
-[ApiKey](#ApiKey)
-
-## prepareUTXOBasedTransactionFromHDWallet
+## prepareUTXOBasedTransactionFromHDWallet (xPub, yPub, zPub)
 Through the “Prepare a UTXO-based transaction from HD Wallet” endpoint users can prepare a transaction for
 signing from all synced with Crypto APIs addresses for the specific xPub. This is based on the 
 `selectionStrategy` and the addresses’ balances. In the case a user has an address not synced with Crypto APIs, 
@@ -376,7 +265,7 @@ UTXOBasedTransactionDTO
 
 [ApiKey](#ApiKey)
 
-## prepareAccountBasedTransactionFromHDWallet
+## prepareAccountBasedTransactionFromHDWallet (xPub, yPub, zPub)
 Through the “Prepare an account-based transaction from HD Wallet” endpoint users can prepare a transaction for
 signing from a synced with Crypto APIs address from the specific xPub. This endpoint applies to all supported 
 account-based blockchain protocols, e.g. Ethereum, BSC, etc
@@ -433,7 +322,7 @@ AccountBasedTransactionDTO
 
 ## signPreparedTransactionLocally
 Through this endpoint users sign their transactions locally(offline) using the transaction response from 
-Prepare Transaction From XPUB endpoint, both for account-based and UTXO-based
+Prepare Transaction From HD Wallet endpoint, both for account-based and UTXO-based
 
 ### Example
 
