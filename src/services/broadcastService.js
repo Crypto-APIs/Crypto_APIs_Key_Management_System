@@ -6,6 +6,7 @@ const { BaseCryptoAPIsLibAwareService } = require("./baseServices");
  * BroadcastService
  *
  * @class BroadcastService
+ *
  * @extends {BaseCryptoAPIsLibAwareService}
  */
 class BroadcastService extends BaseCryptoAPIsLibAwareService {

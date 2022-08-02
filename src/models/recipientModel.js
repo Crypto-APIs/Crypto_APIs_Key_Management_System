@@ -1,6 +1,6 @@
 'use strict';
 
-class Recipient {
+class RecipientModel {
     /**
      * @param {string} address
      * @param {string} amount
@@ -29,4 +29,4 @@ class Recipient {
     }
 }
 
-module.exports = Recipient;
+module.exports = RecipientModel;

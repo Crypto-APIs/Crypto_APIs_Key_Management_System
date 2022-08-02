@@ -1,7 +1,8 @@
 'use strict';
 
-const enumerations = require("../enumerations/blockchains")
-    , ErrorDTO = require("../dtos/errorDTO");
+const enumerations = require("../enumerations/blockchainEnum")
+    , ErrorDTO = require("../dtos/errorDTO")
+;
 
 module.exports = function validateBlockchain(chain) {
     const blockchainsEnum = enumerations.blockchains;

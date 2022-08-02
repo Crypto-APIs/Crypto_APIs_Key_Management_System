@@ -1,25 +1,15 @@
 'use strict';
 
-const BasePrepareTransaction = require("./basePrepareHelper")
-    , {AccountBasedFeeOptions} = require('../../models/feeOptions')
-;
+const BasePrepareHelper = require("./basePrepareHelper");
 
 /**
  * AccountBasedPrepareTransaction
  *
- * @class AccountBasedPrepareTransaction
- * @extends {BasePrepareTransaction}
+ * @class AccountBasedPrepareHelper
+ *
+ * @extends {BasePrepareHelper}
  */
-class AccountBasedPrepareTransaction extends BasePrepareTransaction {
-    /**
-     * @param {Object} cryptoApis
-     * @param {string} blockchain
-     * @param {string} network
-     */
-    constructor(cryptoApis, blockchain, network) {
-        super(cryptoApis, blockchain, network)
-    }
-
+class AccountBasedPrepareHelper extends BasePrepareHelper {
     /**
      * Prepare An Account-Based Transaction From HD Wallet (xPub, yPub, zPub)
      * Through the “Prepare an account-based transaction from HD Wallet” endpoint users can prepare a transaction for signing from a synced with Crypto APIs address from the specific xPub. This endpoint applies to all supported account-based blockchain protocols, e.g. Ethereum, BSC, etc
@@ -27,7 +17,7 @@ class AccountBasedPrepareTransaction extends BasePrepareTransaction {
      * @param {string} sender Represents a sender address
      * @param {string} recipient Represents a recipient address
      * @param {string} amount Representation of the amount of the transaction
-     * @param {AccountBasedFeeOptions} feeOptions Represents the fee options
+     * @param {AccountBasedFeeOptionsModel} feeOptions Represents the fee options
      * @param {string|null} nonce Representation of the nonce value
      * @param {string|null} data Representation of the additional data
      *
@@ -67,4 +57,4 @@ class AccountBasedPrepareTransaction extends BasePrepareTransaction {
     };
 }
 
-module.exports = AccountBasedPrepareTransaction;
+module.exports = AccountBasedPrepareHelper;

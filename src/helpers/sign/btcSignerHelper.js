@@ -1,26 +1,19 @@
 'use strict';
 
-const BaseSigner = require('./baseSignerHelper')
+const BaseSignerHelper = require('./baseSignerHelper')
     , bitcoinjs = require('bitcoinjs-lib')
     , bitcorejs = require('bitcore-lib')
     , HDKey = require("hdkey")
 ;
 
 /**
- * BtcSigner
+ * BtcSignerHelper
  *
- * @class BtcSigner
- * @extends {BaseSigner}
+ * @class BtcSignerHelper
+ *
+ * @extends {BaseSignerHelper}
  */
-class BtcSigner extends BaseSigner {
-    /**
-     * @param {string} blockchain
-     * @param {string} network
-     */
-    constructor({blockchain, network}) {
-        super({blockchain, network})
-    }
-
+class BtcSignerHelper extends BaseSignerHelper {
     /**
      * @inheritDoc
      */
@@ -82,4 +75,4 @@ class BtcSigner extends BaseSigner {
     };
 }
 
-module.exports = BtcSigner;
+module.exports = BtcSignerHelper;

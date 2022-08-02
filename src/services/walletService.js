@@ -13,18 +13,10 @@ const MNEMONIC_STRENGTH_MULTIPLIER = 16;
  * WalletService
  *
  * @class WalletService
+ *
  * @extends {BaseBlockchainAwareService}
  */
 class WalletService extends BaseBlockchainAwareService {
-
-    /**
-     * @param {string} blockchain
-     * @param {string} network
-     */
-    constructor(blockchain, network) {
-        super(blockchain, network)
-    }
-
     /**
      * @returns {Promise<WalletDTO>}
      */

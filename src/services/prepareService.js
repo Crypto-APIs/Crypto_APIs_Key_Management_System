@@ -1,27 +1,18 @@
 'use strict';
 
-const AccountBasedPrepareTransaction = require("../helpers/prepare/accountBasedPrepareHelper")
-    , UTXOBasedPrepareTransaction = require("../helpers/prepare/UTXObasedPrepareHelper")
-    , feePriorityEnum = require('../enumerations/feePriorities')
-    , prepareStrategyEnum = require('../enumerations/prepareStrategies')
-;const {BaseCryptoAPIsLibAwareService} = require("./baseServices");
+const AccountBasedPrepareHelper = require("../helpers/prepare/accountBasedPrepareHelper")
+    , UTXOBasedPrepareHelper = require("../helpers/prepare/UTXOBasedPrepareHelper")
+    , {BaseCryptoAPIsLibAwareService} = require("./baseServices")
+;
 
 /**
  * PrepareTransactionService
  *
  * @class PrepareTransactionService
+ *
  * @extends {BaseCryptoAPIsLibAwareService}
  */
 class PrepareTransactionService  extends BaseCryptoAPIsLibAwareService {
-    /**
-     * @param {Object} cryptoApis
-     * @param {string} blockchain
-     * @param {string} network
-     */
-    constructor(cryptoApis, blockchain, network) {
-        super(cryptoApis, blockchain, network)
-    }
-
     /**
      * Prepare An Account-Based Transaction From HD Wallet (xPub, yPub, zPub)
      * Through the “Prepare an account-based transaction from xPub” endpoint users can prepare a transaction for signing from a synced with Crypto APIs address from the specific xPub. This endpoint applies to all supported account-based blockchain protocols, e.g. Ethereum, BSC, etc
@@ -44,7 +35,7 @@ class PrepareTransactionService  extends BaseCryptoAPIsLibAwareService {
        nonce,
        data
    }){
-        const accountBasedService = new AccountBasedPrepareTransaction(
+        const accountBasedService = new AccountBasedPrepareHelper(
             this.cryptoApis,
             this.blockchain,
             this.network
@@ -65,7 +56,7 @@ class PrepareTransactionService  extends BaseCryptoAPIsLibAwareService {
      * Prepare An UTXO-Based Transaction From HD Wallet (xPub, yPub, zPub)
      * Through the “Prepare a UTXO-based transaction from HD Wallet” endpoint users can prepare a transaction for signing from all synced with Crypto APIs addresses for the specific xPub. This is based on the `selectionStrategy` and the addresses’ balances. In the case a user has an address not synced with Crypto APIs, it will not be included. This endpoint applies to all supported UTXO-based blockchain protocols, e.g. Bitcoin, Litecoin, etc.
      * @param {string} xPub Defines the account extended publicly known key which is used to derive all child public keys
-     * @param {Array<Recipient>} recipients Represents a list of recipient addresses with the respective amounts
+     * @param {Array<RecipientModel>} recipients Represents a list of recipient addresses with the respective amounts
      * @param {UTXOBasedFeeOptions} feeOptions Represents the fee options
      * @param {Number} locktime Represents the time at which a particular transaction can be added to the blockchain.
      * @param {Boolean} replaceable Representation of whether the transaction is replaceable
@@ -81,7 +72,7 @@ class PrepareTransactionService  extends BaseCryptoAPIsLibAwareService {
         replaceable,
         data,
     }){
-        const UTXOBasedService = new UTXOBasedPrepareTransaction(
+        const UTXOBasedService = new UTXOBasedPrepareHelper(
             this.cryptoApis,
             this.blockchain,
             this.network

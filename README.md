@@ -29,19 +29,21 @@ otherwise the data is lost and cannot be recovered.
 ### Example
 
 ```javascript
- const blockchain = api.blockchains.BITCOIN;
- const network = api.networks[blockchain].NETWORK_BITCOIN_MAINNET;
- const walletService = new WalletService(blockchain, network)
+ const { Enumerations, Services } = require('./src')
+ const blockchain = Enumerations.Blockchains.BITCOIN;
+ const network = Enumerations.Networks[blockchain].NETWORK_BITCOIN_MAINNET;
 
- walletService.createHDWallet().then((data) => {
-    console.dir('HD Wallet created successfully. Returned data:');
-    console.dir(data);
-    console.dir(data.xPub.accountXpriv);
-    console.dir(data.xPub.accountXpub);
- }, (error) => {
-    console.log(error)
- });
-
+ (async () => {
+   const walletService = new Services.WalletService(blockchain, network)
+   const wallet = await walletService.createHDWallet().then((data) => {
+         console.dir('HD Wallet created successfully. Returned data:');
+         console.dir(data);
+         console.dir(data.xPub.accountXpriv);
+         console.dir(data.xPub.accountXpub);
+   }, (error) => {
+      console.log(error)
+   });
+ })();
 ```
 
 ### Return type
@@ -58,10 +60,10 @@ After initial sync we keep updating the synced xpub all the time.
 ### Example
 
 ```javascript
- const api = require('../src/');
- const blockchain = api.blockchains.BITCOIN;
- const network = api.networks[blockchain].NETWORK_BITCOIN_MAINNET;
- const client = new api.client('YOUR API KEY', blockchain, network);
+ const {Enumerations, Client, Services } = require('./src')
+ const blockchain = Enumerations.Blockchains.BITCOIN;
+ const network = Enumerations.Networks[blockchain].NETWORK_BITCOIN_MAINNET;
+ const client = new Client('YOUR API KEY', blockchain, network);
  const xPub = 'xpub6BsFsonVJR5vPChKQamp55R7veBCMD2CL3LtL83B3FS5DiayYgmoHCGQodeLTukaa4anZRQD9kNtPFHuPnCzjCiT9nrXdf3voNLhXQryBRB';
 
  client.syncNewHDWallet(xPub).then((data) => {
@@ -94,10 +96,10 @@ it will start from index 0.
 ### Example
 
 ```javascript
- const api = require('../src/');
- const blockchain = api.blockchains.BITCOIN;
- const network = api.networks[blockchain].NETWORK_BITCOIN_MAINNET;
- const client = new api.client('YOUR API KEY', blockchain, network);
+ const {Enumerations, Client, Services } = require('./src')
+ const blockchain = Enumerations.Blockchains.BITCOIN;
+ const network = Enumerations.Networks[blockchain].NETWORK_BITCOIN_MAINNET;
+ const client = new Client('YOUR API KEY', blockchain, network);
  const xPub = 'xpub6BsFsonVJR5vPChKQamp55R7veBCMD2CL3LtL83B3FS5DiayYgmoHCGQodeLTukaa4anZRQD9kNtPFHuPnCzjCiT9nrXdf3voNLhXQryBRB';
 
  client.deriveAndSyncNewChangeAddresses(xPub).then((data) => {
@@ -131,10 +133,10 @@ start from index 0.
 ### Example
 
 ```javascript
- const api = require('../src/');
- const blockchain = api.blockchains.BITCOIN;
- const network = api.networks[blockchain].NETWORK_BITCOIN_MAINNET;
- const client = new api.client('YOUR API KEY', blockchain, network);
+ const {Enumerations, Client, Services } = require('./src')
+ const blockchain = Enumerations.Blockchains.BITCOIN;
+ const network = Enumerations.Networks[blockchain].NETWORK_BITCOIN_MAINNET;
+ const client = new Client('YOUR API KEY', blockchain, network);
  const xPub = 'xpub6BsFsonVJR5vPChKQamp55R7veBCMD2CL3LtL83B3FS5DiayYgmoHCGQodeLTukaa4anZRQD9kNtPFHuPnCzjCiT9nrXdf3voNLhXQryBRB';
 
  client.deriveAndSyncNewReceivingAddresses(xPub).then((data) => {
@@ -167,10 +169,10 @@ previous and current/new xPubs, what addresses we’ve synced for them, etc.
 ### Example
 
 ```javascript
- const api = require('../src/');
- const blockchain = api.blockchains.BITCOIN;
- const network = api.networks[blockchain].NETWORK_BITCOIN_MAINNET;
- const client = new api.client('YOUR API KEY', blockchain, network);
+ const {Enumerations, Client, Services } = require('./src')
+ const blockchain = Enumerations.Blockchains.BITCOIN;
+ const network = Enumerations.Networks[blockchain].NETWORK_BITCOIN_MAINNET;
+ const client = new Client('YOUR API KEY', blockchain, network);
  const xPub = 'xpub6BsFsonVJR5vPChKQamp55R7veBCMD2CL3LtL83B3FS5DiayYgmoHCGQodeLTukaa4anZRQD9kNtPFHuPnCzjCiT9nrXdf3voNLhXQryBRB';
  const opts = {
             context: 'yourExampleString',
@@ -213,10 +215,10 @@ By creating this subscription you will be notified by Crypto APIs 2.0 when that 
 ### Example
 
 ```javascript
- const api = require('../src/');
- const blockchain = api.blockchains.ETHEREUM;
- const network = api.networks[blockchain].NETWORK_ETHEREUM_MAINNET;
- const client = new api.client('YOUR API KEY', blockchain, network);
+ const {Enumerations, Client, Services } = require('./src')
+ const blockchain = Enumerations.Blockchains.ETHEREUM;
+ const network = Enumerations.Networks[blockchain].NETWORK_ETHEREUM_MAINNET;
+ const client = new Client('YOUR API KEY', blockchain, network);
  const callbackUrl = 'https://example.com'; // your URL for callback must be verifyed from dashboard
  
  client.createSubscriptionForUnconfirmedCoinsTxs(callbackUrl, '0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D').then((data) => {
@@ -250,10 +252,10 @@ By creating this subscription you will be notified by Crypto APIs 2.0 when that 
 ### Example
 
 ```javascript
- const api = require('../src/');
- const blockchain = api.blockchains.ETHEREUM;
- const network = api.networks[blockchain].NETWORK_ETHEREUM_MAINNET;
- const client = new api.client('YOUR API KEY', blockchain, network);
+ const {Enumerations, Client, Services } = require('./src')
+ const blockchain = Enumerations.Blockchains.BITCOIN;
+ const network = Enumerations.Networks[blockchain].NETWORK_BITCOIN_MAINNET;
+ const client = new Client('YOUR API KEY', blockchain, network);
  const callbackUrl = 'https://example.com'; // your URL for callback must be verifyed from dashboard
  
  client.createSubscriptionForUnconfirmedTokensTxs(callbackUrl, '0x6EBaF477F83E055589C1188bCC6DDCCD8C9B131a').then((data) => {
@@ -287,10 +289,10 @@ By creating this subscription you will be notified by Crypto APIs 2.0 when that 
 ### Example
 
 ```javascript
- const api = require('../src/');
- const blockchain = api.blockchains.ETHEREUM;
- const network = api.networks[blockchain].NETWORK_ETHEREUM_MAINNET;
- const client = new api.client('YOUR API KEY', blockchain, network);
+ const {Enumerations, Client, Services } = require('./src')
+ const blockchain = Enumerations.Blockchains.ETHEREUM;
+ const network = Enumerations.Networks[blockchain].NETWORK_ETHEREUM_MAINNET;
+ const client = new Client('YOUR API KEY', blockchain, network);
  const callbackUrl = 'https://example.com'; // your URL for callback must be verifyed from dashboard
  
  client.createSubscriptionForUnconfirmedInternalTxs(callbackUrl, '0x1aD91ee08f21bE3dE0BA2ba6918E714dA6B45836').then((data) => {
@@ -327,10 +329,10 @@ Litecoin, etc.
 ### Example
 
 ```javascript
- const api = require('../src/');
- const blockchain = api.blockchains.BITCOIN;
- const network = api.networks[blockchain].NETWORK_BITCOIN_MAINNET;
- const client = new api.client('YOUR API KEY', blockchain, network);
+ const {Enumerations, Client, Services } = require('./src')
+ const blockchain = Enumerations.Blockchains.BITCOIN;
+ const network = Enumerations.Networks[blockchain].NETWORK_BITCOIN_MAINNET;
+ const client = new Client('YOUR API KEY', blockchain, network);
  const xPub = "xpub6BsFsonVJR5vPChKQamp55R7veBCMD2CL3LtL83B3FS5DiayYgmoHCGQodeLTukaa4anZRQD9kNtPFHuPnCzjCiT9nrXdf3voNLhXQryBRB"
  const feeOptions = new UTXOBasedFeeOptions({
     prepareStrategy: 'MINIMIZE_DUST',
@@ -357,7 +359,7 @@ Litecoin, etc.
 Name | Type                     | Description                                                          | Notes
 ------------- |--------------------------|----------------------------------------------------------------------| -------------
 **xPub** | **String**               | Account Extended Public Key                                          | 
-**recipients** | **Array<**Recipient**>** | Represents a list of recipient addresses with the respective amounts |
+**recipients** | **Array<**RecipientModel**>** | Represents a list of recipient addresses with the respective amounts |
 **feeOptions** | **UTXOBasedFeeOptions**  | Represents the fee options                                           |
 **feeOptions.address** | **string**               | Represents the fee address                                           | [optional]
 **feeOptions.priority** | **string**               | Represents the fee priority                                          | [optional]
@@ -382,10 +384,10 @@ account-based blockchain protocols, e.g. Ethereum, BSC, etc
 ### Example
 
 ```javascript
- const api = require('../src/');
- const blockchain = api.blockchains.ETHEREUM;
- const network = api.networks[blockchain].NETWORK_ETHEREUM_MAINNET;
- const client = new api.client('YOUR API KEY', blockchain, network);
+ const {Enumerations, Client, Services } = require('./src')
+ const blockchain = Enumerations.Blockchains.ETHEREUM;
+ const network = Enumerations.Networks[blockchain].NETWORK_ETHEREUM_MAINNET;
+ const client = new Client('YOUR API KEY', blockchain, network);
  const xPub = "xpub6BsFsonVJR5vPChKQamp55R7veBCMD2CL3LtL83B3FS5DiayYgmoHCGQodeLTukaa4anZRQD9kNtPFHuPnCzjCiT9nrXdf3voNLhXQryBRB
  const sender = '0x0b7155094947d785530f66d250b097b25c30a557';
  const recipient = '0xd4e2a5949359e95c7c604050dd9d54af419689c0';
@@ -436,19 +438,21 @@ Prepare Transaction From XPUB endpoint, both for account-based and UTXO-based
 ### Example
 
 ```javascript
- const api = require('../src/');
- const blockchain = api.blockchains.BITCOIN;
- const network = api.networks[blockchain].NETWORK_BITCOIN_MAINNET;
- const client = new api.client('YOUR API KEY', blockchain, network);
- const preparedUTXO = await client.prepareUTXOBasedTransactionFromXpub({...})
- const accountXpriv = 'xprv8gdau6KURKnX7mcKNjLMWx3a3tEzHCMiJDBtFCJrvmXCsHNj3wvSuJ3T8g67WvN9hkFa4y1Mnr9ZbyUzs9fdhi8mhegLufkEuwSdmDeBXvz';
+ const {Enumerations, Client, Services } = require('./src')
+ const blockchain = Enumerations.Blockchains.BITCOIN;
+ const network = Enumerations.Networks[blockchain].NETWORK_BITCOIN_MAINNET;
+ const client = new Client('YOUR API KEY', blockchain, network);
+ const preparedUTXO = await client.prepareUTXOBasedTransactionFromXpub({...});
 
- client.signPreparedTransactionLocally(accountXpriv, preparedUTXO).then((data) => {
-     console.dir('API called successfully. Returned data:');
-     console.dir(data);
- }, (error) => {
-     console.log(error);
- });
+ const accountXpriv = 'xprv8gdau6KURKnX7mcKNjLMWx3a3tEzHCMiJDBtFCJrvmXCsHNj3wvSuJ3T8g67WvN9hkFa4y1Mnr9ZbyUzs9fdhi8mhegLufkEuwSdmDeBXvz';
+ const signService = new Services.SignService(blockchain, network)
+ try {
+     const signedTx = signService.signPreparedTransactionLocally(accountXpriv, preparedUTXO);
+     console.dir('Transaction signed successfully. Returned data:');
+     console.dir(signedTx.raw); 
+ } catch (e) {
+     console.log(e.message);
+}
 ```
 
 ### Parameters
@@ -472,10 +476,10 @@ broadcast locally signed transaction
 ### Example
 
 ```javascript
- const api = require('../src/');
- const blockchain = api.blockchains.BITCOIN;
- const network = api.networks[blockchain].NETWORK_BITCOIN_MAINNET;
- const client = new api.client('YOUR API KEY', blockchain, network);
+ const {Enumerations, Client, Services } = require('./src')
+ const blockchain = Enumerations.Blockchains.BITCOIN;
+ const network = Enumerations.Networks[blockchain].NETWORK_BITCOIN_MAINNET;
+ const client = new Client('YOUR API KEY', blockchain, network);
  const signedTx = client.signPreparedTransactionLocally(accountXpriv, preparedUTXO)
  const callbackSecretKey = 'yourSecretString';
  const callbackUrl = 'https://example.com'; // your URL for callback must be verifyed from dashboard  
@@ -511,10 +515,10 @@ BroadcastSignedTxDTO
 ### Example
 
 ```javascript
- const api = require('../src/');
- const blockchain = api.blockchains.BITCOIN;
- const network = api.networks[blockchain].NETWORK_BITCOIN_MAINNET;
- const client = new api.client('YOUR API KEY', blockchain, network);
+ const {Enumerations, Client, Services } = require('./src')
+ const blockchain = Enumerations.Blockchains.BITCOIN;
+ const network = Enumerations.Networks[blockchain].NETWORK_BITCOIN_MAINNET;
+ const client = new Client('YOUR API KEY', blockchain, network);
 
  try {
      const data = client.broadcastedTransactionCallback('8888f6c8168ff69aaf6438ab185c690e8c76c63e5f9c472c1c86f08406ea74f2');

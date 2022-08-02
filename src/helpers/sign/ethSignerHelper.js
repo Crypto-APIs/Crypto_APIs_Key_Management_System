@@ -1,26 +1,19 @@
 'use strict';
 
-const BaseSigner = require('./baseSignerHelper')
+const BaseSignerHelper = require('./baseSignerHelper')
     , {FeeMarketEIP1559Transaction: GasFeeMarketTransaction} = require('@ethereumjs/tx')
     , AccountBasedTransaction = require('../prepare/accountBasedPrepareHelper')
     , HDKey = require("hdkey")
 ;
 
 /**
- * EthSigner
+ * EthSignerHelper
  *
- * @class EthSigner
- * @extends {BaseSigner}
+ * @class EthSignerHelper
+ *
+ * @extends {BaseSignerHelper}
  */
-class EthSigner extends BaseSigner {
-    /**
-     * @param {string} blockchain
-     * @param {string} network
-     */
-    constructor({blockchain, network}) {
-        super({blockchain, network})
-    }
-
+class EthSignerHelper extends BaseSignerHelper {
     /**
      * @inheritDoc
      */
@@ -58,4 +51,4 @@ class EthSigner extends BaseSigner {
     }
 }
 
-module.exports = EthSigner;
+module.exports = EthSignerHelper;

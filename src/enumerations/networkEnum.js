@@ -1,7 +1,7 @@
 'use strict'
 
 const {default: ethereumCommon} = require('@ethereumjs/common');
-const {blockchains: BlockchainsEnum} = require('./blockchains')
+const {blockchains: BlockchainEnum} = require('./blockchainEnum')
 
 const NETWORK_BITCOIN_MAINNET = 'mainnet';
 const NETWORK_BITCOIN_TESTNET = 'testnet';
@@ -34,7 +34,7 @@ const NETWORK_BINANCE_SMART_CHAIN_MAINNET = 'mainnet';
 const NETWORK_BINANCE_SMART_CHAIN_TESTNET = 'testnet';
 
 const NETWORKS_CONFIGS = {
-    [BlockchainsEnum.BITCOIN]: {
+    [BlockchainEnum.BITCOIN]: {
         [NETWORK_BITCOIN_MAINNET]: {
             messagePrefix: '\x18Bitcoin Signed Message:\n',
             bech32: 'bc',
@@ -74,7 +74,7 @@ const NETWORKS_CONFIGS = {
             wif: 0xef,
         },
     },
-    [BlockchainsEnum.BITCOIN_CASH]: {
+    [BlockchainEnum.BITCOIN_CASH]: {
         [NETWORK_BITCOIN_CASH_MAINNET]: {
             messagePrefix: 'unused',
             bip32: {
@@ -96,7 +96,7 @@ const NETWORKS_CONFIGS = {
             wif: 0xef,
         },
     },
-    [BlockchainsEnum.LITECOIN]: {
+    [BlockchainEnum.LITECOIN]: {
         [NETWORK_LITECOIN_MAINNET]: {
             bech32: 'ltc',
             messagePrefix: '\x19Litecoin Signed Message:\n',
@@ -136,7 +136,7 @@ const NETWORKS_CONFIGS = {
             wif: 0xef,
         },
     },
-    [BlockchainsEnum.DASH]: {
+    [BlockchainEnum.DASH]: {
         [NETWORK_DASH_MAINNET]: {
             messagePrefix: 'unused',
             bip32: {
@@ -158,7 +158,7 @@ const NETWORKS_CONFIGS = {
             wif: 0xef
         },
     },
-    [BlockchainsEnum.DOGECOIN]: {
+    [BlockchainEnum.DOGECOIN]: {
         [NETWORK_DOGECOIN_MAINNET]: {
             messagePrefix: '\x19Dogecoin Signed Message:\n',
             bip32: {
@@ -180,7 +180,7 @@ const NETWORKS_CONFIGS = {
             wif: 0xf1
         },
     },
-    [BlockchainsEnum.ETHEREUM]: {
+    [BlockchainEnum.ETHEREUM]: {
         [NETWORK_ETHEREUM_MAINNET]: {
             common: new ethereumCommon({
                 chain: 'mainnet',
@@ -205,7 +205,7 @@ const NETWORKS_CONFIGS = {
             )
         },
     },
-    [BlockchainsEnum.ETHEREUM_CLASSIC]: {
+    [BlockchainEnum.ETHEREUM_CLASSIC]: {
         [NETWORK_ETHEREUM_CLASSIC_MAINNET]: {
             common: ethereumCommon.forCustomChain(
                 'mainnet',
@@ -237,7 +237,7 @@ const NETWORKS_CONFIGS = {
             }
         },
     },
-    [BlockchainsEnum.BINANCE_SMART_CHAIN]: {
+    [BlockchainEnum.BINANCE_SMART_CHAIN]: {
         [NETWORK_BINANCE_SMART_CHAIN_MAINNET]: {
             common: ethereumCommon.forCustomChain(
                 'mainnet',
@@ -269,43 +269,43 @@ const NETWORKS_CONFIGS = {
 
 module.exports = {
     'NETWORKS': {
-        [BlockchainsEnum.BITCOIN]: {
+        [BlockchainEnum.BITCOIN]: {
             'NETWORK_BITCOIN_MAINNET': NETWORK_BITCOIN_MAINNET,
             'NETWORK_BITCOIN_TESTNET': NETWORK_BITCOIN_TESTNET,
         },
-        [BlockchainsEnum.BITCOIN_CASH]: {
+        [BlockchainEnum.BITCOIN_CASH]: {
             'NETWORK_BITCOIN_CASH_MAINNET': NETWORK_BITCOIN_CASH_MAINNET,
             'NETWORK_BITCOIN_CASH_TESTNET': NETWORK_BITCOIN_CASH_TESTNET,
         },
-        [BlockchainsEnum.LITECOIN]: {
+        [BlockchainEnum.LITECOIN]: {
             'NETWORK_LITECOIN_MAINNET': NETWORK_LITECOIN_MAINNET,
             'NETWORK_LITECOIN_TESTNET': NETWORK_LITECOIN_TESTNET,
         },
-        [BlockchainsEnum.DOGECOIN]: {
+        [BlockchainEnum.DOGECOIN]: {
             'NETWORK_DOGECOIN_MAINNET': NETWORK_DOGECOIN_MAINNET,
             'NETWORK_DOGECOIN_TESTNET': NETWORK_DOGECOIN_TESTNET,
         },
-        [BlockchainsEnum.DASH]: {
+        [BlockchainEnum.DASH]: {
             'NETWORK_DASH_MAINNET': NETWORK_DASH_MAINNET,
             'NETWORK_DASH_TESTNET': NETWORK_DASH_TESTNET,
         },
-        [BlockchainsEnum.ETHEREUM]: {
+        [BlockchainEnum.ETHEREUM]: {
             'NETWORK_ETHEREUM_MAINNET': NETWORK_ETHEREUM_MAINNET,
             'NETWORK_ETHEREUM_ROPSTEN': NETWORK_ETHEREUM_ROPSTEN,
         },
-        [BlockchainsEnum.ETHEREUM_CLASSIC]: {
+        [BlockchainEnum.ETHEREUM_CLASSIC]: {
             'NETWORK_ETHEREUM_CLASSIC_MAINNET': NETWORK_ETHEREUM_CLASSIC_MAINNET,
             'NETWORK_ETHEREUM_CLASSIC_MORDOR': NETWORK_ETHEREUM_CLASSIC_MORDOR,
         },
-        [BlockchainsEnum.BINANCE_SMART_CHAIN]: {
+        [BlockchainEnum.BINANCE_SMART_CHAIN]: {
             'NETWORK_BINANCE_SMART_CHAIN_MAINNET': NETWORK_BINANCE_SMART_CHAIN_MAINNET,
             'NETWORK_BINANCE_SMART_CHAIN_TESTNET': NETWORK_BINANCE_SMART_CHAIN_TESTNET,
         },
-        [BlockchainsEnum.ZCASH]: {
+        [BlockchainEnum.ZCASH]: {
             'NETWORK_ZCASH_MAINNET': NETWORK_ZCASH_MAINNET,
             'NETWORK_ZCASH_TESTNET': NETWORK_ZCASH_TESTNET,
         },
-        [BlockchainsEnum.XRP]: {
+        [BlockchainEnum.XRP]: {
             'NETWORK_XRP_MAINNET': NETWORK_XRP_MAINNET,
             'NETWORK_XRP_TESTNET': NETWORK_XRP_TESTNET,
         },

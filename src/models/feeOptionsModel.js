@@ -1,13 +1,13 @@
 'use strict';
 
-const priorityEnum = require('../enumerations/feePriorities')
-    , prepareStrategyEnum = require('../enumerations/prepareStrategies')
+const feePriorityEnum = require('../enumerations/feePriorityEnum')
+    , prepareStrategyEnum = require('../enumerations/prepareStrategyEnum')
 ;
 
-class FeeOptionsBase {
+class FeeOptionsBaseModel {
 
     /**
-     * @param {priorityEnum} priority
+     * @param {feePriorityEnum} priority
      * @param {string} feeAmount
      */
     constructor({priority, feeAmount}) {
@@ -27,26 +27,18 @@ class FeeOptionsBase {
     }
 
     /**
-     * @return {priorityEnum}
+     * @return {feePriorityEnum}
      */
     getPriority() {
         return this._priority;
     }
 }
 
-class AccountBasedFeeOptions extends FeeOptionsBase {
-    /**
-     * @param {priorityEnum} priority
-     * @param {string} feeAmount
-     */
-    constructor({priority, feeAmount}) {
-        super({priority, feeAmount});
-    }
-}
+class AccountBasedFeeOptionsModel extends FeeOptionsBaseModel {}
 
-class UTXOBasedFeeOptions extends FeeOptionsBase {
+class UTXOBasedFeeOptionsModel extends FeeOptionsBaseModel {
     /**
-     * @param {priorityEnum} priority
+     * @param {feePriorityEnum} priority
      * @param {string} feeAmount
      * @param {prepareStrategyEnum} prepareStrategy
      * @param {string} feeAddress
@@ -74,6 +66,6 @@ class UTXOBasedFeeOptions extends FeeOptionsBase {
 }
 
 module.exports = {
-    AccountBasedFeeOptions,
-    UTXOBasedFeeOptions
+    AccountBasedFeeOptions: AccountBasedFeeOptionsModel,
+    UTXOBasedFeeOptions: UTXOBasedFeeOptionsModel
 };

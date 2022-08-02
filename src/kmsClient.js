@@ -21,10 +21,9 @@ const validateConfig = require('./validators/configValidator')
     CallbacksService,
     SubscriptionsService,
     PrepareService,
-    SignService
 } = require('./services')
-    , feePriorityEnum = require("./enumerations/feePriorities")
-    , prepareStrategyEnum = require("./enumerations/feePriorities")
+    , feePriorityEnum = require("./enumerations/feePriorityEnum")
+    , prepareStrategyEnum = require("./enumerations/feePriorityEnum")
 
 class KmsClient {
     /**
@@ -49,7 +48,6 @@ class KmsClient {
         this.broadcastApiService = new BroadcastService(this._apiClient, this.blockchain, this.network);
         this.callbacksApiService = new CallbacksService(this._apiClient, this.blockchain, this.network);
         this.subscriptionsApiService = new SubscriptionsService(this._apiClient, this.blockchain, this.network);
-        this.signService = new SignService(this.blockchain, this.network);
         this.prepareService = new PrepareService(this._apiClient, this.blockchain, this.network);
     }
 
@@ -192,7 +190,7 @@ class KmsClient {
      * Prepare An UTXO-Based Transaction From HD Wallet (xPub, yPub, zPub)
      * Through the “Prepare a UTXO-based transaction from HD Wallet” endpoint users can prepare a transaction for signing from all synced with Crypto APIs addresses for the specific xPub. This is based on the `selectionStrategy` and the addresses’ balances. In the case a user has an address not synced with Crypto APIs, it will not be included. This endpoint applies to all supported UTXO-based blockchain protocols, e.g. Bitcoin, Litecoin, etc.
      * @param {string} xPub Defines the account extended publicly known key which is used to derive all child public keys
-     * @param {Array<Recipient>} recipients Represents a list of recipient addresses with the respective amounts
+     * @param {Array<RecipientModel>} recipients Represents a list of recipient addresses with the respective amounts
      * @param {UTXOBasedFeeOptions} feeOptions Represents the fee options
      * @param {Number} locktime Represents the time at which a particular transaction can be added to the blockchain.
      * @param {Boolean} replaceable Representation of whether the transaction is replaceable
@@ -221,25 +219,6 @@ class KmsClient {
         });
     }
 
-
-    /**
-     * Sign Prepared Transaction Locally
-     * Through this endpoint users sign their transactions locally(offline) using the transaction response from Prepare Transaction From HD Wallet (xPub, yPub, zPub) endpoint, both for account-based and UTXO-based
-     * @param {string} xPriv extended account xPriv
-     * @param {TransactionDTO} transaction
-     * @throws {Error}
-     * @return {SignDTO}
-     */
-    signPreparedTransactionLocally(xPriv, transaction) {
-        try {
-             const signed = this.signService.signPreparedTransaction(xPriv, transaction);
-             return new SignDTO(signed)
-        } catch (error) {
-            throw error;
-        }
-    };
-
-
     /**
      * @param {string} signedTransactionHex
      * @param {string} callbackSecretKey
@@ -254,7 +233,6 @@ class KmsClient {
         }, error => {
             throw error;
         });
-
     }
 
     /**

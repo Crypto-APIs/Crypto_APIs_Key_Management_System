@@ -1,6 +1,6 @@
 'use strict';
 
-const blockchains = {
+const blockchainEnum = {
     BITCOIN: 'bitcoin',
     BITCOIN_CASH: 'bitcoin-cash',
     LITECOIN: 'litecoin',
@@ -13,4 +13,4 @@ const blockchains = {
     ZCASH: 'zcash'
 };
 
-module.exports.blockchains = blockchains;
+module.exports.blockchains = blockchainEnum;

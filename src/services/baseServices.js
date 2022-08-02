@@ -38,6 +38,7 @@ class BaseBlockchainAwareService {
  * Abstract Class BaseCryptoAPIsLibAwareService
  *
  * @class BaseCryptoAPIsLibAwareService
+ *
  * @extends {BaseBlockchainAwareService}
  */
 class BaseCryptoAPIsLibAwareService extends BaseBlockchainAwareService {

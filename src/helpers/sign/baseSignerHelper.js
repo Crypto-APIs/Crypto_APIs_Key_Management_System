@@ -1,15 +1,15 @@
 'use strict';
 
-const NetworksConfigsEnum = require('../../enumerations/networks');
+const NetworksConfigsEnum = require('../../enumerations/networkEnum');
 const {BaseBlockchainAwareService} = require("../../services/baseServices");
 
 /**
  * BaseSigner
  *
- * @class BaseSigner
+ * @class BaseSignerHelper
  * @extends {BaseBlockchainAwareService}
  */
-class BaseSigner extends BaseBlockchainAwareService {
+class BaseSignerHelper extends BaseBlockchainAwareService {
     /**
      * @param {string} blockchain
      * @param {string} network
@@ -36,4 +36,4 @@ class BaseSigner extends BaseBlockchainAwareService {
     };
 }
 
-module.exports = BaseSigner;
+module.exports = BaseSignerHelper;

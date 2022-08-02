@@ -1,9 +1,10 @@
 'use strict';
 
 const validateBlockchain = require("./blockchainValidator")
-    , {NETWORKS: NetworksEnum} = require('../enumerations/networks')
+    , {NETWORKS: NetworksEnum} = require('../enumerations/networkEnum')
     , errors = require('./customErrors')
-    , errorDTO = require('../dtos/errorDTO');
+    , errorDTO = require('../dtos/errorDTO')
+;
 
 module.exports = {
 

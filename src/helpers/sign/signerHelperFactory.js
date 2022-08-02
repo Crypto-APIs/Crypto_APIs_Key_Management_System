@@ -1,8 +1,8 @@
 'use strict';
 
-const EthSigner = require('./ethSignerHelper')
-    , BtcSigner = require('./btcSignerHelper')
-    , {blockchains} = require('../../enumerations/blockchains')
+const EthSignerHelper = require('./ethSignerHelper')
+    , BtcSignerHelper = require('./btcSignerHelper')
+    , {blockchains} = require('../../enumerations/blockchainEnum')
 ;
 
 class SignerHelperFactory {
@@ -10,7 +10,7 @@ class SignerHelperFactory {
      * @param {string} blockchain
      * @param {string} network
      *
-     * @returns {BaseSigner|Error}
+     * @returns {BaseSignerHelper|Error}
      */
     static create({blockchain, network}) {
         const args = {
@@ -20,9 +20,9 @@ class SignerHelperFactory {
 
         switch (blockchain.toLowerCase()) {
             case blockchains.BITCOIN:
-                return new BtcSigner(args);
+                return new BtcSignerHelper(args);
             case blockchains.ETHEREUM:
-                return new EthSigner(args);
+                return new EthSignerHelper(args);
             default:
                 return new Error('Blockchain signer type not supported');
         }
