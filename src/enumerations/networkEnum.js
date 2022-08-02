@@ -20,6 +20,7 @@ const NETWORK_DASH_TESTNET = 'testnet';
 
 const NETWORK_ETHEREUM_MAINNET = 'mainnet';
 const NETWORK_ETHEREUM_ROPSTEN = 'ropsten';
+const NETWORK_ETHEREUM_GOERLI = 'goerli';
 
 const NETWORK_ETHEREUM_CLASSIC_MAINNET = 'mainnet';
 const NETWORK_ETHEREUM_CLASSIC_MORDOR = 'mordor';
@@ -204,6 +205,17 @@ const NETWORKS_CONFIGS = {
                 'london'
             )
         },
+        [NETWORK_ETHEREUM_GOERLI]: {
+            common: ethereumCommon.forCustomChain(
+                'goerli',
+                {
+                    name: 'goerli',
+                    networkId: 5,
+                    chainId: 5,
+                },
+                'london'
+            )
+        },
     },
     [blockchainEnum.ETHEREUM_CLASSIC]: {
         [NETWORK_ETHEREUM_CLASSIC_MAINNET]: {
@@ -292,6 +304,7 @@ module.exports = {
         [blockchainEnum.ETHEREUM]: {
             'NETWORK_ETHEREUM_MAINNET': NETWORK_ETHEREUM_MAINNET,
             'NETWORK_ETHEREUM_ROPSTEN': NETWORK_ETHEREUM_ROPSTEN,
+            'NETWORK_ETHEREUM_GOERLI': NETWORK_ETHEREUM_GOERLI,
         },
         [blockchainEnum.ETHEREUM_CLASSIC]: {
             'NETWORK_ETHEREUM_CLASSIC_MAINNET': NETWORK_ETHEREUM_CLASSIC_MAINNET,
