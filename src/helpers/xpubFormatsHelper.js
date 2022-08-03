@@ -64,9 +64,6 @@ const XPUB_DERIVATION_PATHS = {
         [NetworksEnum[blockchainEnum.ETHEREUM]["NETWORK_ETHEREUM_MAINNET"]]: {
             [XPUB_DERIVATION_TYPE_BIP44]: "m/44'/60'/0'",
         },
-        [NetworksEnum[blockchainEnum.ETHEREUM]["NETWORK_ETHEREUM_ROPSTEN"]]: {
-            [XPUB_DERIVATION_TYPE_BIP44]: "m/44'/1'/0'",
-        },
         [NetworksEnum[blockchainEnum.ETHEREUM["NETWORK_ETHEREUM_GOERLI"]]]: {
             [XPUB_DERIVATION_TYPE_BIP44]: "m/44'/1'/0'",
         },

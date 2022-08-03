@@ -19,7 +19,6 @@ const NETWORK_DASH_MAINNET = 'mainnet';
 const NETWORK_DASH_TESTNET = 'testnet';
 
 const NETWORK_ETHEREUM_MAINNET = 'mainnet';
-const NETWORK_ETHEREUM_ROPSTEN = 'ropsten';
 const NETWORK_ETHEREUM_GOERLI = 'goerli';
 
 const NETWORK_ETHEREUM_CLASSIC_MAINNET = 'mainnet';
@@ -194,17 +193,6 @@ const NETWORKS_CONFIGS = {
                 private: 0x0488ade4,
             }
         },
-        [NETWORK_ETHEREUM_ROPSTEN]: {
-            common: ethereumCommon.forCustomChain(
-                'ropsten',
-                {
-                    name: 'ropsten',
-                    networkId: 3,
-                    chainId: 3,
-                },
-                'london'
-            )
-        },
         [NETWORK_ETHEREUM_GOERLI]: {
             common: ethereumCommon.forCustomChain(
                 'goerli',
@@ -303,7 +291,6 @@ module.exports = {
         },
         [blockchainEnum.ETHEREUM]: {
             'NETWORK_ETHEREUM_MAINNET': NETWORK_ETHEREUM_MAINNET,
-            'NETWORK_ETHEREUM_ROPSTEN': NETWORK_ETHEREUM_ROPSTEN,
             'NETWORK_ETHEREUM_GOERLI': NETWORK_ETHEREUM_GOERLI,
         },
         [blockchainEnum.ETHEREUM_CLASSIC]: {
