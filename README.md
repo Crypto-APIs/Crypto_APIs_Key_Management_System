@@ -16,7 +16,7 @@ The KMS is perfect for B2C companies, including hardware wallets and digital wal
 Then install it via:
 
 ```shell
-npm install cryptoapis-kms-os-sdk
+npm install cryptoapis-kms
 ```
 
 ## Usage
