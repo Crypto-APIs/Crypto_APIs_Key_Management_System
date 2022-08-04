@@ -3,7 +3,7 @@
 Crypto APIs KMS (Key Management System) is an open-source Node.js library. It gives companies full custody of master private keys, master seeds, and mnemonics. The library allows businesses to create HD wallets (xPubs) and sign transactions locally without a network connection (offline). It can be used in combination with Crypto APIs product suite for syncing xPub, deriving wallet addresses, listing wallet addresses, getting fee recommendations, preparing the transaction with the right data, broadcasting locally signed transactions.
 The KMS is perfect for B2C companies, including hardware wallets and digital wallets, as well as custodial or non-custodial exchanges. By using Crypto API's open-source library, they can easily scale to satisfy the demand and create wallets for millions of users. The businesses can decide whether to hold custody of their clients' master keys, master seed, and mnemonic or give them to their customers instead.
 
-- Package version: 0.1.1
+- Package version: 0.1.2
 - For more information, please visit [https://cryptoapis.io](https://cryptoapis.io)
 - minimum requirement NodeJS >= 14.0
 
@@ -56,10 +56,6 @@ Name | Type       | Description                                                 
 ### Return type
 
 WalletDTO
-
-### Authorization
-
-[ApiKey](#ApiKey)
 
 ## syncNewHDWallet (xPub, yPub, zPub)
 After initial sync we keep updating the synced xpub all the time.
@@ -362,10 +358,6 @@ Name | Type               | Description                                         
 
 SignDTO
 
-### Authorization
-
-[ApiKey](#ApiKey)
-
 ## broadcastSignedTx
 broadcast locally signed transaction
 
@@ -438,8 +430,12 @@ BroadcastedTransactionCallbackDTO
 
 [ApiKey](#ApiKey)
 
-### ApiKey
+## ApiKey
 
 - **Type**: API key
 - **API key parameter name**: x-api-key
 - **Location**: HTTP header
+
+## Contributing 
+
+Anyone who wants to contribute is welcome. Use the Issues as a way to make suggestions that you want to see or even want to create.
