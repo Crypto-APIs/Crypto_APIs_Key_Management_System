@@ -3,7 +3,7 @@
 Crypto APIs KMS (Key Management System) is an open-source Node.js library. It gives companies full custody of master private keys, master seeds, and mnemonics. The library allows businesses to create HD wallets (xPubs) and sign transactions locally without a network connection (offline). It can be used in combination with Crypto APIs product suite for syncing xPub, deriving wallet addresses, listing wallet addresses, getting fee recommendations, preparing the transaction with the right data, broadcasting locally signed transactions.
 The KMS is perfect for B2C companies, including hardware wallets and digital wallets, as well as custodial or non-custodial exchanges. By using Crypto API's open-source library, they can easily scale to satisfy the demand and create wallets for millions of users. The businesses can decide whether to hold custody of their clients' master keys, master seed, and mnemonic or give them to their customers instead.
 
-- Package version: 0.1.0
+- Package version: 0.1.3
 - For more information, please visit [https://cryptoapis.io](https://cryptoapis.io)
 - minimum requirement NodeJS >= 14.0
 
@@ -21,20 +21,44 @@ npm install cryptoapis-kms
 
 ## Usage
 
-## createHDWallet (xPub, yPub, zPub)
+## generateAddress
+This method generates and returns a new public and private key pair, and the associated address with it.
 
+### Example
+
+```javascript
+ const { Enumerations, Services } = require('cryptoapis-kms');
+ const blockchain = Enumerations.Blockchains.BITCOIN;
+ const network = Enumerations.Networks[blockchain].NETWORK_BITCOIN_MAINNET;
+
+ (async () => {
+   const addressService = new Services.AddressService(blockchain, network)
+   const address = await addressService.generateAddress();
+   console.dir('New address generated successfully. Returned data:');
+   console.dir(address)
+   console.dir(address.address)
+   console.dir(address.privateKey)
+   console.dir(address.publicKey)
+ })();
+```
+
+### Return type
+
+AddressDTO
+
+## createHDWallet (xPub, yPub, zPub)
 This method generates a new HD Wallet for a specific blockchain and network. The response from the endpoint should be stored,
 otherwise the data is lost and cannot be recovered.
 
 ### Example
 
 ```javascript
- const { Enumerations, Services } = require('./src')
+ const { Enumerations, Services } = require('cryptoapis-kms');
  const blockchain = Enumerations.Blockchains.BITCOIN;
  const network = Enumerations.Networks[blockchain].NETWORK_BITCOIN_MAINNET;
 
  (async () => {
-   const walletService = new Services.WalletService(blockchain, network)
+   const walletService = new Services.WalletService(blockchain, network);
    const wallet = await walletService.createHDWallet().then((data) => {
          console.dir('HD Wallet created successfully. Returned data:');
          console.dir(data);
@@ -57,17 +81,13 @@ Name | Type       | Description                                                 
 
 WalletDTO
 
-### Authorization
-
-[ApiKey](#ApiKey)
-
 ## syncNewHDWallet (xPub, yPub, zPub)
 After initial sync we keep updating the synced xpub all the time.
 
 ### Example
 
 ```javascript
- const {Enumerations, Client, Services } = require('./src')
+ const {Enumerations, Client, Services } = require('cryptoapis-kms');
  const blockchain = Enumerations.Blockchains.BITCOIN;
  const network = Enumerations.Networks[blockchain].NETWORK_BITCOIN_MAINNET;
  const client = new Client('YOUR API KEY', blockchain, network);
@@ -103,7 +123,7 @@ it will start from index 0.
 ### Example
 
 ```javascript
- const {Enumerations, Client, Services } = require('./src')
+ const {Enumerations, Client, Services } = require('cryptoapis-kms');
  const blockchain = Enumerations.Blockchains.BITCOIN;
  const network = Enumerations.Networks[blockchain].NETWORK_BITCOIN_MAINNET;
  const client = new Client('YOUR API KEY', blockchain, network);
@@ -140,7 +160,7 @@ start from index 0.
 ### Example
 
 ```javascript
- const {Enumerations, Client, Services } = require('./src')
+ const {Enumerations, Client, Services } = require('cryptoapis-kms');
  const blockchain = Enumerations.Blockchains.BITCOIN;
  const network = Enumerations.Networks[blockchain].NETWORK_BITCOIN_MAINNET;
  const client = new Client('YOUR API KEY', blockchain, network);
@@ -176,7 +196,7 @@ previous and current/new xPubs, what addresses we’ve synced for them, etc.
 ### Example
 
 ```javascript
- const {Enumerations, Client, Services } = require('./src')
+ const {Enumerations, Client, Services } = require('cryptoapis-kms');
  const blockchain = Enumerations.Blockchains.BITCOIN;
  const network = Enumerations.Networks[blockchain].NETWORK_BITCOIN_MAINNET;
  const client = new Client('YOUR API KEY', blockchain, network);
@@ -225,7 +245,7 @@ Litecoin, etc.
 ### Example
 
 ```javascript
- const {Enumerations, Client, Services } = require('./src')
+ const {Enumerations, Client, Services } = require('cryptoapis-kms');
  const blockchain = Enumerations.Blockchains.BITCOIN;
  const network = Enumerations.Networks[blockchain].NETWORK_BITCOIN_MAINNET;
  const client = new Client('YOUR API KEY', blockchain, network);
@@ -280,7 +300,7 @@ account-based blockchain protocols, e.g. Ethereum, BSC, etc
 ### Example
 
 ```javascript
- const {Enumerations, Client, Services } = require('./src')
+ const {Enumerations, Client, Services } = require('cryptoapis-kms');
  const blockchain = Enumerations.Blockchains.ETHEREUM;
  const network = Enumerations.Networks[blockchain].NETWORK_ETHEREUM_MAINNET;
  const client = new Client('YOUR API KEY', blockchain, network);
@@ -334,7 +354,7 @@ Prepare Transaction From HD Wallet endpoint, both for account-based and UTXO-bas
 ### Example
 
 ```javascript
- const {Enumerations, Client, Services } = require('./src')
+ const {Enumerations, Client, Services } = require('cryptoapis-kms');
  const blockchain = Enumerations.Blockchains.BITCOIN;
  const network = Enumerations.Networks[blockchain].NETWORK_BITCOIN_MAINNET;
  const client = new Client('YOUR API KEY', blockchain, network);
@@ -372,7 +392,7 @@ broadcast locally signed transaction
 ### Example
 
 ```javascript
- const {Enumerations, Client, Services } = require('./src')
+ const {Enumerations, Client, Services } = require('cryptoapis-kms');
  const blockchain = Enumerations.Blockchains.BITCOIN;
  const network = Enumerations.Networks[blockchain].NETWORK_BITCOIN_MAINNET;
  const client = new Client('YOUR API KEY', blockchain, network);
@@ -401,17 +421,12 @@ Name | Type | Description  | Notes
 
 BroadcastSignedTxDTO
 
-### Authorization
-
-[ApiKey](#ApiKey)
-
-
 ## broadcastedTransactionCallback
 
 ### Example
 
 ```javascript
- const {Enumerations, Client, Services } = require('./src')
+ const {Enumerations, Client, Services } = require('cryptoapis-kms');
  const blockchain = Enumerations.Blockchains.BITCOIN;
  const network = Enumerations.Networks[blockchain].NETWORK_BITCOIN_MAINNET;
  const client = new Client('YOUR API KEY', blockchain, network);
@@ -438,8 +453,12 @@ BroadcastedTransactionCallbackDTO
 
 [ApiKey](#ApiKey)
 
-### ApiKey
+## ApiKey
 
 - **Type**: API key
 - **API key parameter name**: x-api-key
 - **Location**: HTTP header
+
+## Contributing
+
+Anyone who wants to contribute is welcome. Use the Issues as a way to make suggestions that you want to see or even want to create.

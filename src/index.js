@@ -9,7 +9,8 @@ const KmsClient = require('./kmsClient')
     } = require('./helpers/xpubFormatsHelper')
     , {
         WalletService,
-        SignService
+        SignService,
+        AddressService
     } = require('./services')
 ;
 
@@ -22,7 +23,8 @@ module.exports = {
     },
     Services: {
         WalletService: WalletService,
-        SignService: SignService
+        SignService: SignService,
+        AddressService: AddressService
     },
     Client: KmsClient,
 };

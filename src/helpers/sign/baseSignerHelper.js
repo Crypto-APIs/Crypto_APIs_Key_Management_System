@@ -4,7 +4,7 @@ const NetworksConfigsEnum = require('../../enumerations/networkEnum');
 const {BaseBlockchainAwareService} = require("../../services/baseServices");
 
 /**
- * BaseSigner
+ * BaseSignerHelper
  *
  * @class BaseSignerHelper
  * @extends {BaseBlockchainAwareService}
