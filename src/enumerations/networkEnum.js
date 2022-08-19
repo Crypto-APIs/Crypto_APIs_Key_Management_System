@@ -264,7 +264,43 @@ const NETWORKS_CONFIGS = {
                 'petersburg'
             )
         },
-    }
+    },
+    [blockchainEnum.ZCASH]: {
+        [NETWORK_ZCASH_MAINNET]: {
+            messagePrefix: '\x19ZCash Signed Message:\n',
+            bip32: {
+                public: 0x0488b21e,
+                private: 0x0488ade4,
+            },
+            pubKeyHash: 0x1cb8,
+            scriptHash: 0x1cbd,
+            wif: 0x80,
+            consensusBranchId: {
+                1: 0x00,
+                2: 0x00,
+                3: 0x5ba81b19,
+                4: 0xE9FF75A6,
+            },
+            coin: 'zec'
+        },
+        [NETWORK_ZCASH_TESTNET]: {
+            messagePrefix: '\x19ZCash Signed Message:\n',
+            bip32: {
+                public: 0x043587cf,
+                private: 0x04358394,
+            },
+            pubKeyHash: 0x1d25,
+            scriptHash: 0x1cba,
+            wif: 0xef,
+            consensusBranchId: {
+                1: 0x00,
+                2: 0x00,
+                3: 0x5ba81b19,
+                4: 0x37519621,
+            },
+            coin: 'zec'
+        },
+    },
 };
 
 module.exports = {

@@ -23,6 +23,8 @@
     "decimal.js": "^10.3.1",
     "ethereumjs-util": "^7.1.5",
     "hdkey": "^2.0.1",
-    "hex2dec": "^1.1.2"
+    "hex2dec": "^1.1.2",
+    "zcashcore-lib": "^0.13.19",
+    "blake2b": "^2.1.4"
   }
 }

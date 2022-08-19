@@ -46,7 +46,7 @@ class BaseGeneratorHelper extends BaseBlockchainAwareService {
         const address = this.generateAddressFromPublicKey({publicKey});
 
         const xPriv = wallet.accountXpriv;
-        hdKey = HDKey.fromExtendedKey(xPriv);
+        hdKey = HDKey.fromExtendedKey(xPriv, this.networkConfig?.bip32);
         const derivedPrivKey = hdKey.derive(path)
         const privateKey = derivedPrivKey.privateKey.toString('hex');
 
