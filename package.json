@@ -19,12 +19,14 @@
     "bip39": "^3.0.4",
     "bitcoinjs-lib": "^5.2.0",
     "bitcore-lib": "^8.25.30",
+    "blake2b": "^2.1.4",
     "cryptoapis": "^1.7.2",
     "decimal.js": "^10.3.1",
+    "ecpair": "^2.0.1",
     "ethereumjs-util": "^7.1.5",
     "hdkey": "^2.0.1",
     "hex2dec": "^1.1.2",
-    "zcashcore-lib": "^0.13.19",
-    "blake2b": "^2.1.4"
+    "tiny-secp256k1": "^2.2.1",
+    "zcashcore-lib": "^0.13.19"
   }
 }

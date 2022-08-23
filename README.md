@@ -31,15 +31,13 @@ This method generates and returns a new public and private key pair, and the ass
  const blockchain = Enumerations.Blockchains.BITCOIN;
  const network = Enumerations.Networks[blockchain].NETWORK_BITCOIN_MAINNET;
 
- (async () => {
-   const addressService = new Services.AddressService(blockchain, network)
-   const address = await addressService.generateAddress();
-   console.dir('New address generated successfully. Returned data:');
-   console.dir(address)
-   console.dir(address.address)
-   console.dir(address.privateKey)
-   console.dir(address.publicKey)
- })();
+ const addressService = new Services.AddressService(blockchain, network)
+ const address = addressService.generateAddress();
+ console.dir('New address generated successfully. Returned data:');
+ console.dir(address)
+ console.dir(address.address)
+ console.dir(address.privateKey)
+ console.dir(address.publicKey)
 ```
 
 ### Return type
@@ -245,14 +243,14 @@ Litecoin, etc.
 ### Example
 
 ```javascript
- const {Enumerations, Client, Services } = require('cryptoapis-kms');
+ const {Enumerations, Client, Services, Models } = require('cryptoapis-kms');
  const blockchain = Enumerations.Blockchains.BITCOIN;
  const network = Enumerations.Networks[blockchain].NETWORK_BITCOIN_MAINNET;
  const client = new Client('YOUR API KEY', blockchain, network);
  const xPub = "xpub6BsFsonVJR5vPChKQamp55R7veBCMD2CL3LtL83B3FS5DiayYgmoHCGQodeLTukaa4anZRQD9kNtPFHuPnCzjCiT9nrXdf3voNLhXQryBRB"
- const feeOptions = new UTXOBasedFeeOptions({
+ const feeOptions = new Models.UTXOBasedFeeOptionsModel({
     prepareStrategy: 'MINIMIZE_DUST',
-    priority: feePriorityEnum.FAST,
+    priority: Enumerations.FeePriorities.FAST,
  });
  const recipients = [ 
      new Recipients("tb1q8qrk9pxkjcuk4a29ec7snskaxll55jzfhrcq24", '0.000031')
@@ -300,7 +298,7 @@ account-based blockchain protocols, e.g. Ethereum, BSC, etc
 ### Example
 
 ```javascript
- const {Enumerations, Client, Services } = require('cryptoapis-kms');
+ const {Enumerations, Client, Services, Models } = require('cryptoapis-kms');
  const blockchain = Enumerations.Blockchains.ETHEREUM;
  const network = Enumerations.Networks[blockchain].NETWORK_ETHEREUM_MAINNET;
  const client = new Client('YOUR API KEY', blockchain, network);
@@ -308,8 +306,8 @@ account-based blockchain protocols, e.g. Ethereum, BSC, etc
  const sender = '0x0b7155094947d785530f66d250b097b25c30a557';
  const recipient = '0xd4e2a5949359e95c7c604050dd9d54af419689c0';
  const amount = '1.2123';
- const feeOptions = new AccountBasedFeeOptions({
-    priority: feePriorityEnum.FAST,
+ const feeOptions = new Models.AccountBasedFeeOptionsModel({
+    priority: Enumerations.FeePriorities.FAST,
  });
  const preparedAccountTransaction = await client.prepareAccountBasedTransactionFromHDWallet({
      xPub,

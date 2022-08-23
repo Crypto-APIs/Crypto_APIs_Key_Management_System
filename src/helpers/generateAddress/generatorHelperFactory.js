@@ -3,6 +3,7 @@
 const BtcGeneratorHelper = require('./btcGeneratorHelper')
     , EthGeneratorHelper = require('./ethGeneratorHelper')
     , BscGeneratorHelper = require('./bscGeneratorHelper')
+    , EtcGeneratorHelper = require('./bscGeneratorHelper')
     , ZcashGeneratorHelper = require('./zcashGeneratorHelper')
     , {blockchainEnum} = require('../../enumerations/blockchainEnum')
 ;
@@ -27,6 +28,8 @@ class GeneratorHelperFactory {
                 return new EthGeneratorHelper(args);
             case blockchainEnum.BINANCE_SMART_CHAIN:
                 return new BscGeneratorHelper(args);
+            case blockchainEnum.ETHEREUM_CLASSIC:
+                return new EtcGeneratorHelper(args);
             case blockchainEnum.ZCASH:
                 return new ZcashGeneratorHelper(args);
             default:

@@ -1,8 +1,12 @@
 'use strict';
 
 const KmsClient = require('./kmsClient')
-    , {blockchainEnum} = require('./enumerations/blockchainEnum')
-    , {NETWORKS: networkEnum} = require('./enumerations/networkEnum')
+    , {
+        blockchainEnum,
+        networkEnum,
+        feePriorityEnum,
+        prepareStrategyEnum
+    } = require('./enumerations')
     , {
         XPUB_DERIVATION_PATHS: xPubDerivationPathsEnum,
         XPUB_DERIVATION_TYPES: xPubDerivationTypesEnum
@@ -12,12 +16,24 @@ const KmsClient = require('./kmsClient')
         SignService,
         AddressService
     } = require('./services')
+    , {
+        AccountBasedFeeOptionsModel,
+        UTXOBasedFeeOptionsModel,
+        RecipientModel
+    } = require('./models')
 ;
 
 module.exports = {
+    Models: {
+        AccountBasedFeeOptionsModel: AccountBasedFeeOptionsModel,
+        UTXOBasedFeeOptionsModel: UTXOBasedFeeOptionsModel,
+        RecipientModel: RecipientModel,
+    },
     Enumerations: {
-        Blockchains: blockchainEnum,
-        Networks: networkEnum,
+        Blockchains: blockchainEnum.blockchainEnum,
+        Networks: networkEnum.NETWORKS,
+        FeePriorities: feePriorityEnum,
+        PrepareStrategies: prepareStrategyEnum,
         xPubDerivationPaths: xPubDerivationPathsEnum,
         xPubDerivationTypes: xPubDerivationTypesEnum,
     },

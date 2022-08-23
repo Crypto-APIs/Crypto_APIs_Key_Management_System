@@ -13,6 +13,7 @@ const WalletServiceDTO = require("./walletDTO")
     , AccountBasedTransactionDTO = require("./prepare/accountBasedTransactionDTO")
     , UTXOBasedTransactionDTO = require("./prepare/UTXOBasedTransaction")
     , SignDTO = require("./signDTO")
+    , AddressDTO = require("./addressDTO")
 ;
 
 module.exports = {
@@ -28,5 +29,6 @@ module.exports = {
     ListSyncedAddressesDTO,
     AccountBasedTransactionDTO,
     UTXOBasedTransactionDTO,
-    SignDTO
+    SignDTO,
+    AddressDTO
 };

@@ -2,6 +2,10 @@
 
 const BaseGeneratorHelper = require('./baseGeneratorHelper')
     , {payments} = require('bitcoinjs-lib')
+    , ecc = require('tiny-secp256k1')
+    , ecpair = require('ecpair')
+    , ECPair = ecpair.ECPairFactory(ecc)
+    , {AddressDTO} = require("../../dtos")
 ;
 
 /**
@@ -15,10 +19,16 @@ class BtcGeneratorHelper extends BaseGeneratorHelper {
     /**
      * @inheritDoc
      */
-    generateAddressFromPublicKey({publicKey}) {
-        const publicKeyBuffer = Buffer.from(publicKey, 'hex');
+    generateAddressFromPublicKey() {
+        const pair = ECPair.makeRandom({network: this.networkConfig});
 
-        return payments.p2wpkh({pubkey: publicKeyBuffer, network: this.networkConfig}).address;
+        const address = payments.p2wpkh({pubkey: pair.publicKey, network: this.networkConfig}).address
+
+        return new AddressDTO({
+            address: address,
+            publicKey: pair.publicKey.toString('hex'),
+            privateKey: pair.privateKey.toString('hex'),
+        });
     };
 }
 

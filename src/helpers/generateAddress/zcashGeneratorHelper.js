@@ -2,6 +2,10 @@
 
 const BaseGeneratorHelper = require('./baseGeneratorHelper')
     , {Address, Networks, PublicKey} = require('zcashcore-lib')
+    , ecpair = require('ecpair')
+    , ecc = require("tiny-secp256k1")
+    , ECPair = ecpair.ECPairFactory(ecc)
+    , {AddressDTO} = require("../../dtos")
 ;
 
 /**
@@ -15,11 +19,18 @@ class ZcashGeneratorHelper extends BaseGeneratorHelper {
     /**
      * @inheritDoc
      */
-    generateAddressFromPublicKey({publicKey}) {
-        const publicKeyBuffer = Buffer.from(publicKey, 'hex');
-        const bitcoreNetwork = Networks[this.network];
+    generateAddressFromPublicKey() {
+        const pair = ECPair.makeRandom();
+        const networkConfig = Networks[this.network];
 
-        return Address.fromPublicKey(new PublicKey(publicKeyBuffer, {network: bitcoreNetwork}), bitcoreNetwork).toString();
+        console.log('\n network', this.networkConfig)
+        const address = Address.fromPublicKey(new PublicKey(pair.publicKey, {network: networkConfig}), networkConfig).toString();
+
+        return new AddressDTO({
+            address: address,
+            publicKey: pair.publicKey.toString('hex'),
+            privateKey: pair.privateKey.toString('hex'),
+        });
     };
 }
 

@@ -2,9 +2,6 @@
 
 const NetworksConfigsEnum = require('../../enumerations/networkEnum')
     , {BaseBlockchainAwareService} = require("../../services/baseServices")
-    , HDKey = require('hdkey')
-    , WalletService = require("../../services/walletService")
-    , AddressDTO = require("../../dtos/addressDTO")
 ;
 
 
@@ -34,47 +31,17 @@ class BaseGeneratorHelper extends BaseBlockchainAwareService {
      *
      * @return {AddressDTO}
      */
-    async deriveXpubAddress() {
-
-        const wallet = await this._generateXpub();
-
-        const xPub = wallet.accountXpub;
-        let hdKey = HDKey.fromExtendedKey(xPub);
-        const path = `m/0/0`;
-        let childKey = hdKey.derive(path);
-        const publicKey = childKey.publicKey.toString('hex');
-        const address = this.generateAddressFromPublicKey({publicKey});
-
-        const xPriv = wallet.accountXpriv;
-        hdKey = HDKey.fromExtendedKey(xPriv, this.networkConfig?.bip32);
-        const derivedPrivKey = hdKey.derive(path)
-        const privateKey = derivedPrivKey.privateKey.toString('hex');
-
-        return new AddressDTO({
-            address,
-            privateKey,
-            publicKey,
-        });
+    generateAddress() {
+        return this.generateAddressFromPublicKey()
     }
 
-    /**
-     *
-     * @returns {Object}
-     * @private
-     */
-    async _generateXpub(){
-        const walletService = new WalletService(this.blockchain, this.network);
-        const wallet = await walletService.createHDWallet();
-
-        return wallet.xPub;
-    }
 
     /**
-     * @param {string} publicKey
+     * @protected
      *
-     * @returns {string}
+     * @returns {AddressDTO}
      */
-    generateAddressFromPublicKey({publicKey}) {
+    generateAddressFromPublicKey() {
         throw new Error('Implement generateAddressFromPublicKey method for service ' + this.constructor.name);
     }
 }

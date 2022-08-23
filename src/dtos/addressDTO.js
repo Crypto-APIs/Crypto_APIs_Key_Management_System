@@ -1,39 +1,39 @@
 'use strict';
 
 
-class AddressesDTO {
+class AddressDTO {
 
     /**
      * @param {Object} object
      *
-     * @returns {AddressesDTO}
+     * @returns {AddressDTO}
      */
     constructor(object) {
-        this.data = object;
+        this._data = object;
 
         return this;
     }
 
     /**
-     * @returns {Array}
+     * @returns {string}
      */
     get address() {
-        return this.data.address;
+        return this._data.address;
     }
 
     /**
-     * @returns {Array}
+     * @returns {string}
      */
     get privateKey() {
-        return this.data.privateKey;
+        return this._data.privateKey;
     }
 
     /**
-     * @returns {Array}
+     * @returns {string}
      */
     get publicKey() {
-        return this.data.publicKey;
+        return this._data.publicKey;
     }
 }
 
-module.exports = AddressesDTO;
+module.exports = AddressDTO;
