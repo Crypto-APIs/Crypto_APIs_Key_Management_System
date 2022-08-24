@@ -29,12 +29,12 @@ otherwise the data is lost and cannot be recovered.
 ### Example
 
 ```javascript
- const { Enumerations, Services } = require('./src')
+ const { Enumerations, Services } = require('cryptoapis-kms');
  const blockchain = Enumerations.Blockchains.BITCOIN;
  const network = Enumerations.Networks[blockchain].NETWORK_BITCOIN_MAINNET;
 
  (async () => {
-   const walletService = new Services.WalletService(blockchain, network)
+   const walletService = new Services.WalletService(blockchain, network);
    const wallet = await walletService.createHDWallet().then((data) => {
          console.dir('HD Wallet created successfully. Returned data:');
          console.dir(data);
@@ -67,7 +67,7 @@ After initial sync we keep updating the synced xpub all the time.
 ### Example
 
 ```javascript
- const {Enumerations, Client, Services } = require('./src')
+ const {Enumerations, Client, Services } = require('cryptoapis-kms');
  const blockchain = Enumerations.Blockchains.BITCOIN;
  const network = Enumerations.Networks[blockchain].NETWORK_BITCOIN_MAINNET;
  const client = new Client('YOUR API KEY', blockchain, network);
@@ -103,7 +103,7 @@ it will start from index 0.
 ### Example
 
 ```javascript
- const {Enumerations, Client, Services } = require('./src')
+ const {Enumerations, Client, Services } = require('cryptoapis-kms');
  const blockchain = Enumerations.Blockchains.BITCOIN;
  const network = Enumerations.Networks[blockchain].NETWORK_BITCOIN_MAINNET;
  const client = new Client('YOUR API KEY', blockchain, network);
@@ -140,7 +140,7 @@ start from index 0.
 ### Example
 
 ```javascript
- const {Enumerations, Client, Services } = require('./src')
+ const {Enumerations, Client, Services } = require('cryptoapis-kms');
  const blockchain = Enumerations.Blockchains.BITCOIN;
  const network = Enumerations.Networks[blockchain].NETWORK_BITCOIN_MAINNET;
  const client = new Client('YOUR API KEY', blockchain, network);
@@ -176,7 +176,7 @@ previous and current/new xPubs, what addresses we’ve synced for them, etc.
 ### Example
 
 ```javascript
- const {Enumerations, Client, Services } = require('./src')
+ const {Enumerations, Client, Services } = require('cryptoapis-kms');
  const blockchain = Enumerations.Blockchains.BITCOIN;
  const network = Enumerations.Networks[blockchain].NETWORK_BITCOIN_MAINNET;
  const client = new Client('YOUR API KEY', blockchain, network);
@@ -225,17 +225,17 @@ Litecoin, etc.
 ### Example
 
 ```javascript
- const {Enumerations, Client, Services } = require('./src')
+ const {Enumerations, Client, Services, Models } = require('cryptoapis-kms');
  const blockchain = Enumerations.Blockchains.BITCOIN;
  const network = Enumerations.Networks[blockchain].NETWORK_BITCOIN_MAINNET;
  const client = new Client('YOUR API KEY', blockchain, network);
  const xPub = "xpub6BsFsonVJR5vPChKQamp55R7veBCMD2CL3LtL83B3FS5DiayYgmoHCGQodeLTukaa4anZRQD9kNtPFHuPnCzjCiT9nrXdf3voNLhXQryBRB"
- const feeOptions = new UTXOBasedFeeOptions({
+ const feeOptions = new Models.UTXOBasedFeeOptionsModel({
     prepareStrategy: 'MINIMIZE_DUST',
-    priority: feePriorityEnum.FAST,
+    priority: Enumerations.FeePriorities.FAST,
  });
  const recipients = [ 
-     new Recipients("tb1q8qrk9pxkjcuk4a29ec7snskaxll55jzfhrcq24", '0.000031')
+     new Models.RecipientModel("tb1q8qrk9pxkjcuk4a29ec7snskaxll55jzfhrcq24", '0.000031')
  ];
 
  const preparedUTXOTransaction = await client.prepareUTXOBasedTransactionFromHDWallet({
@@ -280,7 +280,7 @@ account-based blockchain protocols, e.g. Ethereum, BSC, etc
 ### Example
 
 ```javascript
- const {Enumerations, Client, Services } = require('./src')
+ const {Enumerations, Client, Services, Models } = require('cryptoapis-kms');
  const blockchain = Enumerations.Blockchains.ETHEREUM;
  const network = Enumerations.Networks[blockchain].NETWORK_ETHEREUM_MAINNET;
  const client = new Client('YOUR API KEY', blockchain, network);
@@ -288,8 +288,8 @@ account-based blockchain protocols, e.g. Ethereum, BSC, etc
  const sender = '0x0b7155094947d785530f66d250b097b25c30a557';
  const recipient = '0xd4e2a5949359e95c7c604050dd9d54af419689c0';
  const amount = '1.2123';
- const feeOptions = new AccountBasedFeeOptions({
-    priority: feePriorityEnum.FAST,
+ const feeOptions = new Models.AccountBasedFeeOptionsModel({
+    priority: Enumerations.FeePriorities.FAST,
  });
  const preparedAccountTransaction = await client.prepareAccountBasedTransactionFromHDWallet({
      xPub,
@@ -334,7 +334,7 @@ Prepare Transaction From HD Wallet endpoint, both for account-based and UTXO-bas
 ### Example
 
 ```javascript
- const {Enumerations, Client, Services } = require('./src')
+ const {Enumerations, Client, Services } = require('cryptoapis-kms');
  const blockchain = Enumerations.Blockchains.BITCOIN;
  const network = Enumerations.Networks[blockchain].NETWORK_BITCOIN_MAINNET;
  const client = new Client('YOUR API KEY', blockchain, network);
@@ -372,7 +372,7 @@ broadcast locally signed transaction
 ### Example
 
 ```javascript
- const {Enumerations, Client, Services } = require('./src')
+ const {Enumerations, Client, Services } = require('cryptoapis-kms');
  const blockchain = Enumerations.Blockchains.BITCOIN;
  const network = Enumerations.Networks[blockchain].NETWORK_BITCOIN_MAINNET;
  const client = new Client('YOUR API KEY', blockchain, network);
@@ -411,7 +411,7 @@ BroadcastSignedTxDTO
 ### Example
 
 ```javascript
- const {Enumerations, Client, Services } = require('./src')
+ const {Enumerations, Client, Services } = require('cryptoapis-kms');
  const blockchain = Enumerations.Blockchains.BITCOIN;
  const network = Enumerations.Networks[blockchain].NETWORK_BITCOIN_MAINNET;
  const client = new Client('YOUR API KEY', blockchain, network);
