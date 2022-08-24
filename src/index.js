@@ -30,7 +30,7 @@ module.exports = {
         RecipientModel: RecipientModel,
     },
     Enumerations: {
-        Blockchains: blockchainEnum.blockchainEnum,
+        Blockchains: blockchainEnum.blockchains,
         Networks: networkEnum.NETWORKS,
         FeePriorities: feePriorityEnum,
         PrepareStrategies: prepareStrategyEnum,
