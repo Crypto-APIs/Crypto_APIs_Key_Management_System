@@ -2,7 +2,7 @@
 
 const EthSignerHelper = require('./ethSignerHelper')
     , BtcSignerHelper = require('./btcSignerHelper')
-    , {blockchainEnum} = require('../../enumerations/blockchainEnum')
+    , {blockchains} = require('../../enumerations/blockchainEnum')
 ;
 
 class SignerHelperFactory {
@@ -19,9 +19,9 @@ class SignerHelperFactory {
         }
 
         switch (blockchain.toLowerCase()) {
-            case blockchainEnum.BITCOIN:
+            case blockchains.BITCOIN:
                 return new BtcSignerHelper(args);
-            case blockchainEnum.ETHEREUM:
+            case blockchains.ETHEREUM:
                 return new EthSignerHelper(args);
             default:
                 return new Error('Blockchain signer type not supported');

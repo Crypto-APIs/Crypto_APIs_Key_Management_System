@@ -226,8 +226,7 @@ class KmsClient {
      * @returns {BroadcastSignedTxDTO}
      */
     broadcastSignedTx(signedTransactionHex, callbackSecretKey, callbackUrl, context = null) {
-
-        return this.broadcastApiService.broadcastLocallySignedTransaction(signedTransactionHex, callbackUrl, context).then(data => {
+        return this.broadcastApiService.broadcastLocallySignedTransaction(signedTransactionHex, callbackSecretKey, callbackUrl, context).then(data => {
             return new BroadcastSignedTxDTO(data);
         }, error => {
             throw error;
@@ -242,7 +241,6 @@ class KmsClient {
      * @return {module:model/GetTransactionDetailsByTransactionIDFromCallbackR}
      */
     broadcastedTransactionCallback(transactionId, context) {
-
         return this.callbacksApiService.getTransactionDetailsByTransactionIDFromCallback(transactionId, context).then((data) => {
             return new BroadcastedTransactionCallbackDTO(data);
         }, (error) => {

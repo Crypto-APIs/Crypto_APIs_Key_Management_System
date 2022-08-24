@@ -17,7 +17,7 @@ class BasePrepareHelper extends BaseCryptoAPIsLibAwareService {
             throw new Error('Unknown configuration for ' + this.blockchain + ':' + this.network);
         }
 
-        this.featuresInstance = new this.cryptoApis.FeaturesApi();
+        this.hdWalletInstance = new this.cryptoApis.HDWalletsApi();
     }
 
     /**

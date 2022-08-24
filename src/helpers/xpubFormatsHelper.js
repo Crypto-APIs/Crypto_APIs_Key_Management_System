@@ -1,6 +1,6 @@
 'use strict'
 
-const {blockchainEnum} = require('../enumerations/blockchainEnum')
+const {blockchains} = require('../enumerations/blockchainEnum')
     , {
         NETWORKS_CONFIGS: NetworksConfigsEnum,
         NETWORKS: NetworksEnum
@@ -12,87 +12,87 @@ const XPUB_DERIVATION_TYPE_BIP44 = "BIP44";
 const XPUB_DERIVATION_TYPE_BIP49 = "BIP49";
 const XPUB_DERIVATION_TYPE_BIP84 = "BIP84";
 const XPUB_DERIVATION_PATHS = {
-    [blockchainEnum.BITCOIN]: {
-        [NetworksEnum[blockchainEnum.BITCOIN]['NETWORK_BITCOIN_MAINNET']]: {
+    [blockchains.BITCOIN]: {
+        [NetworksEnum[blockchains.BITCOIN]['NETWORK_BITCOIN_MAINNET']]: {
             [XPUB_DERIVATION_TYPE_BIP44]: "m/44'/0'/0'",
             [XPUB_DERIVATION_TYPE_BIP49]: "m/49'/0'/0'",
             [XPUB_DERIVATION_TYPE_BIP84]: "m/84'/0'/0'",
         },
-        [NetworksEnum[blockchainEnum.BITCOIN]["NETWORK_BITCOIN_TESTNET"]]: {
+        [NetworksEnum[blockchains.BITCOIN]["NETWORK_BITCOIN_TESTNET"]]: {
             [XPUB_DERIVATION_TYPE_BIP44]: "m/44'/1'/0'",
             [XPUB_DERIVATION_TYPE_BIP49]: "m/49'/1'/0'",
             [XPUB_DERIVATION_TYPE_BIP84]: "m/84'/1'/0'",
         },
     },
-    [blockchainEnum.LITECOIN]: {
-        [NetworksEnum[blockchainEnum.LITECOIN]["NETWORK_LITECOIN_MAINNET"]]: {
+    [blockchains.LITECOIN]: {
+        [NetworksEnum[blockchains.LITECOIN]["NETWORK_LITECOIN_MAINNET"]]: {
             [XPUB_DERIVATION_TYPE_BIP44]: "m/44'/2'/0'",
             [XPUB_DERIVATION_TYPE_BIP49]: "m/49'/2'/0'",
             [XPUB_DERIVATION_TYPE_BIP84]: "m/84'/2'/0'",
         },
-        [NetworksEnum[blockchainEnum.LITECOIN]["NETWORK_LITECOIN_TESTNET"]]: {
+        [NetworksEnum[blockchains.LITECOIN]["NETWORK_LITECOIN_TESTNET"]]: {
             [XPUB_DERIVATION_TYPE_BIP44]: "m/44'/1'/0'",
             [XPUB_DERIVATION_TYPE_BIP49]: "m/49'/1'/0'",
             [XPUB_DERIVATION_TYPE_BIP84]: "m/84'/1'/0'",
         },
     },
-    [blockchainEnum.DOGECOIN]: {
-        [NetworksEnum[blockchainEnum.DOGECOIN]["NETWORK_DOGECOIN_MAINNET"]]: {
+    [blockchains.DOGECOIN]: {
+        [NetworksEnum[blockchains.DOGECOIN]["NETWORK_DOGECOIN_MAINNET"]]: {
             [XPUB_DERIVATION_TYPE_BIP44]: "m/44'/3'/0'",
         },
-        [NetworksEnum[blockchainEnum.DOGECOIN]["NETWORK_DOGECOIN_TESTNET"]]: {
+        [NetworksEnum[blockchains.DOGECOIN]["NETWORK_DOGECOIN_TESTNET"]]: {
             [XPUB_DERIVATION_TYPE_BIP44]: "m/44'/1'/0'",
         },
     },
-    [blockchainEnum.DASH]: {
-        [NetworksEnum[blockchainEnum.DASH]["NETWORK_DASH_MAINNET"]]: {
+    [blockchains.DASH]: {
+        [NetworksEnum[blockchains.DASH]["NETWORK_DASH_MAINNET"]]: {
             [XPUB_DERIVATION_TYPE_BIP44]: "m/44'/5'/0'",
         },
-        [NetworksEnum[blockchainEnum.DASH]["NETWORK_DASH_TESTNET"]]: {
+        [NetworksEnum[blockchains.DASH]["NETWORK_DASH_TESTNET"]]: {
             [XPUB_DERIVATION_TYPE_BIP44]: "m/44'/1'/0'",
         },
     },
-    [blockchainEnum.BITCOIN_CASH]: {
-        [NetworksEnum[blockchainEnum.BITCOIN_CASH]["NETWORK_BITCOIN_CASH_MAINNET"]]: {
+    [blockchains.BITCOIN_CASH]: {
+        [NetworksEnum[blockchains.BITCOIN_CASH]["NETWORK_BITCOIN_CASH_MAINNET"]]: {
             [XPUB_DERIVATION_TYPE_BIP44]: "m/44'/145'/0'",
         },
-        [NetworksEnum[blockchainEnum.BITCOIN_CASH]["NETWORK_BITCOIN_CASH_TESTNET"]]: {
+        [NetworksEnum[blockchains.BITCOIN_CASH]["NETWORK_BITCOIN_CASH_TESTNET"]]: {
             [XPUB_DERIVATION_TYPE_BIP44]: "m/44'/1'/0'",
         },
     },
-    [blockchainEnum.ETHEREUM]: {
-        [NetworksEnum[blockchainEnum.ETHEREUM]["NETWORK_ETHEREUM_MAINNET"]]: {
+    [blockchains.ETHEREUM]: {
+        [NetworksEnum[blockchains.ETHEREUM]["NETWORK_ETHEREUM_MAINNET"]]: {
             [XPUB_DERIVATION_TYPE_BIP44]: "m/44'/60'/0'",
         },
-        [NetworksEnum[blockchainEnum.ETHEREUM["NETWORK_ETHEREUM_GOERLI"]]]: {
+        [NetworksEnum[blockchains.ETHEREUM["NETWORK_ETHEREUM_GOERLI"]]]: {
             [XPUB_DERIVATION_TYPE_BIP44]: "m/44'/1'/0'",
         },
     },
-    [blockchainEnum.ETHEREUM_CLASSIC]: {
-        [NetworksEnum[blockchainEnum.ETHEREUM_CLASSIC]["NETWORK_ETHEREUM_CLASSIC_MAINNET"]]: {
+    [blockchains.ETHEREUM_CLASSIC]: {
+        [NetworksEnum[blockchains.ETHEREUM_CLASSIC]["NETWORK_ETHEREUM_CLASSIC_MAINNET"]]: {
             [XPUB_DERIVATION_TYPE_BIP44]: "m/44'/61'/0'",
         },
-        [NetworksEnum[blockchainEnum.ETHEREUM_CLASSIC]["NETWORK_ETHEREUM_CLASSIC_MORDOR"]]: {
+        [NetworksEnum[blockchains.ETHEREUM_CLASSIC]["NETWORK_ETHEREUM_CLASSIC_MORDOR"]]: {
             [XPUB_DERIVATION_TYPE_BIP44]: "m/44'/1'/0'",
         },
     },
-    [blockchainEnum.BINANCE_SMART_CHAIN]: {
-        [NetworksEnum[blockchainEnum.BINANCE_SMART_CHAIN]["NETWORK_BINANCE_SMART_CHAIN_MAINNET"]]: {
+    [blockchains.BINANCE_SMART_CHAIN]: {
+        [NetworksEnum[blockchains.BINANCE_SMART_CHAIN]["NETWORK_BINANCE_SMART_CHAIN_MAINNET"]]: {
             [XPUB_DERIVATION_TYPE_BIP44]: "m/44'/60'/0'",
         },
-        [NetworksEnum[blockchainEnum.BINANCE_SMART_CHAIN]["NETWORK_BINANCE_SMART_CHAIN_TESTNET"]]: {
+        [NetworksEnum[blockchains.BINANCE_SMART_CHAIN]["NETWORK_BINANCE_SMART_CHAIN_TESTNET"]]: {
             [XPUB_DERIVATION_TYPE_BIP44]: "m/44'/1'/0'",
         },
     }
 };
 
 const XPUB_DERIVATION_TYPES = {
-    [blockchainEnum.BITCOIN]: {
+    [blockchains.BITCOIN]: {
         [XPUB_DERIVATION_TYPE_BIP44]: (seed, network) => {
-            let networkConfig = NetworksConfigsEnum[[blockchainEnum.BITCOIN]][network];
+            let networkConfig = NetworksConfigsEnum[[blockchains.BITCOIN]][network];
 
             const rootKey = bip32.fromMasterSeed(seed, networkConfig.bip32);
-            const derivationPath = XPUB_DERIVATION_PATHS[blockchainEnum.BITCOIN][network][XPUB_DERIVATION_TYPE_BIP44];
+            const derivationPath = XPUB_DERIVATION_PATHS[blockchains.BITCOIN][network][XPUB_DERIVATION_TYPE_BIP44];
             const accountXpriv = rootKey.derive(derivationPath);
 
             return {
@@ -104,9 +104,9 @@ const XPUB_DERIVATION_TYPES = {
             }
         },
         [XPUB_DERIVATION_TYPE_BIP49]: (seed, network) => {
-            let networkConfig = NetworksConfigsEnum[[blockchainEnum.BITCOIN]][network];
+            let networkConfig = NetworksConfigsEnum[[blockchains.BITCOIN]][network];
 
-            const derivationPath = XPUB_DERIVATION_PATHS[blockchainEnum.BITCOIN][network][XPUB_DERIVATION_TYPE_BIP49];
+            const derivationPath = XPUB_DERIVATION_PATHS[blockchains.BITCOIN][network][XPUB_DERIVATION_TYPE_BIP49];
             const rootKey = bip32.fromMasterSeed(seed, networkConfig.bip49);
             const accountXpriv = rootKey.derive(derivationPath);
 
@@ -119,9 +119,9 @@ const XPUB_DERIVATION_TYPES = {
             }
         },
         [XPUB_DERIVATION_TYPE_BIP84]: (seed, network) => {
-            let networkConfig = NetworksConfigsEnum[[blockchainEnum.BITCOIN]][network];
+            let networkConfig = NetworksConfigsEnum[[blockchains.BITCOIN]][network];
 
-            const derivationPath = XPUB_DERIVATION_PATHS[blockchainEnum.BITCOIN][network][XPUB_DERIVATION_TYPE_BIP84];
+            const derivationPath = XPUB_DERIVATION_PATHS[blockchains.BITCOIN][network][XPUB_DERIVATION_TYPE_BIP84];
             const rootKey = bip32.fromMasterSeed(seed, networkConfig.bip84);
             const accountXpriv = rootKey.derive(derivationPath);
 
@@ -134,12 +134,12 @@ const XPUB_DERIVATION_TYPES = {
             }
         },
     },
-    [blockchainEnum.LITECOIN]: {
+    [blockchains.LITECOIN]: {
         [XPUB_DERIVATION_TYPE_BIP44]: (seed, network) => {
-            let networkConfig = NetworksConfigsEnum[[blockchainEnum.LITECOIN]][network];
+            let networkConfig = NetworksConfigsEnum[[blockchains.LITECOIN]][network];
 
             const rootKey = bip32.fromMasterSeed(seed, networkConfig.bip32);
-            const derivationPath = XPUB_DERIVATION_PATHS[blockchainEnum.LITECOIN][network][XPUB_DERIVATION_TYPE_BIP44];
+            const derivationPath = XPUB_DERIVATION_PATHS[blockchains.LITECOIN][network][XPUB_DERIVATION_TYPE_BIP44];
             const accountXpriv = rootKey.derive(derivationPath);
 
             return {
@@ -152,9 +152,9 @@ const XPUB_DERIVATION_TYPES = {
         },
 
         [XPUB_DERIVATION_TYPE_BIP49]: (seed, network) => {
-            let networkConfig = NetworksConfigsEnum[[blockchainEnum.LITECOIN]][network];
+            let networkConfig = NetworksConfigsEnum[[blockchains.LITECOIN]][network];
 
-            const derivationPath = XPUB_DERIVATION_PATHS[blockchainEnum.LITECOIN][network][XPUB_DERIVATION_TYPE_BIP49];
+            const derivationPath = XPUB_DERIVATION_PATHS[blockchains.LITECOIN][network][XPUB_DERIVATION_TYPE_BIP49];
             const rootKey = bip32.fromMasterSeed(seed, networkConfig.bip49);
             const accountXpriv = rootKey.derive(derivationPath);
 
@@ -167,9 +167,9 @@ const XPUB_DERIVATION_TYPES = {
             }
         },
         [XPUB_DERIVATION_TYPE_BIP84]: (seed, network) => {
-            let networkConfig = NetworksConfigsEnum[[blockchainEnum.LITECOIN]][network];
+            let networkConfig = NetworksConfigsEnum[[blockchains.LITECOIN]][network];
 
-            const derivationPath = XPUB_DERIVATION_PATHS[blockchainEnum.LITECOIN][network][XPUB_DERIVATION_TYPE_BIP84];
+            const derivationPath = XPUB_DERIVATION_PATHS[blockchains.LITECOIN][network][XPUB_DERIVATION_TYPE_BIP84];
             const rootKey = bip32.fromMasterSeed(seed, networkConfig.bip84);
             const accountXpriv = rootKey.derive(derivationPath);
 
@@ -182,12 +182,12 @@ const XPUB_DERIVATION_TYPES = {
             }
         },
     },
-    [blockchainEnum.BITCOIN_CASH]: {
+    [blockchains.BITCOIN_CASH]: {
         [XPUB_DERIVATION_TYPE_BIP44]: (seed, network) => {
-            let networkConfig = NetworksConfigsEnum[[blockchainEnum.BITCOIN_CASH]][network];
+            let networkConfig = NetworksConfigsEnum[[blockchains.BITCOIN_CASH]][network];
 
             const rootKey = bip32.fromMasterSeed(seed, networkConfig.bip32);
-            const derivationPath = XPUB_DERIVATION_PATHS[blockchainEnum.BITCOIN_CASH][network][XPUB_DERIVATION_TYPE_BIP44];
+            const derivationPath = XPUB_DERIVATION_PATHS[blockchains.BITCOIN_CASH][network][XPUB_DERIVATION_TYPE_BIP44];
             const accountXpriv = rootKey.derive(derivationPath);
 
             return {
@@ -199,12 +199,12 @@ const XPUB_DERIVATION_TYPES = {
             }
         }
     },
-    [blockchainEnum.DOGECOIN]: {
+    [blockchains.DOGECOIN]: {
         [XPUB_DERIVATION_TYPE_BIP44]: (seed, network) => {
-            let networkConfig = NetworksConfigsEnum[[blockchainEnum.DOGECOIN]][network];
+            let networkConfig = NetworksConfigsEnum[[blockchains.DOGECOIN]][network];
 
             const rootKey = bip32.fromMasterSeed(seed, networkConfig.bip32);
-            const derivationPath = XPUB_DERIVATION_PATHS[blockchainEnum.DOGECOIN][network][XPUB_DERIVATION_TYPE_BIP44];
+            const derivationPath = XPUB_DERIVATION_PATHS[blockchains.DOGECOIN][network][XPUB_DERIVATION_TYPE_BIP44];
             const accountXpriv = rootKey.derive(derivationPath);
 
             return {
@@ -216,12 +216,12 @@ const XPUB_DERIVATION_TYPES = {
             }
         }
     },
-    [blockchainEnum.DASH]: {
+    [blockchains.DASH]: {
         [XPUB_DERIVATION_TYPE_BIP44]: (seed, network) => {
-            let networkConfig = NetworksConfigsEnum[[blockchainEnum.DASH]][network];
+            let networkConfig = NetworksConfigsEnum[[blockchains.DASH]][network];
 
             const rootKey = bip32.fromMasterSeed(seed, networkConfig.bip32);
-            const derivationPath = XPUB_DERIVATION_PATHS[blockchainEnum.DASH][network][XPUB_DERIVATION_TYPE_BIP44];
+            const derivationPath = XPUB_DERIVATION_PATHS[blockchains.DASH][network][XPUB_DERIVATION_TYPE_BIP44];
             const accountXpriv = rootKey.derive(derivationPath);
 
             return {
@@ -233,12 +233,12 @@ const XPUB_DERIVATION_TYPES = {
             }
         }
     },
-    [blockchainEnum.ETHEREUM]: {
+    [blockchains.ETHEREUM]: {
         [XPUB_DERIVATION_TYPE_BIP44]: (seed, network) => {
-            let networkConfig = NetworksConfigsEnum[[blockchainEnum.ETHEREUM]][network];
+            let networkConfig = NetworksConfigsEnum[[blockchains.ETHEREUM]][network];
 
             const rootKey = bip32.fromMasterSeed(seed, networkConfig.bip32);
-            const derivationPath = XPUB_DERIVATION_PATHS[blockchainEnum.ETHEREUM][network][XPUB_DERIVATION_TYPE_BIP44];
+            const derivationPath = XPUB_DERIVATION_PATHS[blockchains.ETHEREUM][network][XPUB_DERIVATION_TYPE_BIP44];
             const accountXpriv = rootKey.derive(derivationPath);
 
             return {
@@ -250,12 +250,12 @@ const XPUB_DERIVATION_TYPES = {
             }
         }
     },
-    [blockchainEnum.ETHEREUM_CLASSIC]: {
+    [blockchains.ETHEREUM_CLASSIC]: {
         [XPUB_DERIVATION_TYPE_BIP44]: (seed, network) => {
-            let networkConfig = NetworksConfigsEnum[[blockchainEnum.ETHEREUM_CLASSIC]][network];
+            let networkConfig = NetworksConfigsEnum[[blockchains.ETHEREUM_CLASSIC]][network];
 
             const rootKey = bip32.fromMasterSeed(seed, networkConfig.bip32);
-            const derivationPath = XPUB_DERIVATION_PATHS[blockchainEnum.ETHEREUM_CLASSIC][network][XPUB_DERIVATION_TYPE_BIP44];
+            const derivationPath = XPUB_DERIVATION_PATHS[blockchains.ETHEREUM_CLASSIC][network][XPUB_DERIVATION_TYPE_BIP44];
             const accountXpriv = rootKey.derive(derivationPath);
 
             return {
@@ -267,12 +267,12 @@ const XPUB_DERIVATION_TYPES = {
             }
         }
     },
-    [blockchainEnum.BINANCE_SMART_CHAIN]: {
+    [blockchains.BINANCE_SMART_CHAIN]: {
         [XPUB_DERIVATION_TYPE_BIP44]: (seed, network) => {
-            let networkConfig = NetworksConfigsEnum[[blockchainEnum.BINANCE_SMART_CHAIN]][network];
+            let networkConfig = NetworksConfigsEnum[[blockchains.BINANCE_SMART_CHAIN]][network];
            
             const rootKey = bip32.fromMasterSeed(seed, networkConfig.bip32);
-            const derivationPath = XPUB_DERIVATION_PATHS[blockchainEnum.BINANCE_SMART_CHAIN][network][XPUB_DERIVATION_TYPE_BIP44];
+            const derivationPath = XPUB_DERIVATION_PATHS[blockchains.BINANCE_SMART_CHAIN][network][XPUB_DERIVATION_TYPE_BIP44];
             const accountXpriv = rootKey.derive(derivationPath);
 
             return {
