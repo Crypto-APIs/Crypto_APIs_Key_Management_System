@@ -2,7 +2,6 @@
 
 const { BaseBlockchainAwareService } = require("./baseServices")
     , GeneratorHelperFactory = require("../helpers/generateAddress/generatorHelperFactory")
-    , AddressDTO = require("../dtos/addressDTO")
 ;
 
 /**
@@ -13,8 +12,8 @@ const { BaseBlockchainAwareService } = require("./baseServices")
  * @extends {BaseBlockchainAwareService}
  */
 class AddressService extends BaseBlockchainAwareService {
+
     /**
-     *
      * @returns {AddressDTO}
      */
     generateAddress() {

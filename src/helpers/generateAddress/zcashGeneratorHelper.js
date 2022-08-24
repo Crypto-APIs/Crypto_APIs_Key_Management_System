@@ -19,11 +19,9 @@ class ZcashGeneratorHelper extends BaseGeneratorHelper {
     /**
      * @inheritDoc
      */
-    generateAddressFromPublicKey() {
+    generateAddress() {
         const pair = ECPair.makeRandom();
         const networkConfig = Networks[this.network];
-
-        console.log('\n network', this.networkConfig)
         const address = Address.fromPublicKey(new PublicKey(pair.publicKey, {network: networkConfig}), networkConfig).toString();
 
         return new AddressDTO({

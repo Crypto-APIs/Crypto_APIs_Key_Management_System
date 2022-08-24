@@ -16,12 +16,12 @@ const BaseGeneratorHelper = require('./baseGeneratorHelper')
  * @extends {BaseGeneratorHelper}
  */
 class BtcGeneratorHelper extends BaseGeneratorHelper {
+
     /**
      * @inheritDoc
      */
-    generateAddressFromPublicKey() {
+    generateAddress() {
         const pair = ECPair.makeRandom({network: this.networkConfig});
-
         const address = payments.p2wpkh({pubkey: pair.publicKey, network: this.networkConfig}).address
 
         return new AddressDTO({

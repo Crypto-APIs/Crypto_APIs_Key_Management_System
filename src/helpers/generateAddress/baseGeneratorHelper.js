@@ -28,21 +28,10 @@ class BaseGeneratorHelper extends BaseBlockchainAwareService {
     }
 
     /**
-     *
      * @return {AddressDTO}
      */
     generateAddress() {
-        return this.generateAddressFromPublicKey()
-    }
-
-
-    /**
-     * @protected
-     *
-     * @returns {AddressDTO}
-     */
-    generateAddressFromPublicKey() {
-        throw new Error('Implement generateAddressFromPublicKey method for service ' + this.constructor.name);
+        throw new Error('Implement generateAddress method for service ' + this.constructor.name);
     }
 }
 

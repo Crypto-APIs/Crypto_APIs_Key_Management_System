@@ -18,6 +18,7 @@ class BasePrepareHelper extends BaseCryptoAPIsLibAwareService {
         }
 
         this.featuresInstance = new this.cryptoApis.FeaturesApi();
+        this.hdWalletInstance = new this.cryptoApis.HDWalletsApi();
     }
 
     /**

@@ -5,7 +5,8 @@ const BaseGeneratorHelper = require('./baseGeneratorHelper')
     , ecpair = require('ecpair')
     , ECPair = ecpair.ECPairFactory(ecc)
     , {importPublic, Address} = require('ethereumjs-util')
-;const {AddressDTO} = require("../../dtos");
+    , {AddressDTO} = require("../../dtos")
+;
 
 /**
  * EthGeneratorHelper
@@ -18,11 +19,9 @@ class EthGeneratorHelper extends BaseGeneratorHelper {
     /**
      * @inheritDoc
      */
-    generateAddressFromPublicKey() {
+    generateAddress() {
         const pair = ECPair.makeRandom();
-        const publicKey = importPublic(pair.publicKey);
-
-        const address = Address.fromPublicKey(importPublic(publicKey)).toString();
+        const address = Address.fromPublicKey(importPublic(pair.publicKey)).toString();
 
         return new AddressDTO({
             address: address,
