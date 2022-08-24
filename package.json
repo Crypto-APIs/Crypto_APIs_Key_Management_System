@@ -3,10 +3,10 @@
   "version": "0.1.3",
   "description": "Crypto APIs - Key Management System",
   "main": "src/index.js",
-  "homepage": "",
+  "homepage": "https://github.com/Crypto-APIs/Crypto_APIs_Key_Management_System#readme",
   "repository": {
     "type": "git",
-    "url": ""
+    "url": "https://github.com/Crypto-APIs/Crypto_APIs_Key_Management_System"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
