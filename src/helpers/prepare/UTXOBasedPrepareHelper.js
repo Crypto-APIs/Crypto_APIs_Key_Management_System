@@ -55,7 +55,7 @@ class UTXOBasedPrepareHelper extends BasePrepareTransaction {
             prepareAUTXOBasedTransactionFromHDWalletXPubYPubZPubRB: new this.cryptoApis.PrepareAUTXOBasedTransactionFromHDWalletXPubYPubZPubRB(postData)
         };
 
-        return this.featuresInstance.prepareAUTXOBasedTransactionFromHDWalletXPubYPubZPub(this.blockchain, this.network, opts)
+        return this.hdWalletInstance.prepareAUTXOBasedTransactionFromHDWalletXPubYPubZPub(this.blockchain, this.network, opts)
     };
 }
 

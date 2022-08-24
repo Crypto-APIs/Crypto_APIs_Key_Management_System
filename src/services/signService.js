@@ -3,7 +3,7 @@
 const SignerHelperFactory = require("../helpers/sign/signerHelperFactory")
     , {BaseBlockchainAwareService} = require("./baseServices")
     , {SignDTO} = require("../dtos")
-;const {blockchains} = require("../enumerations/blockchainEnum");
+;
 
 /**
  * SignService
