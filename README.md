@@ -3,7 +3,7 @@
 Crypto APIs KMS (Key Management System) is an open-source Node.js library. It gives companies full custody of master private keys, master seeds, and mnemonics. The library allows businesses to create HD wallets (xPubs) and sign transactions locally without a network connection (offline). It can be used in combination with Crypto APIs product suite for syncing xPub, deriving wallet addresses, listing wallet addresses, getting fee recommendations, preparing the transaction with the right data, broadcasting locally signed transactions.
 The KMS is perfect for B2C companies, including hardware wallets and digital wallets, as well as custodial or non-custodial exchanges. By using Crypto API's open-source library, they can easily scale to satisfy the demand and create wallets for millions of users. The businesses can decide whether to hold custody of their clients' master keys, master seed, and mnemonic or give them to their customers instead.
 
-- Package version: 0.1.3
+- Package version: 0.1.5
 - For more information, please visit [https://cryptoapis.io](https://cryptoapis.io)
 - minimum requirement NodeJS >= 14.0
 
@@ -231,7 +231,7 @@ Litecoin, etc.
  const client = new Client('YOUR API KEY', blockchain, network);
  const xPub = "xpub6BsFsonVJR5vPChKQamp55R7veBCMD2CL3LtL83B3FS5DiayYgmoHCGQodeLTukaa4anZRQD9kNtPFHuPnCzjCiT9nrXdf3voNLhXQryBRB"
  const feeOptions = new Models.UTXOBasedFeeOptionsModel({
-    prepareStrategy: 'MINIMIZE_DUST',
+    prepareStrategy: Enumerations.PrepareStrategies.MINIMIZE_DUST,
     priority: Enumerations.FeePriorities.FAST,
  });
  const recipients = [ 
@@ -334,21 +334,35 @@ Prepare Transaction From HD Wallet endpoint, both for account-based and UTXO-bas
 ### Example
 
 ```javascript
- const {Enumerations, Client, Services } = require('cryptoapis-kms');
- const blockchain = Enumerations.Blockchains.BITCOIN;
- const network = Enumerations.Networks[blockchain].NETWORK_BITCOIN_MAINNET;
- const client = new Client('YOUR API KEY', blockchain, network);
- const preparedUTXO = await client.prepareUTXOBasedTransactionFromXpub({...});
+const {Enumerations, Client, Services, Models} = require('cryptoapis-kms');
+const blockchain = Enumerations.Blockchains.BITCOIN;
+const network = Enumerations.Networks[blockchain].NETWORK_BITCOIN_MAINNET;
+const client = new Client('YOUR API KEY', blockchain, network);
+const signService = new Services.SignService(blockchain, network)
+const accountXpriv = 'xprv8gdau6KURKnX7mcKNjLMWx3a3tEzHCMiJDBtFCJrvmXCsHNj3wvSuJ3T8g67WvN9hkFa4y1Mnr9ZbyUzs9fdhi8mhegLufkEuwSdmDeBXvz';
+const xPub = 'xpub6BsFsonVJR5vPChKQamp55R7veBCMD2CL3LtL83B3FS5DiayYgmoHCGQodeLTukaa4anZRQD9kNtPFHuPnCzjCiT9nrXdf3voNLhXQryBRB';
 
- const accountXpriv = 'xprv8gdau6KURKnX7mcKNjLMWx3a3tEzHCMiJDBtFCJrvmXCsHNj3wvSuJ3T8g67WvN9hkFa4y1Mnr9ZbyUzs9fdhi8mhegLufkEuwSdmDeBXvz';
- const signService = new Services.SignService(blockchain, network)
- try {
-     const signedTx = signService.signPreparedTransactionLocally(accountXpriv, preparedUTXO);
-     console.dir('Transaction signed successfully. Returned data:');
-     console.dir(signedTx.raw); 
- } catch (e) {
-     console.log(e.message);
-}
+const preparedUTXO = await client.prepareUTXOBasedTransactionFromHDWallet({
+    xPub: xPub,
+    recipients: [
+        new Models.RecipientModel("tb1q8qrk9pxkjcuk4a29ec7snskaxll55jzfhrcq24", '0.000031')
+    ],
+    feeOptions: new Models.UTXOBasedFeeOptionsModel({
+        prepareStrategy: Enumerations.PrepareStrategies.MINIMIZE_DUST,
+        priority: Enumerations.FeePriorities.FAST,
+    })
+});
+
+const signedTx = signService.signPreparedTransactionLocally(accountXpriv, preparedUTXO);
+const callbackSecretKey = 'yourSecretString';
+const callbackUrl = 'https://example.com'; // your URL for callback must be verifyed from dashboard  
+
+client.broadcastSignedTx(signedTx.raw, callbackSecretKey, callbackUrl).then((data) => {
+    console.dir('API called successfully. Returned data:');
+    console.dir(data);
+}, (error) => {
+    console.log(error);
+});
 ```
 
 ### Parameters
@@ -372,11 +386,26 @@ broadcast locally signed transaction
 ### Example
 
 ```javascript
- const {Enumerations, Client, Services } = require('cryptoapis-kms');
+ const {Enumerations, Client, Services, Models } = require('cryptoapis-kms');
  const blockchain = Enumerations.Blockchains.BITCOIN;
  const network = Enumerations.Networks[blockchain].NETWORK_BITCOIN_MAINNET;
  const client = new Client('YOUR API KEY', blockchain, network);
- const signedTx = client.signPreparedTransactionLocally(accountXpriv, preparedUTXO)
+ const signService = new Services.SignService(blockchain, network)
+ const accountXpriv = 'xprv8gdau6KURKnX7mcKNjLMWx3a3tEzHCMiJDBtFCJrvmXCsHNj3wvSuJ3T8g67WvN9hkFa4y1Mnr9ZbyUzs9fdhi8mhegLufkEuwSdmDeBXvz';
+ const xPub = 'xpub6BsFsonVJR5vPChKQamp55R7veBCMD2CL3LtL83B3FS5DiayYgmoHCGQodeLTukaa4anZRQD9kNtPFHuPnCzjCiT9nrXdf3voNLhXQryBRB';
+
+ const preparedUTXO = await client.prepareUTXOBasedTransactionFromHDWallet({
+     xPub: xPub,
+     recipients: [
+         new Models.RecipientModel("tb1q8qrk9pxkjcuk4a29ec7snskaxll55jzfhrcq24", '0.000031')
+     ],
+     feeOptions: new Models.UTXOBasedFeeOptionsModel({
+         prepareStrategy: Enumerations.PrepareStrategies.MINIMIZE_DUST,
+         priority: Enumerations.FeePriorities.FAST,
+     })
+ });
+
+ const signedTx = signService.signPreparedTransactionLocally(accountXpriv, preparedUTXO);
  const callbackSecretKey = 'yourSecretString';
  const callbackUrl = 'https://example.com'; // your URL for callback must be verifyed from dashboard  
  
@@ -392,7 +421,7 @@ broadcast locally signed transaction
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
-**transactionId** | **String**| String identifier of the transaction |
+**signedTransactionHex** | **String**| String identifier of the transaction |
 **callbackSecretKey** | **String**| Represents the Secret Key value provided by the customer. This field is used for security purposes during the callback notification, in order to prove the sender of the callback as Crypto APIs |
 **callbackUrl** | **String**| Represents the URL that is set by the customer where the callback will be received at. The callback notification will be received only if and when the event occurs. |
 **context** | **String**| In batch situations the user can use the context to correlate responses with requests. This property is present regardless of whether the response was successful or returned as an error. &#x60;context&#x60; is specified by the user. | [optional]
@@ -400,39 +429,6 @@ Name | Type | Description  | Notes
 ### Return type
 
 BroadcastSignedTxDTO
-
-### Authorization
-
-[ApiKey](#ApiKey)
-
-
-## broadcastedTransactionCallback
-
-### Example
-
-```javascript
- const {Enumerations, Client, Services } = require('cryptoapis-kms');
- const blockchain = Enumerations.Blockchains.BITCOIN;
- const network = Enumerations.Networks[blockchain].NETWORK_BITCOIN_MAINNET;
- const client = new Client('YOUR API KEY', blockchain, network);
-
- try {
-     const data = client.broadcastedTransactionCallback('8888f6c8168ff69aaf6438ab185c690e8c76c63e5f9c472c1c86f08406ea74f2');
- } catch (e) {
-     console.log(e.message);
- }
-```
-
-### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
-**transactionId** | **String**| String identifier of the transaction |
-**context** | **String**| In batch situations the user can use the context to correlate responses with requests. This property is present regardless of whether the response was successful or returned as an error. &#x60;context&#x60; is specified by the user. | [optional]
-
-### Return type
-
-BroadcastedTransactionCallbackDTO
 
 ### Authorization
 
