@@ -53,7 +53,7 @@ class AccountBasedPrepareHelper extends BasePrepareHelper {
             prepareAnAccountBasedTransactionFromHDWalletXPubYPubZPubRB: new this.cryptoApis.PrepareAnAccountBasedTransactionFromHDWalletXPubYPubZPubRB(postData)
         };
 
-        return this.featuresInstance.prepareAnAccountBasedTransactionFromHDWalletXPubYPubZPub(this.blockchain, this.network, opts)
+        return this.hdWalletInstance.prepareAnAccountBasedTransactionFromHDWalletXPubYPubZPub(this.blockchain, this.network, opts)
     };
 }
 

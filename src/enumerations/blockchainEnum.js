@@ -11,7 +11,7 @@ const BINANCE_SMART_CHAIN = 'binance-smart-chain';
 const XRP = 'xrp';
 const ZCASH = 'zcash';
 
-const blockchainEnum = {
+const blockchains = {
     BITCOIN: BITCOIN,
     BITCOIN_CASH: BITCOIN_CASH,
     LITECOIN: LITECOIN,
@@ -25,7 +25,7 @@ const blockchainEnum = {
 };
 
 module.exports = {
-    blockchainEnum,
+    blockchains,
     reversed: {
         [BITCOIN]: 'BITCOIN',
         [BITCOIN_CASH]: 'BITCOIN_CASH',

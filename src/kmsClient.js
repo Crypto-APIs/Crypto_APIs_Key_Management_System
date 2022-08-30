@@ -7,7 +7,6 @@ const validateConfig = require('./validators/configValidator')
     SubscriptionForUnconfirmedCoinsTxsDTO,
     SubscriptionForUnconfirmedTokensTxsDTO,
     SubscriptionForUnconfirmedInternalTxsDTO,
-    BroadcastedTransactionCallbackDTO,
     BroadcastSignedTxDTO,
     HDAddressesDTO,
     ListSyncedAddressesDTO,
@@ -17,7 +16,6 @@ const validateConfig = require('./validators/configValidator')
     , {
     HDWalletService,
     BroadcastService,
-    CallbacksService,
     SubscriptionsService,
     PrepareService,
 } = require('./services')
@@ -45,7 +43,6 @@ class KmsClient {
         //init all services
         this.hdWalletApiService = new HDWalletService(this._apiClient, this.blockchain, this.network);
         this.broadcastApiService = new BroadcastService(this._apiClient, this.blockchain, this.network);
-        this.callbacksApiService = new CallbacksService(this._apiClient, this.blockchain, this.network);
         this.subscriptionsApiService = new SubscriptionsService(this._apiClient, this.blockchain, this.network);
         this.prepareService = new PrepareService(this._apiClient, this.blockchain, this.network);
     }
@@ -226,26 +223,9 @@ class KmsClient {
      * @returns {BroadcastSignedTxDTO}
      */
     broadcastSignedTx(signedTransactionHex, callbackSecretKey, callbackUrl, context = null) {
-
-        return this.broadcastApiService.broadcastLocallySignedTransaction(signedTransactionHex, callbackUrl, context).then(data => {
+        return this.broadcastApiService.broadcastLocallySignedTransaction(signedTransactionHex, callbackSecretKey, callbackUrl, context).then(data => {
             return new BroadcastSignedTxDTO(data);
         }, error => {
-            throw error;
-        });
-    }
-
-    /**
-     * Get Transaction Details By Transaction ID From Callback
-     * This endpoint creates a shortcut to obtain information from Blockchain data by going through Blockchain Events and a specific Event Subscription. It provides data for a specific transaction from the Event it takes part in by providing the `transactionId` attribute. It applies only for Events related to that user.
-     * @param {String} transactionId Represents the unique identifier of a transaction, i.e. it could be transactionId in UTXO-based protocols like Bitcoin, and transaction hash in Ethereum blockchain.
-     * @param {String|null} context In batch situations the user can use the context to correlate responses with requests. This property is present regardless of whether the response was successful or returned as an error. `context` is specified by the user.
-     * @return {module:model/GetTransactionDetailsByTransactionIDFromCallbackR}
-     */
-    broadcastedTransactionCallback(transactionId, context) {
-
-        return this.callbacksApiService.getTransactionDetailsByTransactionIDFromCallback(transactionId, context).then((data) => {
-            return new BroadcastedTransactionCallbackDTO(data);
-        }, (error) => {
             throw error;
         });
     }

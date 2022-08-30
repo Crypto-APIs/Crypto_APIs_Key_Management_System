@@ -27,10 +27,15 @@ class BroadcastService extends BaseCryptoAPIsLibAwareService {
      * @param {string|null} callbackSecretKey
      * @param {string|null} callbackUrl
      * @param {String|null} context In batch situations the user can use the context to correlate responses with requests. This property is present regardless of whether the response was successful or returned as an error. `context` is specified by the user.
-     * @return { module:model/BroadcastLocallySignedTransactionR}
+     * @return {module:model/BroadcastLocallySignedTransactionR}
      */
     async broadcastLocallySignedTransaction(signedTransactionHex, callbackSecretKey, callbackUrl, context) {
-        const item = new this.cryptoApis.BroadcastLocallySignedTransactionRBDataItem(signedTransactionHex, callbackSecretKey, callbackUrl);
+        const item = this.cryptoApis.BroadcastLocallySignedTransactionRBDataItem.constructFromObject({
+            signedTransactionHex: signedTransactionHex,
+            callbackSecretKey: callbackSecretKey,
+            callbackUrl: callbackUrl,
+        });
+
         const postData = new this.cryptoApis.BroadcastLocallySignedTransactionRBData(item);
 
         const opts = {

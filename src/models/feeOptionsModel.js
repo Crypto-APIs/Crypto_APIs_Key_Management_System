@@ -66,6 +66,6 @@ class UTXOBasedFeeOptionsModel extends FeeOptionsBaseModel {
 }
 
 module.exports = {
-    AccountBasedFeeOptionsModel,
-    UTXOBasedFeeOptionsModel
+    AccountBasedFeeOptionsModel: AccountBasedFeeOptionsModel,
+    UTXOBasedFeeOptionsModel: UTXOBasedFeeOptionsModel
 };
