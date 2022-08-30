@@ -84,11 +84,11 @@ const XPUB_DERIVATION_PATHS = {
             [XPUB_DERIVATION_TYPE_BIP44]: "m/44'/1'/0'",
         },
     },
-    [blockchainEnum.ZCASH]: {
-        [NetworksEnum[blockchainEnum.ZCASH]["NETWORK_ZCASH_MAINNET"]]: {
+    [blockchains.ZCASH]: {
+        [NetworksEnum[blockchains.ZCASH]["NETWORK_ZCASH_MAINNET"]]: {
             [XPUB_DERIVATION_TYPE_BIP44]: "m/44'/133'/0'",
         },
-        [NetworksEnum[blockchainEnum.ZCASH]["NETWORK_ZCASH_TESTNET"]]: {
+        [NetworksEnum[blockchains.ZCASH]["NETWORK_ZCASH_TESTNET"]]: {
             [XPUB_DERIVATION_TYPE_BIP44]: "m/44'/1'/0'",
         },
     }
@@ -292,12 +292,12 @@ const XPUB_DERIVATION_TYPES = {
             }
         }
     },
-    [blockchainEnum.ZCASH]: {
+    [blockchains.ZCASH]: {
         [XPUB_DERIVATION_TYPE_BIP44]: (seed, network) => {
-            let networkConfig = NetworksConfigsEnum[[blockchainEnum.ZCASH]][network];
+            let networkConfig = NetworksConfigsEnum[[blockchains.ZCASH]][network];
 
             const rootKey = bip32.fromMasterSeed(seed, networkConfig.bip32);
-            const derivationPath = XPUB_DERIVATION_PATHS[blockchainEnum.ZCASH][network][XPUB_DERIVATION_TYPE_BIP44];
+            const derivationPath = XPUB_DERIVATION_PATHS[blockchains.ZCASH][network][XPUB_DERIVATION_TYPE_BIP44];
             const accountXpriv = rootKey.derive(derivationPath);
 
             return {
