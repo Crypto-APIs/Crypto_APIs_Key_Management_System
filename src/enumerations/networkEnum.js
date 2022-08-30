@@ -265,7 +265,7 @@ const NETWORKS_CONFIGS = {
             )
         },
     },
-    [blockchainEnum.ZCASH]: {
+    [blockchains.ZCASH]: {
         [NETWORK_ZCASH_MAINNET]: {
             messagePrefix: '\x19ZCash Signed Message:\n',
             bip32: {
