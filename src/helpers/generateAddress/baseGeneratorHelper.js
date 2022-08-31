@@ -1,15 +1,17 @@
 'use strict';
 
-const NetworksConfigsEnum = require('../../enumerations/networkEnum');
-const {BaseBlockchainAwareService} = require("../../services/baseServices");
+const NetworksConfigsEnum = require('../../enumerations/networkEnum')
+    , {BaseBlockchainAwareService} = require("../../services/baseServices")
+;
+
 
 /**
- * BaseSignerHelper
+ * BaseGeneratorHelper
  *
- * @class BaseSignerHelper
+ * @class BaseGeneratorHelper
  * @extends {BaseBlockchainAwareService}
  */
-class BaseSignerHelper extends BaseBlockchainAwareService {
+class BaseGeneratorHelper extends BaseBlockchainAwareService {
     /**
      * @param {string} blockchain
      * @param {string} network
@@ -26,14 +28,11 @@ class BaseSignerHelper extends BaseBlockchainAwareService {
     }
 
     /**
-     * @param {string} xPriv account extended xPriv
-     * @param {TransactionDTO} transaction
-     * @protected
-     * @return {SignDTO}
+     * @return {AddressDTO}
      */
-    sign({xPriv, transaction}) {
-        throw new Error('Implement sign method for service ' + this.constructor.name);
-    };
+    generateAddress() {
+        throw new Error('Implement generateAddress method for service ' + this.constructor.name);
+    }
 }
 
-module.exports = BaseSignerHelper;
+module.exports = BaseGeneratorHelper;

@@ -6,6 +6,7 @@ const HDWalletService = require('./hdWalletsService')
     , SubscriptionsService = require('./subscriptionsService')
     , PrepareService = require('./prepareService')
     , SignService = require('./signService')
+    , AddressService = require('./addressService')
 ;
 
 module.exports = {
@@ -14,5 +15,6 @@ module.exports = {
     BroadcastService,
     SubscriptionsService,
     PrepareService,
-    SignService
+    SignService,
+    AddressService
 };

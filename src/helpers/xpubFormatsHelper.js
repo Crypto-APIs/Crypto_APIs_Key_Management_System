@@ -64,7 +64,7 @@ const XPUB_DERIVATION_PATHS = {
         [NetworksEnum[blockchains.ETHEREUM]["NETWORK_ETHEREUM_MAINNET"]]: {
             [XPUB_DERIVATION_TYPE_BIP44]: "m/44'/60'/0'",
         },
-        [NetworksEnum[blockchains.ETHEREUM["NETWORK_ETHEREUM_GOERLI"]]]: {
+        [NetworksEnum[blockchains.ETHEREUM]["NETWORK_ETHEREUM_GOERLI"]]: {
             [XPUB_DERIVATION_TYPE_BIP44]: "m/44'/1'/0'",
         },
     },
@@ -81,6 +81,14 @@ const XPUB_DERIVATION_PATHS = {
             [XPUB_DERIVATION_TYPE_BIP44]: "m/44'/60'/0'",
         },
         [NetworksEnum[blockchains.BINANCE_SMART_CHAIN]["NETWORK_BINANCE_SMART_CHAIN_TESTNET"]]: {
+            [XPUB_DERIVATION_TYPE_BIP44]: "m/44'/1'/0'",
+        },
+    },
+    [blockchains.ZCASH]: {
+        [NetworksEnum[blockchains.ZCASH]["NETWORK_ZCASH_MAINNET"]]: {
+            [XPUB_DERIVATION_TYPE_BIP44]: "m/44'/133'/0'",
+        },
+        [NetworksEnum[blockchains.ZCASH]["NETWORK_ZCASH_TESTNET"]]: {
             [XPUB_DERIVATION_TYPE_BIP44]: "m/44'/1'/0'",
         },
     }
@@ -284,6 +292,23 @@ const XPUB_DERIVATION_TYPES = {
             }
         }
     },
+    [blockchains.ZCASH]: {
+        [XPUB_DERIVATION_TYPE_BIP44]: (seed, network) => {
+            let networkConfig = NetworksConfigsEnum[[blockchains.ZCASH]][network];
+
+            const rootKey = bip32.fromMasterSeed(seed, networkConfig.bip32);
+            const derivationPath = XPUB_DERIVATION_PATHS[blockchains.ZCASH][network][XPUB_DERIVATION_TYPE_BIP44];
+            const accountXpriv = rootKey.derive(derivationPath);
+
+            return {
+                rootKey: rootKey.privateExtendedKey,
+                derivationType: XPUB_DERIVATION_TYPE_BIP44,
+                derivationPath: derivationPath,
+                accountXpriv: accountXpriv.privateExtendedKey,
+                accountXpub: accountXpriv.publicExtendedKey
+        }
+    }
+},
 };
 
 module.exports = {
