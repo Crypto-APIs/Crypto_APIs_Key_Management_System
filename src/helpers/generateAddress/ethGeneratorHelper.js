@@ -25,7 +25,7 @@ class EthGeneratorHelper extends BaseGeneratorHelper {
 
         return new AddressDTO({
             address: address,
-            publicKey: "0x" + publicKey.toString('hex'),
+            publicKey: "0x" + pair.publicKey.toString('hex'),
             privateKey: "0x" + pair.privateKey.toString('hex')
         });
     };

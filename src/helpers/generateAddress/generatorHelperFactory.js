@@ -5,7 +5,7 @@ const BtcGeneratorHelper = require('./btcGeneratorHelper')
     , BscGeneratorHelper = require('./bscGeneratorHelper')
     , EtcGeneratorHelper = require('./bscGeneratorHelper')
     , ZcashGeneratorHelper = require('./zcashGeneratorHelper')
-    , {blockchainEnum} = require('../../enumerations/blockchainEnum')
+    , {blockchains} = require('../../enumerations/blockchainEnum')
 ;
 
 class GeneratorHelperFactory {
@@ -22,18 +22,18 @@ class GeneratorHelperFactory {
         }
 
         switch (blockchain.toLowerCase()) {
-            case blockchainEnum.BITCOIN:
+            case blockchains.BITCOIN:
                 return new BtcGeneratorHelper(args);
-            case blockchainEnum.ETHEREUM:
+            case blockchains.ETHEREUM:
                 return new EthGeneratorHelper(args);
-            case blockchainEnum.BINANCE_SMART_CHAIN:
+            case blockchains.BINANCE_SMART_CHAIN:
                 return new BscGeneratorHelper(args);
-            case blockchainEnum.ETHEREUM_CLASSIC:
+            case blockchains.ETHEREUM_CLASSIC:
                 return new EtcGeneratorHelper(args);
-            case blockchainEnum.ZCASH:
+            case blockchains.ZCASH:
                 return new ZcashGeneratorHelper(args);
             default:
-                return new Error('Blockchain signer type not supported');
+                throw new Error('Blockchain not supported');
         }
     }
 }
