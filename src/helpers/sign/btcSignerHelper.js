@@ -1,9 +1,11 @@
 'use strict';
 
 const BaseSignerHelper = require('./baseSignerHelper')
-    , bitcoinjs = require('bitcoinjs-lib')
     , bitcorejs = require('bitcore-lib')
     , HDKey = require("hdkey")
+    , ecpair = require('ecpair')
+    , ecc = require('tiny-secp256k1')
+    , ECPair = ecpair.ECPairFactory(ecc)
 ;
 
 /**
@@ -53,7 +55,7 @@ class BtcSignerHelper extends BaseSignerHelper {
         let privKeys = transaction.inputs.map( (input) => {
             const derivationPath = `m/${input.change}/${input.derivationIndex}`;
             const derivedPrivKey = hdKey.derive(derivationPath)
-            const signer = bitcoinjs.ECPair.fromPrivateKey(
+            const signer = ECPair.fromPrivateKey(
                 Buffer.from(derivedPrivKey.privateKey, 'hex'),
                 {network: this.networkConfig}
             );
