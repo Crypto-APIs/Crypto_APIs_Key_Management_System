@@ -13,7 +13,7 @@ class GeneratorHelperFactory {
      * @param {string} blockchain
      * @param {string} network
      *
-     * @returns {BaseGeneratorHelper|Error}
+     * @returns {BaseGeneratorHelper}
      */
     static create({blockchain, network}) {
         const args = {

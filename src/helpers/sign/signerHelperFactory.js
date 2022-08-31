@@ -10,7 +10,7 @@ class SignerHelperFactory {
      * @param {string} blockchain
      * @param {string} network
      *
-     * @returns {BaseSignerHelper|Error}
+     * @returns {BaseSignerHelper}
      */
     static create({blockchain, network}) {
         const args = {
@@ -24,7 +24,7 @@ class SignerHelperFactory {
             case blockchains.ETHEREUM:
                 return new EthSignerHelper(args);
             default:
-                return new Error('Blockchain signer type not supported');
+                throw new Error('Blockchain signer type not supported');
         }
     }
 }
