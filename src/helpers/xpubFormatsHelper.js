@@ -91,6 +91,14 @@ const XPUB_DERIVATION_PATHS = {
         [NetworksEnum[blockchains.ZCASH]["NETWORK_ZCASH_TESTNET"]]: {
             [XPUB_DERIVATION_TYPE_BIP44]: "m/44'/1'/0'",
         },
+    },
+    [blockchains.XRP]: {
+        [NetworksEnum[blockchains.XRP]["NETWORK_XRP_MAINNET"]]: {
+            [XPUB_DERIVATION_TYPE_BIP44]: "m/44'/144'/0'",
+        },
+        [NetworksEnum[blockchains.XRP]["NETWORK_XRP_TESTNET"]]: {
+            [XPUB_DERIVATION_TYPE_BIP44]: "m/44'/1'/0'",
+        },
     }
 };
 
@@ -278,7 +286,7 @@ const XPUB_DERIVATION_TYPES = {
     [blockchains.BINANCE_SMART_CHAIN]: {
         [XPUB_DERIVATION_TYPE_BIP44]: (seed, network) => {
             let networkConfig = NetworksConfigsEnum[[blockchains.BINANCE_SMART_CHAIN]][network];
-           
+
             const rootKey = bip32.fromMasterSeed(seed, networkConfig.bip32);
             const derivationPath = XPUB_DERIVATION_PATHS[blockchains.BINANCE_SMART_CHAIN][network][XPUB_DERIVATION_TYPE_BIP44];
             const accountXpriv = rootKey.derive(derivationPath);
@@ -306,9 +314,26 @@ const XPUB_DERIVATION_TYPES = {
                 derivationPath: derivationPath,
                 accountXpriv: accountXpriv.privateExtendedKey,
                 accountXpub: accountXpriv.publicExtendedKey
+            }
         }
-    }
-},
+    },
+    [blockchains.XRP]: {
+        [XPUB_DERIVATION_TYPE_BIP44]: (seed, network) => {
+            let networkConfig = NetworksConfigsEnum[[blockchains.XRP]][network];
+
+            const rootKey = bip32.fromMasterSeed(seed, networkConfig.bip32);
+            const derivationPath = XPUB_DERIVATION_PATHS[blockchains.XRP][network][XPUB_DERIVATION_TYPE_BIP44];
+            const accountXpriv = rootKey.derive(derivationPath);
+
+            return {
+                rootKey: rootKey.privateExtendedKey,
+                derivationType: XPUB_DERIVATION_TYPE_BIP44,
+                derivationPath: derivationPath,
+                accountXpriv: accountXpriv.privateExtendedKey,
+                accountXpub: accountXpriv.publicExtendedKey
+            }
+        }
+    },
 };
 
 module.exports = {
