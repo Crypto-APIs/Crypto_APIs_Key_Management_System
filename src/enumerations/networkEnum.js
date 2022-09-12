@@ -33,6 +33,9 @@ const NETWORK_XRP_TESTNET = 'testnet';
 const NETWORK_BINANCE_SMART_CHAIN_MAINNET = 'mainnet';
 const NETWORK_BINANCE_SMART_CHAIN_TESTNET = 'testnet';
 
+const NETWORK_TRX_MAINNET = 'mainnet';
+const NETWORK_TRX_NILE = 'nile';
+
 const NETWORKS_CONFIGS = {
     [blockchains.BITCOIN]: {
         [NETWORK_BITCOIN_MAINNET]: {
@@ -321,6 +324,22 @@ const NETWORKS_CONFIGS = {
             scriptHash: 0xc4,
         },
     },
+    [blockchains.TRX]: {
+        [NETWORK_TRX_MAINNET]: {
+            versionPrefix: 0x41,
+            bip32: {
+                public: 0x0488b21e,
+                private: 0x0488ade4,
+            },
+        },
+        [NETWORK_TRX_NILE]: {
+            versionPrefix: 0x41,
+            bip32: {
+                public: 0x0488b21e,
+                private: 0x0488ade4,
+            },
+        },
+    },
 };
 
 module.exports = {
@@ -364,6 +383,10 @@ module.exports = {
         [blockchains.XRP]: {
             'NETWORK_XRP_MAINNET': NETWORK_XRP_MAINNET,
             'NETWORK_XRP_TESTNET': NETWORK_XRP_TESTNET,
+        },
+        [blockchains.TRX]: {
+            'NETWORK_TRX_MAINNET': NETWORK_TRX_MAINNET,
+            'NETWORK_TRX_NILE': NETWORK_TRX_NILE,
         },
     },
     'NETWORKS_CONFIGS': NETWORKS_CONFIGS,

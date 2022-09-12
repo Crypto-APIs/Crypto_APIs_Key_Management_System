@@ -99,6 +99,14 @@ const XPUB_DERIVATION_PATHS = {
         [NetworksEnum[blockchains.XRP]["NETWORK_XRP_TESTNET"]]: {
             [XPUB_DERIVATION_TYPE_BIP44]: "m/44'/1'/0'",
         },
+    },
+    [blockchains.TRX]: {
+        [NetworksEnum[blockchains.TRX]["NETWORK_TRX_MAINNET"]]: {
+            [XPUB_DERIVATION_TYPE_BIP44]: "m/44'/195'/0'",
+        },
+        [NetworksEnum[blockchains.TRX]["NETWORK_TRX_NILE"]]: {
+            [XPUB_DERIVATION_TYPE_BIP44]: "m/44'/1'/0'",
+        },
     }
 };
 
@@ -323,6 +331,23 @@ const XPUB_DERIVATION_TYPES = {
 
             const rootKey = bip32.fromMasterSeed(seed, networkConfig.bip32);
             const derivationPath = XPUB_DERIVATION_PATHS[blockchains.XRP][network][XPUB_DERIVATION_TYPE_BIP44];
+            const accountXpriv = rootKey.derive(derivationPath);
+
+            return {
+                rootKey: rootKey.privateExtendedKey,
+                derivationType: XPUB_DERIVATION_TYPE_BIP44,
+                derivationPath: derivationPath,
+                accountXpriv: accountXpriv.privateExtendedKey,
+                accountXpub: accountXpriv.publicExtendedKey
+            }
+        }
+    },
+    [blockchains.TRX]: {
+        [XPUB_DERIVATION_TYPE_BIP44]: (seed, network) => {
+            let networkConfig = NetworksConfigsEnum[[blockchains.TRX]][network];
+
+            const rootKey = bip32.fromMasterSeed(seed, networkConfig.bip32);
+            const derivationPath = XPUB_DERIVATION_PATHS[blockchains.TRX][network][XPUB_DERIVATION_TYPE_BIP44];
             const accountXpriv = rootKey.derive(derivationPath);
 
             return {

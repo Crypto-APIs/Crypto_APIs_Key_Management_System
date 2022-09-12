@@ -10,6 +10,8 @@ const ETHEREUM_CLASSIC = 'ethereum-classic';
 const BINANCE_SMART_CHAIN = 'binance-smart-chain';
 const XRP = 'xrp';
 const ZCASH = 'zcash';
+const TRX = 'trx';
+
 
 const blockchains = {
     BITCOIN: BITCOIN,
@@ -20,6 +22,7 @@ const blockchains = {
     ETHEREUM: ETHEREUM,
     ETHEREUM_CLASSIC: ETHEREUM_CLASSIC,
     XRP: XRP,
+    TRX: TRX,
     BINANCE_SMART_CHAIN: BINANCE_SMART_CHAIN,
     ZCASH: ZCASH
 };
@@ -37,5 +40,6 @@ module.exports = {
         [XRP]: 'XRP',
         [BINANCE_SMART_CHAIN]: 'BINANCE_SMART_CHAIN',
         [ZCASH]: 'ZCASH',
+        [TRX]: 'TRX',
     }
 };
