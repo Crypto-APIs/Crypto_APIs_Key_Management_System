@@ -317,11 +317,11 @@ const NETWORKS_CONFIGS = {
         [NETWORK_XRP_TESTNET]: {
             messagePrefix: 'unused',
             bip32: {
-                public: 0x043587cf,
-                private: 0x04358394,
+                public: 0x0488b21e,
+                private: 0x0488ade4,
             },
-            pubKeyHash: 0x6f,
-            scriptHash: 0xc4,
+            pubKeyHash: 0x00,
+            scriptHash: 0x05,
         },
     },
     [blockchains.TRX]: {
