@@ -20,7 +20,7 @@ class EthSignerHelper extends BaseSignerHelper {
     sign({xPriv, transaction}) {
         const hdkey = HDKey.fromExtendedKey(xPriv)
         const derivationPath = `m/0/${transaction.derivationIndex}`;
-        const derivedPrivKey = hdkey.derive(derivationPath)
+        const derivedPrivKey = hdkey.derive(derivationPath);
         const tx = this._buildTransaction(transaction);
         const signedTX = tx.sign(derivedPrivKey.privateKey);
         const serializedTx = signedTX.serialize();
@@ -34,17 +34,21 @@ class EthSignerHelper extends BaseSignerHelper {
     /**
      *
      * @param {AccountBasedTransaction} transaction
+     *
+     * @return {{}}
      */
     _buildTransaction(transaction) {
         let txData = {
-            to: transaction.recipient,
-            value: transaction.amount,
-            maxFeePerGas: transaction.maxFeePerGas,
-            maxPriorityFeePerGas: transaction.maxPriorityFeePerGas,
-            gasLimit: transaction.gasLimit,
-            nonce: transaction.nonce,
-            data: transaction.dataHex,
-            type: transaction.type
+            from: transaction?.sender,
+            to: transaction?.recipient,
+            value: transaction?.amount,
+            maxFeePerGas: transaction?.maxFeePerGas,
+            maxPriorityFeePerGas: transaction?.maxPriorityFeePerGas,
+            gasLimit: transaction?.gasLimit,
+            gasPrice: transaction?.gasPrice,
+            nonce: transaction?.nonce,
+            data: transaction?.data?.data,
+            type: "0x2"
         };
 
         return GasFeeMarketTransaction.fromTxData(txData, this.networkConfig);

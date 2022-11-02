@@ -40,9 +40,9 @@ class UTXOBasedPrepareHelper extends BasePrepareTransaction {
         });
 
         const item = new this.cryptoApis.PrepareAUTXOBasedTransactionFromHDWalletXPubYPubZPubRBDataItem(
+            xPub,
             fee,
             receivers,
-            xPub,
         );
 
         item.prepareStrategy = feeOptions.getPrepareStrategy();

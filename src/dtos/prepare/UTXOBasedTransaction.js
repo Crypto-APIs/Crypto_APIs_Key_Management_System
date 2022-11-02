@@ -21,21 +21,21 @@ class UTXOBasedTransactionDTO extends TransactionDTO {
         const requiredAttributes = ['vin','vout'];
 
         for (const attr of requiredAttributes) {
-            if (!data.hasOwnProperty(attr)) {
+            if (!data?.blockchainSpecific.hasOwnProperty(attr)) {
                 throw new Error(attr + ' is not provided');
             }
         }
 
-        if (!Array.isArray(data['vin']) || data['vout'].length === 0) {
+        if (!Array.isArray(data?.blockchainSpecific['vin']) || data?.blockchainSpecific['vout'].length === 0) {
             throw new Error('inputs are empty or not an array');
         }
 
-        if (!Array.isArray(data['vout']) || data['vout'].length === 0) {
+        if (!Array.isArray(data?.blockchainSpecific['vout']) || data?.blockchainSpecific['vout'].length === 0) {
             throw new Error('outputs are empty or not an array');
         }
 
         const requiredInputAttributes = ['transactionId', 'outputIndex', 'address', 'script', 'change', 'satoshis', 'derivationIndex'];
-        for (const input of data['vin']) {
+        for (const input of data?.blockchainSpecific['vin']) {
             for (const attr of requiredInputAttributes) {
                 if (!input.hasOwnProperty(attr)) {
                     throw new Error('Input ' + attr + ' is not provided');
@@ -44,7 +44,7 @@ class UTXOBasedTransactionDTO extends TransactionDTO {
         }
 
         const requiredOutputAttributes = ['script','address'];
-        for (const output of data['vout']) {
+        for (const output of data?.blockchainSpecific['vout']) {
             for (const attr of requiredOutputAttributes) {
                 if (!output.hasOwnProperty(attr)) {
                     throw new Error('Input ' + attr + ' is not provided');
@@ -53,7 +53,7 @@ class UTXOBasedTransactionDTO extends TransactionDTO {
         }
 
         return {
-            inputs: data.vin.map((input) => {
+            inputs: data.blockchainSpecific.vin.map((input) => {
                 return {
                     address: input.address,
                     txid: input.transactionId,
@@ -64,9 +64,9 @@ class UTXOBasedTransactionDTO extends TransactionDTO {
                     change: input.change
                 }
             }),
-            outputs: data.vout,
+            outputs: data.blockchainSpecific.vout,
             locktime: data?.locktime ? data.locktime : null,
-            replaceable: data?.replaceable ? data.replaceable : false,
+            replaceable: data?.blockchainSpecific?.replaceable ? data.blockchainSpecific.replaceable : false,
             data: data?.data ? data.data : null,
             feePerByte: data?.feePerByte ? new Decimal(data.feePerByte).toDecimalPlaces(8).toFixed() : null,
             fee: data?.fee ? data.fee : 0,
