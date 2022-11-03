@@ -18,27 +18,25 @@ class AccountBasedTransactionDTO extends TransactionDTO {
      * @protected
      */
     _prepareData(data) {
-        const TRANSACTION_TYPE_GAS_FEE_MARKET = '2';
-
         const requiredAttributes = ['sender', 'recipient', 'nonce', 'amount', 'fee', 'derivationIndex'];
         for (const attr of requiredAttributes) {
-            if (!data.hasOwnProperty(attr)) {
+            if (!data.hasOwnProperty(attr) && !data?.blockchainSpecific.hasOwnProperty(attr)) {
                 throw new Error(attr + ' is not provided');
             }
         }
 
         return {
-            transactionType: data.sender,
+            sender: data.sender,
+            transactionType: data.transactionType,
             recipient: data.recipient,
             amount: hex2dec.decToHex(data.amount),
-            nonce: hex2dec.decToHex(data.nonce),
-            type: hex2dec.decToHex(TRANSACTION_TYPE_GAS_FEE_MARKET),
-            data: data.dataHex,
-            derivationIndex: data.derivationIndex,
-            gasPrice: hex2dec.decToHex(data.fee.gasPrice),
-            gasLimit: hex2dec.decToHex(data.fee.gasLimit),
-            maxFeePerGas: hex2dec.decToHex(data.fee.maxFeePerGas),
-            maxPriorityFeePerGas: hex2dec.decToHex(data.fee.maxPriorityFeePerGas),
+            nonce: hex2dec.decToHex(data?.blockchainSpecific.nonce),
+            data: data?.blockchainSpecific.dataHex,
+            derivationIndex: data?.blockchainSpecific?.derivationIndex,
+            gasPrice: hex2dec.decToHex(data?.blockchainSpecific?.fee?.gasPrice),
+            gasLimit: hex2dec.decToHex(data?.blockchainSpecific?.fee?.gasLimit),
+            maxFeePerGas: data?.blockchainSpecific?.fee?.maxFeePerGas ? hex2dec.decToHex(data.blockchainSpecific.fee.maxFeePerGas) : null,
+            maxPriorityFeePerGas: data?.blockchainSpecific?.fee?.maxPriorityFeePerGas ? hex2dec.decToHex(data.blockchainSpecific.fee.maxPriorityFeePerGas) : null,
         };
     }
 

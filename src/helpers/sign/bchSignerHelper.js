@@ -1,29 +1,29 @@
 'use strict';
 
 const BaseSignerHelper = require('./baseSignerHelper')
-    , bitcoinjs = require('bitcoinjs-lib')
-    , bitcorejs = require('bitcore-lib')
+    , bitcoreLibCash = require('bitcore-lib-cash')
     , HDKey = require("hdkey")
+    , bitcoinjs = require("bitcoinjs-lib")
 ;
 
 /**
- * BtcSignerHelper
+ * BchSignerHelper
  *
- * @class BtcSignerHelper
+ * @class BchSignerHelper
  *
  * @extends {BaseSignerHelper}
  */
-class BtcSignerHelper extends BaseSignerHelper {
+class BchSignerHelper extends BaseSignerHelper {
     /**
      * @inheritDoc
      */
     sign({xPriv, transaction}) {
-        const prepared = new bitcorejs.Transaction()
+        const prepared = new bitcoreLibCash.Transaction({})
             .from(transaction.data.inputs)
         ;
 
         for (const output of transaction.outputs) {
-            prepared.addOutput(new bitcorejs.Transaction.Output({
+            prepared.addOutput(new bitcoreLibCash.Transaction.Output({
                 satoshis: output.satoshis,
                 script: output.script,
             }));
@@ -45,10 +45,6 @@ class BtcSignerHelper extends BaseSignerHelper {
             }
         }
 
-        if (transaction.replaceable) {
-            prepared.enableRBF();
-        }
-
         const hdKey = HDKey.fromExtendedKey(xPriv, this.networkConfig.bip32)
         let privKeys = transaction.inputs.map( (input) => {
             const derivationPath = `m/${input.change}/${input.derivationIndex}`;
@@ -57,7 +53,7 @@ class BtcSignerHelper extends BaseSignerHelper {
                 Buffer.from(derivedPrivKey.privateKey, 'hex'),
                 {network: this.networkConfig}
             );
-            return new bitcorejs.PrivateKey(signer.privateKey.toString('hex'));
+            return new bitcoreLibCash.PrivateKey(signer.privateKey.toString('hex'));
         })
 
         prepared.sign(privKeys);
@@ -69,10 +65,9 @@ class BtcSignerHelper extends BaseSignerHelper {
                 disableDustOutputs: true,
                 disableMoreOutputThanInput: true,
                 disableLargeFees: true,
-                disableSmallFees: true,
             }),
         };
-    };
+    }
 }
 
-module.exports = BtcSignerHelper;
+module.exports = BchSignerHelper;

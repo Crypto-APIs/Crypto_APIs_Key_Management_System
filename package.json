@@ -1,6 +1,6 @@
 {
   "name": "cryptoapis-kms",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Crypto APIs - Key Management System",
   "main": "src/index.js",
   "homepage": "https://github.com/Crypto-APIs/Crypto_APIs_Key_Management_System#readme",
@@ -14,19 +14,25 @@
   "author": "Crypto APIs",
   "license": "MIT",
   "dependencies": {
+    "@dashevo/dashcore-lib": "^0.19.44",
     "@ethereumjs/common": "^2.6.0",
     "@ethereumjs/tx": "^3.5.2",
     "bip39": "^3.0.4",
-    "bitcoinjs-lib": "^6.0.2",
+    "bitcoinjs-lib": "^5.2.0",
     "bitcore-lib": "^8.25.30",
+    "bitcore-lib-cash": "^8.25.40",
+    "bitcore-lib-doge": "^8.25.40",
+    "bitcore-lib-ltc": "^8.25.40",
+    "bitgo-utxo-lib": "^1.8.0",
     "blake2b": "^2.1.4",
-    "cryptoapis": "^1.7.3",
+    "cryptoapis": "^1.10.0",
     "decimal.js": "^10.3.1",
     "ecpair": "^2.0.1",
     "ethereumjs-util": "^7.1.5",
     "hdkey": "^2.0.1",
     "hex2dec": "^1.1.2",
     "tiny-secp256k1": "^2.2.1",
+    "xrpl": "^2.5.0",
     "zcashcore-lib": "^0.13.19"
   }
 }

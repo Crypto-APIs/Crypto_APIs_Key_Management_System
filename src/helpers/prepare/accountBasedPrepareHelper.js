@@ -38,15 +38,14 @@ class AccountBasedPrepareHelper extends BasePrepareHelper {
 
         const item = new this.cryptoApis.PrepareAnAccountBasedTransactionFromHDWalletXPubYPubZPubRBDataItem(
             amount,
-            fee,
             recipient,
             sender,
             xPub,
+            fee,
         );
 
         item.additionalData = data;
         item.nonce = nonce;
-        item.transactionType = "gas-fee-market-transaction";
         const postData = new this.cryptoApis.PrepareAnAccountBasedTransactionFromHDWalletXPubYPubZPubRBData(item);
 
         const opts = {

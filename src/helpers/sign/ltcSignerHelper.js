@@ -1,24 +1,24 @@
 'use strict';
 
 const BaseSignerHelper = require('./baseSignerHelper')
-    , bitcoinjs = require('bitcoinjs-lib')
-    , bitcorejs = require('bitcore-lib')
+    , bitcoinjs = require("bitcoinjs-lib")
+    , bitcorejs = require("bitcore-lib-ltc")
     , HDKey = require("hdkey")
 ;
 
 /**
- * BtcSignerHelper
+ * LtcSignerHelper
  *
- * @class BtcSignerHelper
+ * @class LtcSignerHelper
  *
  * @extends {BaseSignerHelper}
  */
-class BtcSignerHelper extends BaseSignerHelper {
+class LtcSignerHelper extends BaseSignerHelper {
     /**
      * @inheritDoc
      */
     sign({xPriv, transaction}) {
-        const prepared = new bitcorejs.Transaction()
+        const prepared = new bitcorejs.Transaction({})
             .from(transaction.data.inputs)
         ;
 
@@ -30,7 +30,7 @@ class BtcSignerHelper extends BaseSignerHelper {
         }
 
         if (transaction.feePerByte) {
-            prepared.feePerByte(transaction.feePerByte);
+            prepared.feePerKb(Math.round(transaction.feePerByte / 1024));
         }
 
         if (transaction.transactionData) {
@@ -50,7 +50,7 @@ class BtcSignerHelper extends BaseSignerHelper {
         }
 
         const hdKey = HDKey.fromExtendedKey(xPriv, this.networkConfig.bip32)
-        let privKeys = transaction.inputs.map( (input) => {
+        let privKeys = transaction.inputs.map((input) => {
             const derivationPath = `m/${input.change}/${input.derivationIndex}`;
             const derivedPrivKey = hdKey.derive(derivationPath)
             const signer = bitcoinjs.ECPair.fromPrivateKey(
@@ -72,7 +72,7 @@ class BtcSignerHelper extends BaseSignerHelper {
                 disableSmallFees: true,
             }),
         };
-    };
+    }
 }
 
-module.exports = BtcSignerHelper;
+module.exports = LtcSignerHelper;

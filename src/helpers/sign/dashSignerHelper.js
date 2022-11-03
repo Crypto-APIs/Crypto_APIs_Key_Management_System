@@ -1,26 +1,29 @@
 'use strict';
 
-const BaseSignerHelper = require('./baseSignerHelper')
+const BaseSignerHelper = require("./baseSignerHelper")
     , bitcoinjs = require('bitcoinjs-lib')
-    , bitcorejs = require('bitcore-lib')
+    , bitcorejs = require('@dashevo/dashcore-lib')
     , HDKey = require("hdkey")
 ;
 
 /**
- * BtcSignerHelper
+ * DashSignerHelper
  *
- * @class BtcSignerHelper
+ * @class DashSignerHelper
  *
  * @extends {BaseSignerHelper}
  */
-class BtcSignerHelper extends BaseSignerHelper {
+class DashSignerHelper extends BaseSignerHelper {
+
     /**
      * @inheritDoc
      */
     sign({xPriv, transaction}) {
-        const prepared = new bitcorejs.Transaction()
+        const prepared = new bitcorejs.Transaction({})
             .from(transaction.data.inputs)
         ;
+
+        prepared.version = 2;
 
         for (const output of transaction.outputs) {
             prepared.addOutput(new bitcorejs.Transaction.Output({
@@ -30,7 +33,7 @@ class BtcSignerHelper extends BaseSignerHelper {
         }
 
         if (transaction.feePerByte) {
-            prepared.feePerByte(transaction.feePerByte);
+            prepared.feePerKb(Math.round(transaction.feePerByte / 1024));
         }
 
         if (transaction.transactionData) {
@@ -45,12 +48,8 @@ class BtcSignerHelper extends BaseSignerHelper {
             }
         }
 
-        if (transaction.replaceable) {
-            prepared.enableRBF();
-        }
-
         const hdKey = HDKey.fromExtendedKey(xPriv, this.networkConfig.bip32)
-        let privKeys = transaction.inputs.map( (input) => {
+        let privKeys = transaction.inputs.map((input) => {
             const derivationPath = `m/${input.change}/${input.derivationIndex}`;
             const derivedPrivKey = hdKey.derive(derivationPath)
             const signer = bitcoinjs.ECPair.fromPrivateKey(
@@ -72,7 +71,7 @@ class BtcSignerHelper extends BaseSignerHelper {
                 disableSmallFees: true,
             }),
         };
-    };
+    }
 }
 
-module.exports = BtcSignerHelper;
+module.exports = DashSignerHelper;
