@@ -32,11 +32,11 @@ class AccountBasedPrepareHelper extends BasePrepareHelper {
         nonce,
         data
     }) {
-        const fee = new this.cryptoApis.PrepareAnAccountBasedTransactionFromHDWalletXPubYPubZPubRBDataItemFee()
+        const fee = new this.cryptoApis.PrepareATransactionFromAnAddressInHDWalletXPubYPubZPubRBDataItemFee()
         fee.priority = feeOptions.getPriority();
         fee.exactAmount = feeOptions.getFeeAmount();
 
-        const item = new this.cryptoApis.PrepareAnAccountBasedTransactionFromHDWalletXPubYPubZPubRBDataItem(
+        const item = new this.cryptoApis.PrepareATransactionFromAnAddressInHDWalletXPubYPubZPubRBDataItem(
             amount,
             recipient,
             sender,
@@ -46,13 +46,13 @@ class AccountBasedPrepareHelper extends BasePrepareHelper {
 
         item.additionalData = data;
         item.nonce = nonce;
-        const postData = new this.cryptoApis.PrepareAnAccountBasedTransactionFromHDWalletXPubYPubZPubRBData(item);
+        const postData = new this.cryptoApis.PrepareATransactionFromAnAddressInHDWalletXPubYPubZPubRBData(item);
 
         const opts = {
-            prepareAnAccountBasedTransactionFromHDWalletXPubYPubZPubRB: new this.cryptoApis.PrepareAnAccountBasedTransactionFromHDWalletXPubYPubZPubRB(postData)
+            prepareAnAccountBasedTransactionFromHDWalletXPubYPubZPubRB: new this.cryptoApis.PrepareATransactionFromAnAddressInHDWalletXPubYPubZPubRB(postData)
         };
 
-        return this.hdWalletInstance.prepareAnAccountBasedTransactionFromHDWalletXPubYPubZPub(this.blockchain, this.network, opts)
+        return this.hdWalletInstance.prepareATransactionFromAnAddressInHDWalletXPubYPubZPub(this.blockchain, this.network, opts)
     };
 }
 
