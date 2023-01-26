@@ -18,7 +18,7 @@ class AccountBasedTransactionDTO extends TransactionDTO {
      * @protected
      */
     _prepareData(data) {
-        const requiredAttributes = ['sender', 'recipient', 'nonce', 'amount', 'fee', 'derivationIndex'];
+        const requiredAttributes = ['sender', 'recipient', 'nonce', 'fee'];
         for (const attr of requiredAttributes) {
             if (!data.hasOwnProperty(attr) && !data?.blockchainSpecific.hasOwnProperty(attr)) {
                 throw new Error(attr + ' is not provided');
@@ -27,11 +27,11 @@ class AccountBasedTransactionDTO extends TransactionDTO {
 
         return {
             sender: data.sender,
-            transactionType: data.transactionType,
+            transactionType: data?.transactionType || data?.blockchainSpecific?.transactionType,
             recipient: data.recipient,
-            amount: hex2dec.decToHex(data.amount),
-            nonce: hex2dec.decToHex(data?.blockchainSpecific.nonce),
-            data: data?.blockchainSpecific.dataHex,
+            amount: data?.amount ? hex2dec.decToHex(data.amount) : "0x0",
+            nonce: data?.blockchainSpecific.nonce ? hex2dec.decToHex(data?.blockchainSpecific.nonce) : hex2dec.decToHex(data?.nonce),
+            data: data?.blockchainSpecific?.dataHex,
             derivationIndex: data?.blockchainSpecific?.derivationIndex,
             gasPrice: hex2dec.decToHex(data?.blockchainSpecific?.fee?.gasPrice),
             gasLimit: hex2dec.decToHex(data?.blockchainSpecific?.fee?.gasLimit),

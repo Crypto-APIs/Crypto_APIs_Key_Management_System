@@ -25,7 +25,7 @@ class BscSignerHelper extends EthSignerHelper {
             gasPrice: transaction.gasPrice,
             gasLimit: transaction.gasLimit,
             nonce: transaction.nonce,
-            data: transaction?.data?.data,
+            data: transaction?.data?.data || transaction?.data,
         };
 
         return new EthereumTx(txData, this.networkConfig);

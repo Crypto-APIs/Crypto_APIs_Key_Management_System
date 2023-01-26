@@ -3,6 +3,7 @@
 const AccountBasedPrepareHelper = require("../helpers/prepare/accountBasedPrepareHelper")
     , UTXOBasedPrepareHelper = require("../helpers/prepare/UTXOBasedPrepareHelper")
     , {BaseCryptoAPIsLibAwareService} = require("./baseServices")
+    , TokenPrepareHelperFactory = require("../helpers/prepare/tokenTransactions/tokenPrepareFactory")
 ;
 
 /**
@@ -87,6 +88,52 @@ class PrepareTransactionService  extends BaseCryptoAPIsLibAwareService {
             data,
         });
     }
+
+    /**
+     * Prepare A Token Transaction (ERC-20, ERC-721, BEP-20, BEP-721)
+     * @param {string} tokenStandard token standard
+     * @param {string} contract Represents a contract address
+     * @param {string} sender Represents a  sender address
+     * @param {string} recipient Represents a recipient address
+     * @param {string|null} amount Representation of the amount of the token to be sent (ERC-20, BEP-20)
+     * @param {string|null} tokenId Representation of the token id to be sent (ERC-721, BEP-721)
+     * @param {AccountBasedFeeOptions} feeOptions Represents the fee options
+     * @param {string|null} nonce Representation of the nonce value
+     * @param {string|null} data Representation of the additional data
+     *
+     * @returns {Promise<*>}
+     */
+    prepareTokenTransaction({
+           tokenStandard,
+           contract,
+           sender,
+           recipient,
+           amount,
+           tokenId,
+           feeOptions,
+           nonce,
+           data
+          }){
+
+        const tokenService = TokenPrepareHelperFactory.create({
+               cryptoApis: this.cryptoApis,
+               blockchain: this.blockchain,
+               network: this.network,
+               tokenStandard: tokenStandard
+        });
+
+        return tokenService.prepare({
+            tokenStandard,
+            contract,
+            sender,
+            recipient,
+            amount,
+            tokenId,
+            feeOptions,
+            nonce,
+            data
+        })
+    };
 }
 
 module.exports = PrepareTransactionService;

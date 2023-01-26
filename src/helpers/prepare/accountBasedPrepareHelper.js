@@ -49,7 +49,7 @@ class AccountBasedPrepareHelper extends BasePrepareHelper {
         const postData = new this.cryptoApis.PrepareATransactionFromAnAddressInHDWalletXPubYPubZPubRBData(item);
 
         const opts = {
-            prepareAnAccountBasedTransactionFromHDWalletXPubYPubZPubRB: new this.cryptoApis.PrepareATransactionFromAnAddressInHDWalletXPubYPubZPubRB(postData)
+            prepareATransactionFromAnAddressInHDWalletXPubYPubZPubRB: new this.cryptoApis.PrepareATransactionFromAnAddressInHDWalletXPubYPubZPubRB(postData)
         };
 
         return this.hdWalletInstance.prepareATransactionFromAnAddressInHDWalletXPubYPubZPub(this.blockchain, this.network, opts)
