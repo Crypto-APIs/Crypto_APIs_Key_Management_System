@@ -2,7 +2,7 @@
 
 const BaseSignerHelper = require('./baseSignerHelper')
     , {FeeMarketEIP1559Transaction: GasFeeMarketTransaction, Transaction} = require('@ethereumjs/tx')
-    , AccountBasedTransaction = require('../prepare/accountBasedPrepareHelper')
+    , AccountBasedTransaction = require('../../dtos/prepare/accountBasedTransactionDTO')
     , HDKey = require("hdkey")
     , LEGACY_TRANSACTION = 'legacy-transaction'
 ;
@@ -66,11 +66,11 @@ class EthSignerHelper extends BaseSignerHelper {
             gasLimit: transaction?.gasLimit,
             gasPrice: transaction?.gasPrice,
             nonce: transaction?.nonce,
-            data: transaction?.data?.data || transaction?.data,
+            data: transaction?.data?.data,
             type: "0x2"
         };
 
-        if (transaction?.transactionType === LEGACY_TRANSACTION) {
+        if (transaction?.transactionType?.toString() === LEGACY_TRANSACTION) {
             return  Transaction.fromTxData(txData, this.networkConfig)
         }
 

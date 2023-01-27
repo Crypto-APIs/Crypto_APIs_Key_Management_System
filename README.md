@@ -460,11 +460,63 @@ AccountBasedTransactionDTO
 
 [ApiKey](#ApiKey)
 
+
+## prepareAccountBasedTransactionFromAddress
+Through this endpoint users can prepare a transaction from an address with private and public keys.
+The address does not have to belong to a wallet. The response will include the transaction fee in Wei.
+
+### Example
+
+```javascript
+ const {Enumerations, Client, Services, Models } = require('cryptoapis-kms');
+ const blockchain = Enumerations.Blockchains.ETHEREUM;
+ const network = Enumerations.Networks[blockchain].NETWORK_ETHEREUM_MAINNET;
+ const client = new Client('YOUR API KEY', blockchain, network);
+ const sender = '0x0b7155094947d785530f66d250b097b25c30a557';
+ const recipient = '0xd4e2a5949359e95c7c604050dd9d54af419689c0';
+ const amount = '1.00031246';
+ const feeOptions = new Models.AccountBasedFeeOptionsModel({
+    priority: Enumerations.FeePriorities.FAST,
+ });
+ const preparedAccountTransaction = await client.prepareAccountBasedTransactionFromAddress({
+     sender,
+     recipient,
+     amount,
+     feeOptions
+ }).then((data) => {
+     console.dir('API called successfully. Returned data:');
+     console.dir(data);
+ }, (error) => {
+     console.log(error)
+ })
+```
+
+### Parameters
+
+Name | Type                    | Description                                                          | Notes
+------------- |-------------------------|----------------------------------------------------------------------| -------------
+**sender** | **string**              | Represents a sender address                                       |
+**recipient** | **string**              | Represents a recipient addresses  |
+**amount** | **string**              | Representation of the amount of the transaction  |
+**feeOptions** | **AccountBasedFeeOptionsModel** | Represents the fee options                                           |
+**feeOptions.priority** | **string**              | Represents the fee priority                                          | [optional]
+**feeOptions.feeAmount** | **string**              | Represents the fee amount                                            | [optional]
+**nonce** | **string**              | Representation of the nonce value            | [optional]
+**data** | **string**              | Representation of the additional data          | [optional]
+
+### Return type
+
+AccountBasedTransactionDTO
+
+### Authorization
+
+[ApiKey](#ApiKey)
+
 ## signPreparedTransactionLocally
 Through this endpoint users sign their transactions locally(offline) using the transaction response from 
 Prepare Transaction From HD Wallet endpoint, both for account-based and UTXO-based
 
-### Example
+### Example #1
 
 ```javascript
 const {Enumerations, Client, Services, Models} = require('cryptoapis-kms');
@@ -498,12 +550,47 @@ client.broadcastSignedTx(signedTx.raw, callbackSecretKey, callbackUrl).then((dat
 });
 ```
 
+### Example #2
+
+```javascript
+const {Enumerations, Client, Services, Models} = require('cryptoapis-kms');
+const blockchain = Enumerations.Blockchains.ETHEREUM;
+const network = Enumerations.Networks[blockchain].NETWORK_ETHEREUM_MAINNET;
+const client = new Client('YOUR API KEY', blockchain, network);
+const signService = new Services.SignService(blockchain, network)
+const privKey = '1f610a431f8d997484e6aab36cf7e185eb069aac65fdce81e82d39ba85848c12';
+const sender = '0x0b7155094947d785530f66d250b097b25c30a557';
+const recipient = '0xd4e2a5949359e95c7c604050dd9d54af419689c0';
+const amount = '1.00031246';
+const feeOptions = new Models.AccountBasedFeeOptionsModel({
+    priority: Enumerations.FeePriorities.FAST,
+});
+
+const preparedAccountTransaction = await client.prepareAccountBasedTransactionFromAddress({
+    sender,
+    recipient,
+    amount,
+    feeOptions
+})
+
+const signedTx = signService.signPreparedTransactionLocally(privKey, preparedAccountTransaction);
+const callbackSecretKey = 'yourSecretString';
+const callbackUrl = 'https://example.com'; // your URL for callback must be verifyed from dashboard  
+
+client.broadcastSignedTx(signedTx.raw, callbackSecretKey, callbackUrl).then((data) => {
+    console.dir('API called successfully. Returned data:');
+    console.dir(data);
+}, (error) => {
+    console.log(error);
+});
+```
 ### Parameters
 
 Name | Type               | Description                                                  | Notes
 ------------- |--------------------|--------------------------------------------------------------| -------------
-**accountXpriv** | **String**         | Account Extended Private Key                                 |
-**transaction** | **TransactionDTO** | Prepared Transaction From Xpub (Account-based or UTXO-based) |
+**accountXpriv** | **String**         | Account Extended Private Key (for HDWallet Transactions)     |
+**privKey** | **String**         | Address Private Key (for Address Transactions)               |
+**transaction** | **TransactionDTO** | Prepared Transaction (Account-based or UTXO-based) |
 
 ### Return type
 

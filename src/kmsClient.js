@@ -275,6 +275,39 @@ class KmsClient {
             return new AccountBasedTransactionDTO(data);
         });
     }
+
+    /**
+     * Through this endpoint users can prepare a transaction from an address with private and public keys.
+     * The address does not have to belong to a wallet. The response will include the transaction fee in Wei.
+     * @param {string} sender Represents a  sender address
+     * @param {string} recipient Represents a recipient address
+     * @param {string} amount Representation of the amount of the transaction
+     * @param {AccountBasedFeeOptionsModel} feeOptions Represents the fee options
+     * @param {string|null} nonce Representation of the nonce value
+     * @param {string|null} data Representation of the additional data
+     *
+     * @returns {Promise|module:model/PrepareTransactionFromAddressR}
+     */
+    prepareAccountBasedTransactionFromAddress({
+              sender,
+              recipient,
+              amount,
+              feeOptions,
+              nonce,
+              data
+          }){
+
+        return this.prepareService.prepareAccountBasedTransactionFromAddress({
+            sender,
+            recipient,
+            amount,
+            feeOptions,
+            nonce,
+            data
+        }).then((data) => {
+            return new AccountBasedTransactionDTO(data);
+        });
+    }
 }
 
 module.exports = KmsClient;

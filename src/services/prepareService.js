@@ -1,6 +1,7 @@
 'use strict';
 
-const AccountBasedPrepareHelper = require("../helpers/prepare/accountBasedPrepareHelper")
+const AccountBasedHDWalletPrepareHelper = require("../helpers/prepare/accountBasedHDWalletPrepareHelper")
+    , AccountBasedSingleAddressPrepareHelper = require("../helpers/prepare/accountBasedSingleAddressPrepareHelper")
     , UTXOBasedPrepareHelper = require("../helpers/prepare/UTXOBasedPrepareHelper")
     , {BaseCryptoAPIsLibAwareService} = require("./baseServices")
     , TokenPrepareHelperFactory = require("../helpers/prepare/tokenTransactions/tokenPrepareFactory")
@@ -21,11 +22,11 @@ class PrepareTransactionService  extends BaseCryptoAPIsLibAwareService {
      * @param {string} sender Represents a  sender address
      * @param {string} recipient Represents a recipient address
      * @param {string} amount Representation of the amount of the transaction
-     * @param {AccountBasedFeeOptions} feeOptions Represents the fee options
+     * @param {AccountBasedFeeOptionsModel} feeOptions Represents the fee options
      * @param {string|null} nonce Representation of the nonce value
      * @param {string|null} data Representation of the additional data
      *
-     * @returns {Promise|module:model/PrepareAnAccountBasedTransactionFromHDWalletXPubYPubZPubR}
+     * @returns {Promise|module:model/PrepareATransactionFromAnAddressInHDWalletXPubYPubZPubR}
      */
     prepareAccountBasedTransactionFromHDWallet({
        xPub,
@@ -36,7 +37,7 @@ class PrepareTransactionService  extends BaseCryptoAPIsLibAwareService {
        nonce,
        data
    }){
-        const accountBasedService = new AccountBasedPrepareHelper(
+        const accountBasedService = new AccountBasedHDWalletPrepareHelper(
             this.cryptoApis,
             this.blockchain,
             this.network
@@ -58,7 +59,7 @@ class PrepareTransactionService  extends BaseCryptoAPIsLibAwareService {
      * Through the “Prepare a UTXO-based transaction from HD Wallet” endpoint users can prepare a transaction for signing from all synced with Crypto APIs addresses for the specific xPub. This is based on the `selectionStrategy` and the addresses’ balances. In the case a user has an address not synced with Crypto APIs, it will not be included. This endpoint applies to all supported UTXO-based blockchain protocols, e.g. Bitcoin, Litecoin, etc.
      * @param {string} xPub Defines the account extended publicly known key which is used to derive all child public keys
      * @param {Array<RecipientModel>} recipients Represents a list of recipient addresses with the respective amounts
-     * @param {UTXOBasedFeeOptions} feeOptions Represents the fee options
+     * @param {AccountBasedFeeOptionsModel} feeOptions Represents the fee options
      * @param {Number} locktime Represents the time at which a particular transaction can be added to the blockchain.
      * @param {Boolean} replaceable Representation of whether the transaction is replaceable
      * @param {string} data Representation of the additional data
@@ -97,7 +98,7 @@ class PrepareTransactionService  extends BaseCryptoAPIsLibAwareService {
      * @param {string} recipient Represents a recipient address
      * @param {string|null} amount Representation of the amount of the token to be sent (ERC-20, BEP-20)
      * @param {string|null} tokenId Representation of the token id to be sent (ERC-721, BEP-721)
-     * @param {AccountBasedFeeOptions} feeOptions Represents the fee options
+     * @param {AccountBasedFeeOptionsModel} feeOptions Represents the fee options
      * @param {string|null} nonce Representation of the nonce value
      * @param {string|null} data Representation of the additional data
      *
@@ -129,6 +130,44 @@ class PrepareTransactionService  extends BaseCryptoAPIsLibAwareService {
             recipient,
             amount,
             tokenId,
+            feeOptions,
+            nonce,
+            data
+        })
+    };
+
+    /**
+     *
+     * Through this endpoint users can prepare a transaction from an address with private and public keys.
+     * The address does not have to belong to a wallet. The response will include the transaction fee in Wei.
+     * @param {string} sender Represents a  sender address
+     * @param {string} recipient Represents a recipient address
+     * @param {string} amount Representation of the amount of the transaction
+     * @param {AccountBasedFeeOptionsModel} feeOptions Represents the fee options
+     * @param {string|null} nonce Representation of the nonce value
+     * @param {string|null} data Representation of the additional data
+     *
+     * @returns {Promise|module:model/PrepareTransactionFromAddressR}
+     */
+    prepareAccountBasedTransactionFromAddress({
+               sender,
+               recipient,
+               amount,
+               feeOptions,
+               nonce,
+               data
+           }){
+
+        const accountBasedService = new AccountBasedSingleAddressPrepareHelper(
+            this.cryptoApis,
+            this.blockchain,
+            this.network
+        )
+
+        return accountBasedService.prepare({
+            sender,
+            recipient,
+            amount,
             feeOptions,
             nonce,
             data

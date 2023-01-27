@@ -5,11 +5,11 @@ const BasePrepareHelper = require("./basePrepareHelper");
 /**
  * AccountBasedPrepareTransaction
  *
- * @class AccountBasedPrepareHelper
+ * @class AccountBasedHDWalletPrepareHelper
  *
  * @extends {BasePrepareHelper}
  */
-class AccountBasedPrepareHelper extends BasePrepareHelper {
+class AccountBasedHDWalletPrepareHelper extends BasePrepareHelper {
     /**
      * Prepare An Account-Based Transaction From HD Wallet (xPub, yPub, zPub)
      * Through the “Prepare an account-based transaction from HD Wallet” endpoint users can prepare a transaction for signing from a synced with Crypto APIs address from the specific xPub. This endpoint applies to all supported account-based blockchain protocols, e.g. Ethereum, BSC, etc
@@ -21,7 +21,7 @@ class AccountBasedPrepareHelper extends BasePrepareHelper {
      * @param {string|null} nonce Representation of the nonce value
      * @param {string|null} data Representation of the additional data
      *
-     * @returns {Promise|module:model/PrepareAnAccountBasedTransactionFromHDWalletXPubYPubZPubR}
+     * @returns {Promise|module:model/PrepareATransactionFromAnAddressInHDWalletXPubYPubZPubR}
      */
     prepare({
         xPub,
@@ -56,4 +56,4 @@ class AccountBasedPrepareHelper extends BasePrepareHelper {
     };
 }
 
-module.exports = AccountBasedPrepareHelper;
+module.exports = AccountBasedHDWalletPrepareHelper;
