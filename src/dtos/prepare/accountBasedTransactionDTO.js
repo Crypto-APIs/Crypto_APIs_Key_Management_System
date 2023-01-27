@@ -30,7 +30,7 @@ class AccountBasedTransactionDTO extends TransactionDTO {
             transactionType: data?.transactionType || data?.blockchainSpecific?.transactionType,
             recipient: data.recipient,
             amount: data?.amount ? hex2dec.decToHex(data.amount) : "0x0",
-            nonce: data?.blockchainSpecific.nonce ? hex2dec.decToHex(data?.blockchainSpecific.nonce) : hex2dec.decToHex(data?.nonce),
+            nonce: data?.blockchainSpecific?.nonce ? hex2dec.decToHex(data?.blockchainSpecific.nonce) : hex2dec.decToHex(data?.nonce),
             data: data?.blockchainSpecific?.dataHex,
             derivationIndex: data?.blockchainSpecific?.derivationIndex,
             gasPrice: hex2dec.decToHex(data?.blockchainSpecific?.fee?.gasPrice),
