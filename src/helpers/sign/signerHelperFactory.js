@@ -22,7 +22,7 @@ class SignerHelperFactory {
         const args = {
             blockchain,
             network
-        }
+        };
 
         switch (blockchain.toLowerCase()) {
             case blockchains.BITCOIN:

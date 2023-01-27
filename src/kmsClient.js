@@ -21,6 +21,7 @@ const validateConfig = require('./validators/configValidator')
 } = require('./services')
     , feePriorityEnum = require("./enumerations/feePriorityEnum")
     , prepareStrategyEnum = require("./enumerations/feePriorityEnum")
+    , tokenEnum = require("./enumerations/tokenEnum")
 
 class KmsClient {
     /**
@@ -227,6 +228,51 @@ class KmsClient {
             return new BroadcastSignedTxDTO(data);
         }, error => {
             throw error;
+        });
+    }
+
+    /**
+     * Prepare A Token Transaction (ERC-20, ERC-721, BEP-20, BEP-721)
+     * @param {string} tokenStandard Represents the token standard
+     * @param {string} contract Represents a contract address
+     * @param {string} sender Represents a sender address
+     * @param {string} recipient Represents a recipient address
+     * @param {string|null} amount Representation of the amount of tokens to be sent
+     * @param {string|null} tokenId Representation of the token id to be sent
+     * @param {AccountBasedFeeOptions} feeOptions Represents the fee options
+     * @param {string|null} nonce Representation of the nonce value
+     * @param {string|null} data Representation of the additional data
+     *
+     * @returns {Promise|module:model/*}
+     */
+    prepareTokenTransaction({
+               tokenStandard,
+               contract,
+               sender,
+               recipient,
+               amount,
+               tokenId,
+               feeOptions,
+               nonce,
+               data
+           }){
+
+        if ((tokenStandard === tokenEnum.STANDARDS.ERC_721 || tokenStandard === tokenEnum.STANDARDS.ERC_721) && !tokenId){
+            throw Error('Token Id must be specified');
+        }
+
+        return this.prepareService.prepareTokenTransaction({
+            tokenStandard,
+            contract,
+            sender,
+            recipient,
+            amount,
+            tokenId,
+            feeOptions,
+            nonce,
+            data
+        }).then((data) => {
+            return new AccountBasedTransactionDTO(data);
         });
     }
 }

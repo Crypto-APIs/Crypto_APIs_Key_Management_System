@@ -5,7 +5,8 @@ const KmsClient = require('./kmsClient')
         blockchainEnum,
         networkEnum,
         feePriorityEnum,
-        prepareStrategyEnum
+        prepareStrategyEnum,
+        tokenEnum
     } = require('./enumerations')
     , {
         XPUB_DERIVATION_PATHS: xPubDerivationPathsEnum,
@@ -36,6 +37,7 @@ module.exports = {
         PrepareStrategies: prepareStrategyEnum,
         xPubDerivationPaths: xPubDerivationPathsEnum,
         xPubDerivationTypes: xPubDerivationTypesEnum,
+        TokenStandards: tokenEnum.BLOCKCHAIN_STANDARDS
     },
     Services: {
         WalletService: WalletService,

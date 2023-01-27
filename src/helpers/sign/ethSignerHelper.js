@@ -1,9 +1,10 @@
 'use strict';
 
 const BaseSignerHelper = require('./baseSignerHelper')
-    , {FeeMarketEIP1559Transaction: GasFeeMarketTransaction} = require('@ethereumjs/tx')
+    , {FeeMarketEIP1559Transaction: GasFeeMarketTransaction, Transaction} = require('@ethereumjs/tx')
     , AccountBasedTransaction = require('../prepare/accountBasedPrepareHelper')
     , HDKey = require("hdkey")
+    , LEGACY_TRANSACTION = 'legacy-transaction'
 ;
 
 /**
@@ -18,11 +19,9 @@ class EthSignerHelper extends BaseSignerHelper {
      * @inheritDoc
      */
     sign({xPriv, transaction}) {
-        const hdkey = HDKey.fromExtendedKey(xPriv)
-        const derivationPath = `m/0/${transaction.derivationIndex}`;
-        const derivedPrivKey = hdkey.derive(derivationPath);
+        const privKey = this._preparePrivKey(xPriv, transaction?.derivationIndex);
         const tx = this._buildTransaction(transaction);
-        const signedTX = tx.sign(derivedPrivKey.privateKey);
+        const signedTX = tx.sign(privKey);
         const serializedTx = signedTX.serialize();
 
         return {
@@ -30,6 +29,26 @@ class EthSignerHelper extends BaseSignerHelper {
             raw: '0x' + serializedTx.toString('hex'),
         };
     };
+
+    /**
+     * @param {string} xPriv
+     * @param {string} index
+     *
+     * @returns Buffer
+     */
+    _preparePrivKey(xPriv, index) {
+        if (index) {
+            const hdkey = HDKey.fromExtendedKey(xPriv)
+            const derivationPath = `m/0/${index}`;
+            const derivedPrivKey = hdkey.derive(derivationPath);
+
+            return derivedPrivKey.privateKey;
+        }
+        if (xPriv.startsWith("0x")) {
+            xPriv = xPriv.slice(2);
+        }
+        return Buffer.from(xPriv, 'hex');
+    }
 
     /**
      *
@@ -47,9 +66,13 @@ class EthSignerHelper extends BaseSignerHelper {
             gasLimit: transaction?.gasLimit,
             gasPrice: transaction?.gasPrice,
             nonce: transaction?.nonce,
-            data: transaction?.data?.data,
+            data: transaction?.data?.data || transaction?.data,
             type: "0x2"
         };
+
+        if (transaction?.transactionType === LEGACY_TRANSACTION) {
+            return  Transaction.fromTxData(txData, this.networkConfig)
+        }
 
         return GasFeeMarketTransaction.fromTxData(txData, this.networkConfig);
     }

@@ -274,7 +274,7 @@ Name | Type                     | Description                                   
 ------------- |--------------------------|----------------------------------------------------------------------| -------------
 **xPub** | **String**               | Account Extended Public Key                                          | 
 **recipients** | **Array<**RecipientModel**>** | Represents a list of recipient addresses with the respective amounts |
-**feeOptions** | **UTXOBasedFeeOptions**  | Represents the fee options                                           |
+**feeOptions** | **UTXOBasedFeeOptionsModel**  | Represents the fee options                                           |
 **feeOptions.address** | **string**               | Represents the fee address                                           | [optional]
 **feeOptions.priority** | **string**               | Represents the fee priority                                          | [optional]
 **feeOptions.feeAmount** | **string**               | Represents the fee amount                                            | [optional]
@@ -331,11 +331,126 @@ Name | Type                    | Description                                    
 **sender** | **string**              | Represents a sender address                                       |
 **recipient** | **string**              | Represents a recipient addresses  |
 **amount** | **string**              | Representation of the amount of the transaction  |
-**feeOptions** | **UTXOBasedFeeOptions** | Represents the fee options                                           |
+**feeOptions** | **AccountBasedFeeOptionsModel** | Represents the fee options                                           |
 **feeOptions.priority** | **string**              | Represents the fee priority                                          | [optional]
 **feeOptions.feeAmount** | **string**              | Represents the fee amount                                            | [optional]
 **nonce** | **string**              | Representation of the nonce value            | [optional]
 **data** | **string**              | Representation of the additional data          | [optional]
+
+### Return type
+
+AccountBasedTransactionDTO
+
+### Authorization
+
+[ApiKey](#ApiKey)
+
+## prepareAFungibleTokenTransferFromAddress (ERC-20, BEP-20)
+This endpoint is used to prepare a fungible token transfer from an address with private and public keys.
+The address does not have to belong to a wallet. The response will include the transaction fee in Wei
+
+### Example
+
+```javascript
+ const {Enumerations, Client, Services, Models } = require('cryptoapis-kms');
+ const blockchain = Enumerations.Blockchains.ETHEREUM;
+ const network = Enumerations.Networks[blockchain].NETWORK_ETHEREUM_MAINNET;
+ const client = new Client('YOUR API KEY', blockchain, network);
+ const sender = '0xc56c1baA10746268785018e9AAB081957b1B9F6f';
+ const contract = '0x5690B49D818c940A7E6B9FA26B717AdA00394fF4';
+ const recipient = '0xe9be409b2f52deb3dc24508895cb4ee8c468ac19';
+ const amount = '1.2123';
+ const feeOptions = new Models.AccountBasedFeeOptionsModel({
+    priority: Enumerations.FeePriorities.FAST,
+ });
+const tokenStandard = Enumerations.TokenStandards[blockchain].ERC_20;
+
+const preparedAccountTransaction = await client.prepareTokenTransaction({
+    tokenStandard,
+    contract,
+    sender,
+    recipient,
+    amount,
+    feeOptions,
+ }).then((data) => {
+     console.dir('API called successfully. Returned data:');
+     console.dir(data);
+ }, (error) => {
+     console.log(error)
+ })
+```
+
+### Parameters
+
+Name | Type                    | Description                                     | Notes
+------------- |-------------------------|-------------------------------------------------| -------------
+**tokenStandard** | **enum**                | Represents the token standard                   |
+**contract** | **string**              | Represents a contract address                   |
+**sender** | **string**              | Represents a sender address                     |
+**recipient** | **string**              | Represents a recipient addresses                |
+**amount** | **string**              | Representation of the amount of the transaction |
+**feeOptions** | **AccountBasedFeeOptionsModel** | Represents the fee options                      |
+**feeOptions.priority** | **string**              | Represents the fee priority                     | [optional]
+**feeOptions.feeAmount** | **string**              | Represents the fee amount                       | [optional]
+**nonce** | **string**              | Representation of the nonce value               | [optional]
+**data** | **string**              | Representation of the additional data           | [optional]
+
+### Return type
+
+AccountBasedTransactionDTO
+
+### Authorization
+
+[ApiKey](#ApiKey)
+
+## prepareANonFungibleTokenTransferFromAddress (ERC-721, BEP-721)
+This endpoint is used to prepare a non-fungible token transfer from an address with private and public keys.
+The address doesn’t have to belong to a wallet. The response will include the transaction fee in Wei.
+### Example
+
+```javascript
+ const {Enumerations, Client, Services, Models } = require('cryptoapis-kms');
+ const blockchain = Enumerations.Blockchains.ETHEREUM;
+ const network = Enumerations.Networks[blockchain].NETWORK_ETHEREUM_MAINNET;
+ const client = new Client('YOUR API KEY', blockchain, network);
+ const sender = '0xc56c1baA10746268785018e9AAB081957b1B9F6f';
+ const contract = '0x5690B49D818c940A7E6B9FA26B717AdA00394fF4';
+ const recipient = '0xe9be409b2f52deb3dc24508895cb4ee8c468ac19';
+ const tokenId = '3';
+ const feeOptions = new Models.AccountBasedFeeOptionsModel({
+    priority: Enumerations.FeePriorities.FAST,
+ });
+const tokenStandard = Enumerations.TokenStandards[blockchain].ERC_721;
+
+const preparedAccountTransaction = await client.prepareTokenTransaction({
+    tokenStandard,
+    contract,
+    sender,
+    recipient,
+    tokenId,
+    feeOptions,
+ }).then((data) => {
+     console.dir('API called successfully. Returned data:');
+     console.dir(data);
+ }, (error) => {
+     console.log(error)
+ })
+```
+
+### Parameters
+
+Name | Type                    | Description                           | Notes
+------------- |-------------------------|---------------------------------------| -------------
+**tokenStandard** | **enum**                | Represents the token standard         |
+**contract** | **string**              | Represents a contract address         |
+**sender** | **string**              | Represents a sender address           |
+**recipient** | **string**              | Represents a recipient addresses      |
+**tokenId** | **string**              | Representation of the token id        |
+**feeOptions** | **AccountBasedFeeOptionsModel** | Represents the fee options            |
+**feeOptions.priority** | **string**              | Represents the fee priority           | [optional]
+**feeOptions.feeAmount** | **string**              | Represents the fee amount             | [optional]
+**nonce** | **string**              | Representation of the nonce value     | [optional]
+**data** | **string**              | Representation of the additional data | [optional]
 
 ### Return type
 
