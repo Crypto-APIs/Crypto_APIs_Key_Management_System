@@ -23,7 +23,7 @@ class DogecoinSignerHelper extends BaseSignerHelper {
             .from(transaction.data.inputs)
         ;
 
-        // prepared.version = transaction.version;
+        prepared.version = transaction?.version || 1;
 
         for (const output of transaction.outputs) {
             prepared.addOutput(new bitcorejs.Transaction.Output({
