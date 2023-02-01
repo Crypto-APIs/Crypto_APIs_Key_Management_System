@@ -22,6 +22,8 @@ class BtcSignerHelper extends BaseSignerHelper {
             .from(transaction.data.inputs)
         ;
 
+        prepared.version = transaction?.version || 2;
+
         for (const output of transaction.outputs) {
             prepared.addOutput(new bitcorejs.Transaction.Output({
                 satoshis: output.satoshis,
