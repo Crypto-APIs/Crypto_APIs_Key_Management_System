@@ -44,12 +44,9 @@ class BaseSignerHelper extends BaseBlockchainAwareService {
      * @protected
      */
     _createHDKey(extendedPrivateKey) {
-        console.log(extendedPrivateKey)
         const data = b58.decode(extendedPrivateKey);
         const xPrivData = Buffer.concat([Buffer.from(XPRIV_VERSION, 'hex'), data.slice(4)]);
         const xPriv = b58.encode(xPrivData);
-
-        console.log(xPriv)
 
         return HDKey.fromExtendedKey(xPriv)
     }
