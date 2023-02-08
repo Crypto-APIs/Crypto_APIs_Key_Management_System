@@ -2,6 +2,9 @@
 
 const NetworksConfigsEnum = require('../../enumerations/networkEnum');
 const {BaseBlockchainAwareService} = require("../../services/baseServices");
+const b58 = require('bs58check');
+const HDKey = require("hdkey");
+const XPRIV_VERSION = "0488ade4";
 
 /**
  * BaseSignerHelper
@@ -29,11 +32,28 @@ class BaseSignerHelper extends BaseBlockchainAwareService {
      * @param {string} xPriv account extended xPriv
      * @param {TransactionDTO} transaction
      * @protected
-     * @return {SignDTO}
+     * @return {{id: string, raw: string}}
      */
     sign({xPriv, transaction}) {
         throw new Error('Implement sign method for service ' + this.constructor.name);
     };
+
+    /**
+     * @param {string} extendedPrivateKey
+     * @return {HDKey}
+     * @protected
+     */
+    _createHDKey(extendedPrivateKey) {
+        console.log(extendedPrivateKey)
+        const data = b58.decode(extendedPrivateKey);
+        const xPrivData = Buffer.concat([Buffer.from(XPRIV_VERSION, 'hex'), data.slice(4)]);
+        const xPriv = b58.encode(xPrivData);
+
+        console.log(xPriv)
+
+        return HDKey.fromExtendedKey(xPriv)
+    }
+
 }
 
 module.exports = BaseSignerHelper;
