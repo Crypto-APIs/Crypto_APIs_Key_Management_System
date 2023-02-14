@@ -60,8 +60,6 @@ class BtcSignerHelper extends BaseSignerHelper {
                 {network: this.networkConfig}
             );
 
-            console.log(signer.privateKey.toString('hex'));
-
             return new bitcorejs.PrivateKey(signer.privateKey.toString('hex'));
         })
 
