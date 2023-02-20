@@ -51,8 +51,8 @@ class LtcSignerHelper extends BaseSignerHelper {
             prepared.enableRBF();
         }
 
-        const hdKey = HDKey.fromExtendedKey(xPriv, this.networkConfig.bip32)
-        let privKeys = transaction.inputs.map((input) => {
+        const hdKey = this._createHDKey(xPriv);
+        const privKeys = transaction.inputs.map((input) => {
             const derivationPath = `m/${input.change}/${input.derivationIndex}`;
             const derivedPrivKey = hdKey.derive(derivationPath)
             const signer = bitcoinjs.ECPair.fromPrivateKey(
