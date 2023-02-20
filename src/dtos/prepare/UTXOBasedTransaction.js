@@ -70,6 +70,7 @@ class UTXOBasedTransactionDTO extends TransactionDTO {
             data: data?.data ? data.data : null,
             feePerByte: data?.feePerByte ? new Decimal(data.feePerByte).toDecimalPlaces(8).toFixed() : null,
             fee: data?.fee ? data.fee : 0,
+            version: data?.version ? data.version : null,
         };
     }
 
@@ -120,6 +121,14 @@ class UTXOBasedTransactionDTO extends TransactionDTO {
      */
     get fee() {
         return Math.round(this.data['fee'] * 100000000);
+    }
+
+    /**
+     *
+     * @return {number}
+     */
+    get version() {
+        return this.data['version'];
     }
 }
 
