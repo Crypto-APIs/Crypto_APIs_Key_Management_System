@@ -23,15 +23,14 @@
     "bitcore-lib-cash": "^8.25.40",
     "bitcore-lib-doge": "^8.25.40",
     "bitcore-lib-ltc": "^8.25.40",
-    "bitgo-utxo-lib": "^1.8.0",
+    "bs58": "^2.0.0",
     "cryptoapis": "^1.12.0",
     "decimal.js": "^10.3.1",
-    "ecpair": "^2.0.1",
+    "ecpair": "^2.1.0",
     "ethereumjs-util": "^7.1.5",
     "hdkey": "^2.0.1",
     "hex2dec": "^1.1.2",
     "tiny-secp256k1": "^2.2.1",
-    "xrpl": "^2.5.0",
-    "zcashcore-lib": "^0.13.19"
+    "xrpl": "^2.5.0"
   }
 }
